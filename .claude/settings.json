@@ -45,10 +45,6 @@
       "Bash(supabase *)",
       "mcp__context7__*",
       "mcp__tavily__*",
-      "mcp__atlassian__*",
-      "mcp__playwright__*",
-      "mcp__dbhub__*",
-      "mcp__openapi__*",
       "mcp__supabase__*",
       "Skill(agentic-dev-core)",
       "Skill(project-foundation)",
@@ -86,14 +82,6 @@
   },
   "includeCoAuthoredBy": false,
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "context7",
-    "tavily",
-    "atlassian",
-    "playwright",
-    "dbhub",
-    "openapi",
-    "supabase"
-  ],
+  "enabledMcpjsonServers": ["context7", "tavily", "supabase"],
   "cleanupPeriodDays": 30
 }

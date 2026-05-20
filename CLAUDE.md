@@ -154,19 +154,27 @@ Example (same work, different register):
 
 ### Skills T1 (committed in `.claude/skills/`)
 
-| Skill                 | Trigger                       | Purpose                                                                                                                                                                                                                                                                                |
-| --------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `agentic-dev-core`    | (auto, cited by other skills) | Passive reference host for shared doctrine (briefing template, dispatch patterns, orchestration, skill-composition strategy, behavioral layer, model routing, skill resolver, topic-key conventions, TypeScript patterns). Loaded on demand by workflow skills — not invoked directly. |
-| `agentic-dev-onboard` | `/agentic-dev-onboard`        | First-time orientation. Stack + Jira workflow + skill map + MCPs.                                                                                                                                                                                                                      |
-| `project-foundation`  | `/project-foundation`         | Constitution + Architecture (PRD/SRS) + Discovery (data/api/dev-guide).                                                                                                                                                                                                                |
-| `design-system`       | `/design-system`              | DESIGN.md (Google Labs spec) — 5 paths. Pre-scaffolding visual contract.                                                                                                                                                                                                               |
-| `project-bootstrap`   | `/project-bootstrap`          | Infra scaffolding: backend, frontend, OpenAPI, auth, env, Supabase types.                                                                                                                                                                                                              |
-| `testability-guide`   | `/testability-guide`          | Generates in-app `/qa` page ("Software Testability Guide for QA") + tool-agnostic credentials artifact (Jira Epic default / Confluence / Notion / MCP / CLI / manual paste). Idempotent re-runs via snapshot-comment drift detection.                                                  |
-| `product-management`  | `/product-management`         | Backlog seed + epic + INVEST/AC refinement + sprint report.                                                                                                                                                                                                                            |
-| `sprint-development`  | `/sprint-development`         | **Mega-orchestrator**. Per-story Plan → Implement → Review → Staging → Prod (gated).                                                                                                                                                                                                   |
-| `unit-testing`        | `/unit-testing`               | TDD red-green-refactor, mocking, coverage. Composable with `/sprint-development`.                                                                                                                                                                                                      |
-| `git-flow-master`     | (auto on git/PR intents)      | End-to-end Git operator. Auto-detects branching strategy.                                                                                                                                                                                                                              |
-| `acli`                | `/acli`                       | Atlassian CLI cookbook (Jira + Confluence). Resolves `[ISSUE_TRACKER_TOOL]`.                                                                                                                                                                                                           |
+| Skill                     | Trigger                       | Purpose                                                                                                                               |
+| ------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `agentic-dev-core`        | (auto, cited by other skills) | Passive reference host. Loaded on demand by workflow skills.                                                                          |
+| `agentic-dev-onboard`     | `/agentic-dev-onboard`        | First-time orientation. Stack + Jira workflow + skill map + MCPs.                                                                     |
+| `project-foundation`      | `/project-foundation`         | Constitution + Architecture (PRD/SRS) + Discovery (data/api/dev-guide).                                                               |
+| `design-system`           | `/design-system`              | DESIGN.md (Google Labs spec) — 5 paths. Pre-scaffolding visual contract.                                                              |
+| `project-bootstrap`       | `/project-bootstrap`          | Infra scaffolding: backend, frontend, OpenAPI, auth, env, Supabase types.                                                             |
+| `testability-guide`       | `/testability-guide`          | Generates in-app `/qa` page + credentials artifact. Idempotent.                                                                       |
+| `product-management`      | `/product-management`         | Backlog seed + epic + INVEST/AC refinement + sprint report.                                                                           |
+| `sprint-development`      | `/sprint-development`         | **Mega-orchestrator**. Per-story Plan → Implement → Review → Staging → Prod (gated).                                                  |
+| `unit-testing`            | `/unit-testing`               | TDD red-green-refactor, mocking, coverage. Composable with `/sprint-development`.                                                     |
+| `git-flow-master`         | (auto on git/PR intents)      | End-to-end Git operator. Auto-detects branching strategy.                                                                             |
+| `acli`                    | `/acli`                       | Atlassian CLI cookbook (Jira + Confluence). Resolves `[ISSUE_TRACKER_TOOL]`.                                                          |
+| `provider-abstraction`    | `/provider-abstraction`       | Strategy/Adapter pattern for pluggable external integrations (Moodle, Guarani). Drives DTS integration architecture.                  |
+| `exploratory-testing`     | `/exploratory-testing`        | Smoke tests, deep exploratory (Trifuerza: UI+API+DB), bug reporting.                                                                  |
+| `test-documentation`      | `/test-documentation`         | Formal test case lifecycle (DRAFT→IN DESIGN→READY→CANDIDATE), ROI prioritization, traceability to Jira.                               |
+| `kata-architecture`       | `/kata-architecture`          | KATA 4-layer test automation framework (TestContext→ApiBase/UiBase→YourApi/YourPage→TestFixture), ATC decorator, Playwright patterns. |
+| `shift-right-testing`     | `/shift-right-testing`        | Production observability (Sentry/DataDog), post-deploy smoke tests, incident response playbook (P1-P4).                               |
+| `qa-learning-methodology` | `/qa-learning-methodology`    | 4-level QA training: concept-driven (L0) → prompt-driven (L1) → problem-driven (L2) → objective-driven (L3).                          |
+| `playwright-cli`          | `/playwright-cli`             | Browser automation: screenshots, traces, recordings, specs. Composable with `/sprint-development` for E2E.                            |
+| `dev`                     | `/dev`                        | Development workflows for community-maintained tools (auto-installed by `bunx skills add`).                                           |
 
 > **Persistent memory** — `bun run setup` installs Engram via `gentle-ai install --preset minimal`. Active across sessions and compactions per §12 (proactive memory triggers). No other gentle-ai skills are installed.
 >
@@ -201,12 +209,12 @@ Example (same work, different register):
 
 > Skills use `[TAG_TOOL]` pseudocode. Resolve via this table. **PRIORITY**: CLI tools first (fewer tokens). MCP = fallback only.
 
-| Tag                    | Domain                      | Primary                                   | Fallback                 |
-| ---------------------- | --------------------------- | ----------------------------------------- | ------------------------ |
+| Tag                    | Domain                      | Primary                                   | Fallback                               |
+| ---------------------- | --------------------------- | ----------------------------------------- | -------------------------------------- |
 | `[ISSUE_TRACKER_TOOL]` | Jira Cloud (story/bug/epic) | `/acli`                                   | MCP Atlassian (opt-in — see docs/mcp/) |
-| `[AUTOMATION_TOOL]`    | Browser automation          | `/playwright-cli`                         | MCP Playwright           |
-| `[DB_TOOL]`            | Database                    | Supabase MCP                              | raw SQL via Supabase CLI |
-| `[API_TOOL]`           | API exploration             | curl + OpenAPI types (`bun run api:sync`) | Postman manual           |
+| `[AUTOMATION_TOOL]`    | Browser automation          | `/playwright-cli`                         | MCP Playwright                         |
+| `[DB_TOOL]`            | Database                    | Supabase MCP                              | raw SQL via Supabase CLI               |
+| `[API_TOOL]`           | API exploration             | curl + OpenAPI types (`bun run api:sync`) | Postman manual                         |
 
 **MANDATORY**: LOAD owning skill BEFORE invoking its tool. Skills hold WHEN/WHAT only. HOW (syntax, flags, auth, pagination, errors) lives inside owning skill's `references/`.
 

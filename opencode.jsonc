@@ -38,20 +38,9 @@
       "enabled": true,
     },
     "supabase": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "-y",
-        "@supabase/mcp-server-supabase@latest",
-        "--access-token",
-        "{env:SUPABASE_ACCESS_TOKEN}",
-      ],
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?project_ref=vbjhxlezqhkmhpuypkvf",
       "enabled": true,
-      "environment": {
-        "SUPABASE_URL": "{env:SUPABASE_URL}",
-        "SUPABASE_ANON_KEY": "{env:SUPABASE_ANON_KEY}",
-        "SUPABASE_SERVICE_ROLE_KEY": "{env:SUPABASE_SERVICE_ROLE_KEY}",
-      },
     },
     "n8n": {
       "type": "local",

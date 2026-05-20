@@ -8,9 +8,6 @@ This directory is what makes a fresh AI session productive on day one. Every fil
 .context/
 ├── README.md                      This file — index + generator map
 │
-├── _framework/                    Framework infrastructure (auto-generated)
-│   └── skill-registry.md          Compact-rules cache for skills        (scripts/build-skill-registry.ts)
-│
 ├── business/                      Single source of business knowledge (Constitution + Maps)
 │   ├── README.md                  Folder index (Constitution + Maps layers)
 │   ├── business-model.md          Business Model Canvas, value prop (/project-foundation Phase 1)

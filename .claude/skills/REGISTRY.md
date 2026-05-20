@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-05-20T23:06:00.985Z`
+> Generated: `2026-05-20T23:40:35.316Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-dev-core/references/skill-resolver.md`
 
@@ -143,29 +143,29 @@ Skills indexed: 19
 
 ## Skill: exploratory-testing
 
-**Purpose**: Orchestrates manual exploratory testing on deployed features: smoke tests, UI/API/DB Trifuerza exploration, bug reporting, and test sessi...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `.books/fase-10-exploratory-testing/exploratory-testing.MANUAL.md`
-- `.prompts/fase-10-exploratory-testing/` (smoke-test.md, exploratory-test.md, bug-report.md, test-report.md, exploratory-api-test.md, exploratory-db-test.md)
-- **Charter**: What to explore and why (pre-defined scope)
-- **Time-box**: 30-45 min max per session
-- **Session Notes**: Document findings as you explore
-- **Basic Access**: App loads without 500 errors, no console errors, assets load
-- **Authentication** (if applicable): Login, session persistence, logout
-- **Story Happy Path**: From acceptance criteria
-- **Backend Integration**: API calls return 200, data persists on refresh
-- **Boundary Testing**: Empty, min, max, special characters
-- **State Testing**: Refresh, back button, multiple tabs, timeout, offline
-- **Data Validation**: Invalid formats, weak passwords, duplicates, concurrent edits
-- Contract validation (status codes, response schema)
-- RLS Policy testing (multi-tenant data isolation)
-- Error handling (no auth, expired token, invalid data)
+- ---
+- name: exploratory-testing
+- description: 'Orchestrates manual exploratory testing on deployed features: smoke tests, UI/API/DB Trifuerza exploration, bug reporting, and test session summaries. Triggers on: `exploratory testing`, `smoke test`, `Trifuerza testing`, `manual test session`, `bug report`, `test report`. Do NOT use for: shift-left test planning (use `/sprint-development`), test documentation (use `/test-documentation`), test automation (use `/kata-architecture`), or unit testing (use `/unit-testing`).'
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: testing
+- ---
+- `exploratory-testing` orchestrates the manual validation of features deployed to staging: smoke tests to confirm deployment health, deep exploratory sessions using the Trifuerza methodology (UI + API + DB), structured bug reporting, and session summary reports.
+- This skill runs **after** shift-left test planning (`.prompts/fase-5-shift-left-testing/`) and **before** formal test documentation (`.prompts/fase-11-test-documentation/`) and automation (`.prompts/fase-12-test-automation/`).
+- ---
+- Requires `agentic-dev-core`. Source content migrated from:
+- - `.books/fase-10-exploratory-testing/exploratory-testing.MANUAL.md`
+- - `.prompts/fase-10-exploratory-testing/` (smoke-test.md, exploratory-test.md, bug-report.md, test-report.md, exploratory-api-test.md, exploratory-db-test.md)
+- ---
+- ┌─────────────┐  ┌─────────────┐  ┌─────────────┐
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\exploratory-testing\SKILL.md` · phase: `testing` · extraction strategy: B
+> Source: `.claude\skills\exploratory-testing\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -199,22 +199,29 @@ Skills indexed: 19
 
 ## Skill: kata-architecture
 
-**Purpose**: Test automation framework using KATA (Komponent Action Test Architecture): 4-layer architecture (TestContext→ApiBase/UiBase→YourApi/YourP...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `.books/fase-12-test-automation/test-automation.MANUAL.md`
-- `.prompts/fase-12-test-automation/` (planning/, e2e/, integration/, regression/)
-- `.context/guidelines/TAE/` (kata-architecture.md, kata-ai-index.md, api-testing-patterns.md, e2e-testing-patterns.md, automation-standards.md)
-- Use Playwright auto-wait (no `waitForTimeout`)
-- `data-testid` preferred for locators
-- Hybrid testing: API for setup, UI for flow, API for verification
-- Fixture lazy loading: `{ api }` won't open browser
-- **Fixed** (inside ATC): Validate ATC worked — status codes, required fields
-- **Test-level** (in test file): Validate combined flow results — business rules, final state
+- ---
+- name: kata-architecture
+- description: 'Test automation framework using KATA (Komponent Action Test Architecture): 4-layer architecture (TestContext→ApiBase/UiBase→YourApi/YourPage→TestFixture), ATC pattern with @atc decorator, Playwright integration, and API/E2E testing patterns. Triggers on: `kata framework`, `test automation`, `ATC`, `@atc decorator`, `Playwright automation`, `test architecture`, `kata-architecture`, `implementar automation tests`, `automation patterns`. Do NOT use for: exploratory testing (use `/exploratory-testing`), test documentation (use `/test-documentation`), manual testing (use `/exploratory-testing`), or unit testing (use `/unit-testing`).'
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: testing
+- ---
+- `kata-architecture` implements test automation using the KATA framework (Komponent Action Test Architecture): a 4-layer architecture for Playwright-based test automation with ATCs (Acceptance Test Components), type-safe API helpers, and traceability to Jira/Xray.
+- Source content migrated from:
+- - `.books/fase-12-test-automation/test-automation.MANUAL.md`
+- - `.prompts/fase-12-test-automation/` (planning/, e2e/, integration/, regression/)
+- - `.context/guidelines/TAE/` (kata-architecture.md, kata-ai-index.md, api-testing-patterns.md, e2e-testing-patterns.md, automation-standards.md)
+- ---
+- Requires `agentic-dev-core`. Run this skill AFTER exploratory testing (`/exploratory-testing`) and test documentation (`/test-documentation`) — only automate functionality validated manually and documented.
+- ---
+- (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\kata-architecture\SKILL.md` · phase: `testing` · extraction strategy: B
+> Source: `.claude\skills\kata-architecture\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -304,108 +311,113 @@ Skills indexed: 19
 
 ## Skill: project-foundation
 
-**Purpose**: Orchestrates the foundational definition of a new product/project: Constitution (business model + market context), Architecture (PRD + SR...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `agentic-dev-core/references/briefing-template.md` — used when dispatching subagents to research market data, audit competitors, or interview users.
-- `agentic-dev-core/references/dispatch-patterns.md` — picks Single / Sequential / Parallel for each phase below.
-- `agentic-dev-core/references/skill-composition-strategy.md` — composition contract consumed by the step below.
-- Read `complementary_categories` from this skill's frontmatter (`creativity`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply for this foundation work? Y/N"`. Cache the answer for the session.
-- When dispatching sub-agents (Constitution, PRD, SRS, Discovery), inject a `## Composable Skills` block per strategy doc §6.2.
-- A new product/project is being defined from scratch and you need Constitution + PRD + SRS + Discovery artifacts.
-- An existing project needs to redefine scope significantly (e.g. pivot, new MVP cut) and the foundation docs must be regenerated.
-- A specific section is missing or stale (e.g. user journeys haven't been written yet) — invoke just that phase via the Specific tasks table below.
-- Scaffold the codebase (backend / frontend / OpenAPI / auth) — that's `/project-bootstrap`.
-- Seed the Jira backlog with epics + stories — that's `/product-management`.
+- ---
+- name: project-foundation
+- description: 'Orchestrates the foundational definition of a new product/project: Constitution (business model + market context), Architecture (PRD + SRS + API contracts), and Discovery (business data map + API architecture + dev guide). Triggers on: `ideando un nuevo producto`, `define el PRD`, `construir la constitución del proyecto`, `mapear arquitectura del sistema`, `definir SRS`, `user personas`, `user journeys`, `MVP scope`, `business data map`, `api architecture discovery`, `project dev guide`, `constituir el proyecto desde cero`. Do NOT use for: infrastructure scaffolding (use `/project-bootstrap`), backlog seeding (use `/product-management`), per-story development (use `/sprint-development`), unit testing (use `/unit-testing`), or QA workflows (out of scope, see `agentic-qa-boilerplate`).'
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: foundation
+- complementary_categories:
+- - creativity
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
+- foundation: opus       # high-leverage architectural work
+- planning: sonnet       # structured writing
+- implementation: sonnet # default for code work
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\project-foundation\SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\project-foundation\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
 ## Skill: provider-abstraction
 
-**Purpose**: Architectural pattern for external provider abstraction using Strategy/Adapter pattern.
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- Add new providers without touching application code
-- Swap providers during runtime (e.g., fallback to another SGA)
-- Test with mock providers
-- Version providers independently
-- **Circuit Breaker**: Stop calling a failing provider
-- **Timeout per provider**: Configurable timeouts per provider
-- **Retry with backoff**: Exponential backoff on transient failures
-- **Fallback chain**: Try Provider A → if fails → try Provider B
-- **Define the Interface**: Based on application domain needs
-- **Implement First Provider** (e.g., Moodle): Full adapter with all edge cases
-- **Implement Second Provider** (e.g., Guaraní): Validates interface completeness
-- **Build Provider Registry**: Factory pattern with config-based selection
-- **Add Resilience**: Circuit breaker, retries, timeouts, fallbacks
-- **Add Observability**: Health checks, metrics, provider-level logging
-- **Write Tests**: Unit tests per adapter, integration tests against real/sandbox APIs
+- ---
+- name: provider-abstraction
+- description: 'Architectural pattern for external provider abstraction using Strategy/Adapter pattern. Design pluggable integrations for Moodle, Guaraní, and other external systems with a unified interface. Triggers on: `provider abstraction`, `external provider integration`, `Moodle integration`, `Guaraní integration`, `Strategy pattern provider`, `pluggable integrations`, `adapter pattern`, `third-party provider abstraction`. Do NOT use for: general API client generation (use `/project-bootstrap`), test automation (use `/kata-architecture`), or database integration (use Supabase MCP).'
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: architecture
+- ---
+- `provider-abstraction` defines the architectural pattern for integrating external providers (Moodle, Guaraní, SGA, etc.) using the Strategy/Adapter pattern. The goal is to make providers pluggable: add or swap a provider without changing the rest of the system.
+- ---
+- Requires `agentic-dev-core`. This is an architectural concern for the DTS (Diploma Tracking System) redesign, specifically for the integration layer of external academic systems.
+- ---
+- ┌─────────────────────────────────────────────────────────────────┐
+- │                     APPLICATION LAYER                            │
+- │                                                                  │
+- │  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐        │
+- (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\provider-abstraction\SKILL.md` · phase: `architecture` · extraction strategy: B
+> Source: `.claude\skills\provider-abstraction\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
 ## Skill: qa-learning-methodology
 
-**Purpose**: 4-level QA training methodology: Level 0 (concept-driven, learn WHY), Level 1 (prompt-driven, learn HOW), Level 2 (problem-driven, learn...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `.prompts/QA-learning-methodology/` (LEVEL0 through LEVEL3 generators)
-- **Analysis** (`[area]-conceptos-analisis.md`): The consigna, solution breakdown, and all concepts needed
-- **Quiz** (`[area]-conceptos-quiz.md`): 6-10 multiple-choice questions testing concept understanding
-- **Answers** (`[area]-conceptos-respuestas.md`): Correct answers with detailed explanations
-- **Analysis** (`[tipo]-testing-analisis.md`): How consignas were derived from ACs and test cases
-- **Consignas** (`[tipo]-testing-consignas.md`): Instructions for the student to execute (no solutions)
-- **Answers** (`[tipo]-testing-respuestas.md`): Complete solutions with explanations
-- **DB**: SELECT → WHERE → JOIN → COUNT/GROUP BY → INSERT → UPDATE → DELETE → Subqueries → Transactions → RLS
-- **API**: GET → Status 200 → POST → Response structure → Headers → Error codes → Auth → PUT/PATCH → DELETE → Schema validation
-- **UI**: IDs → data-testid → Click/type → Text assertions → Attributes → States → Forms → Navigation → Complex selectors → Waits → Empty states → Responsive
-- **Analysis** (`[epic-key]-testing-analisis.md`): Epic context, architecture, risks
-- **Problem** (`[epic-key]-testing-problema.md`): The User Story with ACs, technical info, and student task
-- **Answers** (`[epic-key]-testing-respuestas.md`): Complete reference test plan
-- **Analysis** (`[sistema]-objetivo-analisis.md`): System overview, architecture, DB, APIs, UI, existing epics
-- **Objective** (`[sistema]-objetivo-necesidad.md`): The Epic/Feature to analyze
+- ---
+- name: qa-learning-methodology
+- description: '4-level QA training methodology: Level 0 (concept-driven, learn WHY), Level 1 (prompt-driven, learn HOW), Level 2 (problem-driven, learn WHAT to test), Level 3 (objective-driven, learn WHAT problems to identify). Triggers on: `qa training`, `qa learning`, `concept-driven learning`, `prompt-driven learning`, `problem-driven learning`, `objective-driven learning`, `nivel 0`, `nivel 1`, `nivel 2`, `nivel 3`, `qa methodology`, `training generator`. Do NOT use for: feature implementation (use `/sprint-development`), test automation (use `/kata-architecture`), or production testing (use `/shift-right-testing`).'
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: training
+- ---
+- `qa-learning-methodology` defines a 4-level progressive learning system for QA training, from fundamental concepts to architectural analysis. Each level generates 3 artifacts: analysis, exercise, and answers.
+- Source content migrated from:
+- - `.prompts/QA-learning-methodology/` (LEVEL0 through LEVEL3 generators)
+- ---
+- Requires `agentic-dev-core`. Composes with all testing skills (content for practice exercises).
+- ---
+- LEVEL 3: OBJECTIVE-DRIVEN LEARNING (Meta-game)
+- ══════════════════════════════════════════════
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\qa-learning-methodology\SKILL.md` · phase: `training` · extraction strategy: B
+> Source: `.claude\skills\qa-learning-methodology\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
 ## Skill: shift-right-testing
 
-**Purpose**: Production observability and incident response: Sentry/DataDog monitoring, automated post-deploy smoke tests, alert configuration, and in...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `.books/fase-14-shift-right-testing/shift-right-testing.MANUAL.md`
-- `.prompts/fase-14-shift-right-testing/` (monitoring-setup.md, smoke-tests.md, incident-response.md)
-- Unit Tests            ──►               - Monitoring
-- Integration Tests     ──►               - Alerts
-- E2E Tests             ──►               - Smoke Tests
-- Exploratory Testing   ──►               - Incident Response
-- Check Sentry for new issues and stack traces
-- Check application logs for errors/warnings
-- Check Vercel Analytics for response times and error rates
-- Check Supabase dashboard for database status
-- Review recent deployments for coinciding changes
-- Check DNS/domain configuration
+- ---
+- name: shift-right-testing
+- description: 'Production observability and incident response: Sentry/DataDog monitoring, automated post-deploy smoke tests, alert configuration, and incident response playbook (P1-P4). Triggers on: `shift-right testing`, `production monitoring`, `Sentry setup`, `incident response`, `smoke tests post-deploy`, `post-deploy validation`, `observability`, `production alerts`. Do NOT use for: pre-deploy checklist (use `/project-bootstrap/references/production-deployment.md`), test automation (use `/kata-architecture`), shift-left planning (use `/sprint-development`).'
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: operations
+- ---
+- `shift-right-testing` implements production monitoring, automated smoke tests post-deploy, and incident response procedures. It complements shift-left testing (prevention) with production observability (detection + response).
+- Source content migrated from:
+- - `.books/fase-14-shift-right-testing/shift-right-testing.MANUAL.md`
+- - `.prompts/fase-14-shift-right-testing/` (monitoring-setup.md, smoke-tests.md, incident-response.md)
+- ---
+- Requires `agentic-dev-core`. Runs AFTER production deployment (see `project-bootstrap/references/production-deployment.md`).
+- ---
+- SHIFT-LEFT                                  SHIFT-RIGHT
+- (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\shift-right-testing\SKILL.md` · phase: `operations` · extraction strategy: B
+> Source: `.claude\skills\shift-right-testing\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -439,29 +451,29 @@ Skills indexed: 19
 
 ## Skill: test-documentation
 
-**Purpose**: Creates formal test case documentation in Jira after exploratory validation: test analysis, ROI-based prioritization, lifecycle states (D...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `.books/fase-11-test-documentation/test-documentation.MANUAL.md`
-- `.prompts/fase-11-test-documentation/` (test-analysis.md, test-prioritization.md, test-documentation.md)
-- **DRAFT**: Initial creation
-- **IN DESIGN**: Test steps being defined
-- **READY**: Complete and executable
-- **MANUAL**: Will remain manual (low ROI for automation)
-- **IN REVIEW**: Pending automation approval
-- **CANDIDATE**: Approved for automation (awaiting Fase 12)
-- **AUTOMATED**: Scripted
-- **Gather context**: User Story, comments, linked bugs, session notes from exploratory testing
-- **Identify scenarios**: Classify by business priority (Critical/High/Medium/Low) and automatisability
-- **Create Component Map (Lego)**: Each atomic test as a reusable component
-- Calculate ROI for every candidate scenario
-- Apply component reuse bonus
-- Generate prioritization table with implementation order
+- ---
+- name: test-documentation
+- description: 'Creates formal test case documentation in Jira after exploratory validation: test analysis, ROI-based prioritization, lifecycle states (DRAFT→IN DESIGN→READY→CANDIDATE/MANUAL), and traceability. Triggers on: `test documentation`, `formal test cases`, `test case lifecycle`, `test analysis`, `ROI prioritization`, `Xray test management`, `regression suite`. Do NOT use for: exploratory testing (use `/exploratory-testing`), test automation (use `/kata-architecture`), shift-left test planning (use `/sprint-development`).'
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: testing
+- ---
+- `test-documentation` manages the creation, prioritization, and lifecycle of formal test cases in Jira after features have been validated via exploratory testing. It ensures traceability between requirements and tests, and drives automation decisions based on ROI.
+- Source content migrated from:
+- - `.books/fase-11-test-documentation/test-documentation.MANUAL.md`
+- - `.prompts/fase-11-test-documentation/` (test-analysis.md, test-prioritization.md, test-documentation.md)
+- ---
+- Requires `agentic-dev-core`. Composes after `exploratory-testing` and before `kata-architecture`.
+- ---
+- DRAFT → IN DESIGN → READY → [MANUAL | IN REVIEW → CANDIDATE → AUTOMATED]
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\test-documentation\SKILL.md` · phase: `testing` · extraction strategy: B
+> Source: `.claude\skills\test-documentation\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
