@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-05-19T10:37:09.811Z`
+> Generated: `2026-05-20T23:06:00.985Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-dev-core/references/skill-resolver.md`
 
@@ -8,7 +8,7 @@ This file is the per-session compact-rules cache for the Skill Resolver protocol
 The orchestrator copies one or more `## Skill: <slug>` blocks below into every subagent briefing under `## Project Standards (auto-resolved)`.
 Subagents trust those compact rules and only read the full SKILL.md when explicitly instructed.
 
-Skills indexed: 11
+Skills indexed: 19
 
 ---
 ## Skill: acli
@@ -35,7 +35,7 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/acli/SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\acli\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -63,7 +63,7 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/agentic-dev-core/SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\agentic-dev-core\SKILL.md` · phase: `foundation` · extraction strategy: B
 
 ---
 
@@ -91,7 +91,7 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/agentic-dev-onboard/SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\agentic-dev-onboard\SKILL.md` · phase: `foundation` · extraction strategy: B
 
 ---
 
@@ -119,7 +119,53 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/design-system/SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\design-system\SKILL.md` · phase: `foundation` · extraction strategy: B
+
+---
+
+## Skill: dev
+
+**Purpose**: (no description in frontmatter)
+
+**Compact Rules**:
+- ---
+- name: dev
+- description: Development workflows for the playwright-cli repository. Use when the user asks about rolling dependencies, releasing, or other repo maintenance tasks.
+- ---
+- * **Rolling Playwright dependency** [roll.md](roll.md)
+- * **Preparing Release** [release.md](release.md)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\dev\SKILL.md` · phase: `unknown` · extraction strategy: B
+
+---
+
+## Skill: exploratory-testing
+
+**Purpose**: Orchestrates manual exploratory testing on deployed features: smoke tests, UI/API/DB Trifuerza exploration, bug reporting, and test sessi...
+
+**Compact Rules**:
+- `.books/fase-10-exploratory-testing/exploratory-testing.MANUAL.md`
+- `.prompts/fase-10-exploratory-testing/` (smoke-test.md, exploratory-test.md, bug-report.md, test-report.md, exploratory-api-test.md, exploratory-db-test.md)
+- **Charter**: What to explore and why (pre-defined scope)
+- **Time-box**: 30-45 min max per session
+- **Session Notes**: Document findings as you explore
+- **Basic Access**: App loads without 500 errors, no console errors, assets load
+- **Authentication** (if applicable): Login, session persistence, logout
+- **Story Happy Path**: From acceptance criteria
+- **Backend Integration**: API calls return 200, data persists on refresh
+- **Boundary Testing**: Empty, min, max, special characters
+- **State Testing**: Refresh, back button, multiple tabs, timeout, offline
+- **Data Validation**: Invalid formats, weak passwords, duplicates, concurrent edits
+- Contract validation (status codes, response schema)
+- RLS Policy testing (multi-tenant data isolation)
+- Error handling (no auth, expired token, invalid data)
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\exploratory-testing\SKILL.md` · phase: `testing` · extraction strategy: B
 
 ---
 
@@ -147,7 +193,56 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/git-flow-master/SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\git-flow-master\SKILL.md` · phase: `implementation` · extraction strategy: B
+
+---
+
+## Skill: kata-architecture
+
+**Purpose**: Test automation framework using KATA (Komponent Action Test Architecture): 4-layer architecture (TestContext→ApiBase/UiBase→YourApi/YourP...
+
+**Compact Rules**:
+- `.books/fase-12-test-automation/test-automation.MANUAL.md`
+- `.prompts/fase-12-test-automation/` (planning/, e2e/, integration/, regression/)
+- `.context/guidelines/TAE/` (kata-architecture.md, kata-ai-index.md, api-testing-patterns.md, e2e-testing-patterns.md, automation-standards.md)
+- Use Playwright auto-wait (no `waitForTimeout`)
+- `data-testid` preferred for locators
+- Hybrid testing: API for setup, UI for flow, API for verification
+- Fixture lazy loading: `{ api }` won't open browser
+- **Fixed** (inside ATC): Validate ATC worked — status codes, required fields
+- **Test-level** (in test file): Validate combined flow results — business rules, final state
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\kata-architecture\SKILL.md` · phase: `testing` · extraction strategy: B
+
+---
+
+## Skill: playwright-cli
+
+**Purpose**: (no description in frontmatter)
+
+**Compact Rules**:
+- ---
+- name: playwright-cli
+- description: Automate browser interactions, test web pages and work with Playwright tests.
+- allowed-tools: Bash(playwright-cli:*) Bash(npx:*) Bash(npm:*)
+- ---
+- playwright-cli open
+- playwright-cli goto https://playwright.dev
+- playwright-cli click e15
+- playwright-cli type "page.click"
+- playwright-cli press Enter
+- playwright-cli screenshot
+- playwright-cli close
+- playwright-cli open
+- playwright-cli open https://example.com/
+- playwright-cli goto https://playwright.dev
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\playwright-cli\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -175,7 +270,7 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/product-management/SKILL.md` · phase: `management` · extraction strategy: B
+> Source: `.claude\skills\product-management\SKILL.md` · phase: `management` · extraction strategy: B
 
 ---
 
@@ -203,7 +298,7 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/project-bootstrap/SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\project-bootstrap\SKILL.md` · phase: `foundation` · extraction strategy: B
 
 ---
 
@@ -231,7 +326,86 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/project-foundation/SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\project-foundation\SKILL.md` · phase: `foundation` · extraction strategy: B
+
+---
+
+## Skill: provider-abstraction
+
+**Purpose**: Architectural pattern for external provider abstraction using Strategy/Adapter pattern.
+
+**Compact Rules**:
+- Add new providers without touching application code
+- Swap providers during runtime (e.g., fallback to another SGA)
+- Test with mock providers
+- Version providers independently
+- **Circuit Breaker**: Stop calling a failing provider
+- **Timeout per provider**: Configurable timeouts per provider
+- **Retry with backoff**: Exponential backoff on transient failures
+- **Fallback chain**: Try Provider A → if fails → try Provider B
+- **Define the Interface**: Based on application domain needs
+- **Implement First Provider** (e.g., Moodle): Full adapter with all edge cases
+- **Implement Second Provider** (e.g., Guaraní): Validates interface completeness
+- **Build Provider Registry**: Factory pattern with config-based selection
+- **Add Resilience**: Circuit breaker, retries, timeouts, fallbacks
+- **Add Observability**: Health checks, metrics, provider-level logging
+- **Write Tests**: Unit tests per adapter, integration tests against real/sandbox APIs
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\provider-abstraction\SKILL.md` · phase: `architecture` · extraction strategy: B
+
+---
+
+## Skill: qa-learning-methodology
+
+**Purpose**: 4-level QA training methodology: Level 0 (concept-driven, learn WHY), Level 1 (prompt-driven, learn HOW), Level 2 (problem-driven, learn...
+
+**Compact Rules**:
+- `.prompts/QA-learning-methodology/` (LEVEL0 through LEVEL3 generators)
+- **Analysis** (`[area]-conceptos-analisis.md`): The consigna, solution breakdown, and all concepts needed
+- **Quiz** (`[area]-conceptos-quiz.md`): 6-10 multiple-choice questions testing concept understanding
+- **Answers** (`[area]-conceptos-respuestas.md`): Correct answers with detailed explanations
+- **Analysis** (`[tipo]-testing-analisis.md`): How consignas were derived from ACs and test cases
+- **Consignas** (`[tipo]-testing-consignas.md`): Instructions for the student to execute (no solutions)
+- **Answers** (`[tipo]-testing-respuestas.md`): Complete solutions with explanations
+- **DB**: SELECT → WHERE → JOIN → COUNT/GROUP BY → INSERT → UPDATE → DELETE → Subqueries → Transactions → RLS
+- **API**: GET → Status 200 → POST → Response structure → Headers → Error codes → Auth → PUT/PATCH → DELETE → Schema validation
+- **UI**: IDs → data-testid → Click/type → Text assertions → Attributes → States → Forms → Navigation → Complex selectors → Waits → Empty states → Responsive
+- **Analysis** (`[epic-key]-testing-analisis.md`): Epic context, architecture, risks
+- **Problem** (`[epic-key]-testing-problema.md`): The User Story with ACs, technical info, and student task
+- **Answers** (`[epic-key]-testing-respuestas.md`): Complete reference test plan
+- **Analysis** (`[sistema]-objetivo-analisis.md`): System overview, architecture, DB, APIs, UI, existing epics
+- **Objective** (`[sistema]-objetivo-necesidad.md`): The Epic/Feature to analyze
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\qa-learning-methodology\SKILL.md` · phase: `training` · extraction strategy: B
+
+---
+
+## Skill: shift-right-testing
+
+**Purpose**: Production observability and incident response: Sentry/DataDog monitoring, automated post-deploy smoke tests, alert configuration, and in...
+
+**Compact Rules**:
+- `.books/fase-14-shift-right-testing/shift-right-testing.MANUAL.md`
+- `.prompts/fase-14-shift-right-testing/` (monitoring-setup.md, smoke-tests.md, incident-response.md)
+- Unit Tests            ──►               - Monitoring
+- Integration Tests     ──►               - Alerts
+- E2E Tests             ──►               - Smoke Tests
+- Exploratory Testing   ──►               - Incident Response
+- Check Sentry for new issues and stack traces
+- Check application logs for errors/warnings
+- Check Vercel Analytics for response times and error rates
+- Check Supabase dashboard for database status
+- Review recent deployments for coinciding changes
+- Check DNS/domain configuration
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\shift-right-testing\SKILL.md` · phase: `operations` · extraction strategy: B
 
 ---
 
@@ -259,7 +433,35 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/sprint-development/SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\sprint-development\SKILL.md` · phase: `implementation` · extraction strategy: B
+
+---
+
+## Skill: test-documentation
+
+**Purpose**: Creates formal test case documentation in Jira after exploratory validation: test analysis, ROI-based prioritization, lifecycle states (D...
+
+**Compact Rules**:
+- `.books/fase-11-test-documentation/test-documentation.MANUAL.md`
+- `.prompts/fase-11-test-documentation/` (test-analysis.md, test-prioritization.md, test-documentation.md)
+- **DRAFT**: Initial creation
+- **IN DESIGN**: Test steps being defined
+- **READY**: Complete and executable
+- **MANUAL**: Will remain manual (low ROI for automation)
+- **IN REVIEW**: Pending automation approval
+- **CANDIDATE**: Approved for automation (awaiting Fase 12)
+- **AUTOMATED**: Scripted
+- **Gather context**: User Story, comments, linked bugs, session notes from exploratory testing
+- **Identify scenarios**: Classify by business priority (Critical/High/Medium/Low) and automatisability
+- **Create Component Map (Lego)**: Each atomic test as a reusable component
+- Calculate ROI for every candidate scenario
+- Apply component reuse bonus
+- Generate prioritization table with implementation order
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\test-documentation\SKILL.md` · phase: `testing` · extraction strategy: B
 
 ---
 
@@ -287,7 +489,7 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/testability-guide/SKILL.md` · phase: `foundation-extension` · extraction strategy: B
+> Source: `.claude\skills\testability-guide\SKILL.md` · phase: `foundation-extension` · extraction strategy: B
 
 ---
 
@@ -315,4 +517,4 @@ Skills indexed: 11
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude/skills/unit-testing/SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\unit-testing\SKILL.md` · phase: `implementation` · extraction strategy: B

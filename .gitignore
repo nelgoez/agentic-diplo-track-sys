@@ -48,6 +48,11 @@ yarn-error.log*
 # ===== Environment =====
 .env
 .env.local
+*.tmp
+
+# ===== Temp / generated files =====
+acli_token.tmp
+nul
 .env.*.local
 .env.sentry-build-plugin
 .envrc.local

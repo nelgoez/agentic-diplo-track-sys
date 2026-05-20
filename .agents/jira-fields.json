@@ -1,0 +1,46 @@
+{
+  "development": {
+    "id": "customfield_10000",
+    "type": "any",
+    "name": "Development",
+    "system": true,
+    "provider": "com.atlassian.jira.plugins.jira-development-integration-plugin"
+  },
+  "flagged": {
+    "id": "customfield_10021",
+    "type": "array",
+    "name": "Flagged",
+    "options": {
+      "impediment": "10019"
+    }
+  },
+  "issue_color": {
+    "id": "customfield_10017",
+    "type": "string",
+    "name": "Issue color",
+    "system": true,
+    "provider": "com.pyxis.greenhopper.jira"
+  },
+  "project": {
+    "id": "customfield_10033",
+    "type": "atlas-project",
+    "name": "Project"
+  },
+  "rank": {
+    "id": "customfield_10019",
+    "type": "any",
+    "name": "Rank",
+    "system": true,
+    "provider": "com.pyxis.greenhopper.jira"
+  },
+  "start_date": {
+    "id": "customfield_10015",
+    "type": "date",
+    "name": "Start date"
+  },
+  "team": {
+    "id": "customfield_10001",
+    "type": "team",
+    "name": "Team"
+  }
+}
