@@ -45,3 +45,13 @@ This repo follows a Jira-first flow — issues are created in Jira before the lo
 ## Cross-session resumability
 
 DEV uses **engram** + **Jira** as canonical sources of cross-session state. `/sprint-development` rehydrates from both automatically — no in-tree `PROGRESS.md` or `ROADMAP.md` files needed.
+
+## Session resume — OpenCode commands
+
+| Command | What it does | Example |
+|---------|-------------|---------|
+| `/resume {module}` | Loads `SESSION-PROMPT.md` (or `ROADMAP.md` + `PROGRESS.md` as fallback) for the given module via `@file` resolution | `/resume user-management` |
+| `/session {path}` | Inlines any context file into the conversation | `/session .context/PBI/user-management/ROADMAP.md` |
+
+Claude Code: `@.context/PBI/{module}/SESSION-PROMPT.md` works natively in chat.
+OpenCode: `@file` is resolved inside `/command` templates. Chat uses `/resume` or `/session` instead.

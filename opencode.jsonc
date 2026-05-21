@@ -12,6 +12,16 @@
   //     Critical Reminder about stopping immediately when MCP credentials fail.
   "$schema": "https://opencode.ai/config.json",
 
+  // Instructions — files pre-loaded as system context every session.
+  // Token-saving: eliminates repeated Read-tool calls for these docs.
+  // Dynamic @file resolution handled by /.opencode/plugins/at-resolver.ts
+  // and /.opencode/commands/resume.md (OpenCode natively resolves @file in commands).
+  "instructions": [
+    ".context/master-implementation-plan.md",
+    ".context/business/business-data-map.md",
+    ".context/PBI/README.md",
+  ],
+
   // Plugins:
   //   - `@warp-dot-dev/opencode-warp`: Warp terminal integration — surfaces
   //     OpenCode agent activity as native Warp notifications. Auto-installed
@@ -117,6 +127,21 @@
       "shred *": "deny",
       "dd if=*": "deny",
       "mkfs*": "deny",
+    },
+  },
+
+  // Custom commands — also defined as .opencode/commands/*.md for portability.
+  // @file references inside templates ARE resolved natively by OpenCode.
+  "command": {
+    "resume": {
+      "description": "Resume last session from PBI module context — auto-loads SESSION-PROMPT.md, ROADMAP.md, and PROGRESS.md via @file resolution",
+      "template": "You are resuming a previously interrupted session for the module $ARGUMENTS.\n\nStep 1: Load the current state by reading these files in order:\n\n@.context/PBI/$ARGUMENTS/SESSION-PROMPT.md\n\nIf SESSION-PROMPT.md does not exist, read instead:\n@.context/PBI/$ARGUMENTS/ROADMAP.md\n@.context/PBI/$ARGUMENTS/PROGRESS.md\n\nStep 2: After loading the context, tell me:\n- What module we are working on\n- Which story/phase was active\n- What the next action is (which ticket to implement)\n- Any blockers or open decisions from the last session\n\nStep 3: If the next ticket is clear, offer to run /sprint-development {TICKET-ID} to continue implementation.\n\nStep 4: If no module context exists, read @.context/master-implementation-plan.md and suggest the next sprint to start based on the roadmap.\n\nSkip missing files gracefully — do not error.",
+      "agent": "plan",
+    },
+    "session": {
+      "description": "Quick-load a specific context file — pass a path relative to project root (e.g., '.context/PBI/user-management/ROADMAP.md')",
+      "template": "Read the file at @$ARGUMENTS and summarize its key points.\nIf it is a session-resume or progress file, tell me what work is in-flight and what the next action should be.\nIf it is a spec or plan file, tell me the main sections and what is actionable now.",
+      "agent": "plan",
     },
   },
 }

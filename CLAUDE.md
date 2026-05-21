@@ -296,6 +296,15 @@ Variables: `{module-name}` = kebab-case module (`user-management`). `{TICKET-ID}
 
 **RESUME SESSION**: `@.context/PBI/{module}/SESSION-PROMPT.md` — @-loadable, restores full context without copy-paste.
 
+**AGENT-SPECIFIC @file SYNTAX**:
+
+| Agent           | @file in chat                     | @file in commands                          | How to resume                                                            |
+| --------------- | --------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------ |
+| **Claude Code** | Native — `@path.md` auto-resolves | N/A                                        | Type `@.context/PBI/{module}/SESSION-PROMPT.md`                          |
+| **OpenCode**    | Not native — agent uses Read tool | Native — `/resume` resolves `@file` inline | `/resume {module}` or `/session .context/PBI/{module}/SESSION-PROMPT.md` |
+
+OpenCode tooling for @file parity: `.opencode/commands/resume.md` (session resume), `.opencode/commands/session.md` (load any file), `.opencode/plugins/at-resolver.ts` (chat @file detection), `.opencode/tools/at-file.ts` (tool-callable resolver). Config pre-loads key docs via `opencode.jsonc` `instructions` field to save Read-tool token overhead.
+
 ---
 
 ## 10. STACK QUICK-REFERENCE (TypeScript + DRY)

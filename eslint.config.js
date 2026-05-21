@@ -33,6 +33,7 @@ export default antfu({
     // code blocks, and example snippets rely on exact formatting we don't own.
     '.claude/skills/**',
     '.agents/skills/**',
+    '.opencode/**',
     // MCP reference templates — syntax-sensitive opt-in configs. Linting them
     // (e.g. toml/array-bracket-newline) corrupts the layout users copy from.
     'docs/mcp/**',
