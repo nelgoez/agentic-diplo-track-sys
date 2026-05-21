@@ -46,6 +46,7 @@
       "mcp__context7__*",
       "mcp__tavily__*",
       "mcp__supabase__*",
+      "mcp__n8n__*",
       "Skill(agentic-dev-core)",
       "Skill(project-foundation)",
       "Skill(project-bootstrap)",
@@ -55,7 +56,16 @@
       "Skill(acli)",
       "Skill(git-flow-master)",
       "Skill(agentic-dev-onboard)",
-      "Skill(sync-ai-memory)"
+      "Skill(design-system)",
+      "Skill(testability-guide)",
+      "Skill(provider-abstraction)",
+      "Skill(exploratory-testing)",
+      "Skill(test-documentation)",
+      "Skill(kata-architecture)",
+      "Skill(shift-right-testing)",
+      "Skill(qa-learning-methodology)",
+      "Skill(playwright-cli)",
+      "Skill(dev)"
     ],
     "deny": [
       "Bash(rm -rf *)",
@@ -82,6 +92,6 @@
   },
   "includeCoAuthoredBy": false,
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": ["context7", "tavily", "supabase"],
+  "enabledMcpjsonServers": ["context7", "tavily", "supabase", "n8n"],
   "cleanupPeriodDays": 30
 }
