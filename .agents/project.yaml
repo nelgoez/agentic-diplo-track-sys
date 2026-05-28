@@ -46,5 +46,5 @@ environments:
     db_project_ref: vbjhxlezqhkmhpuypkvf
   staging:
     web_url: null
-    api_url: null
+    api_url: https://server-xi-three-70.vercel.app/api/v1
     db_project_ref: vbjhxlezqhkmhpuypkvf
