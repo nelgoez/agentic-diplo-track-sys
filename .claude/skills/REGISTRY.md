@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-05-20T23:40:35.316Z`
+> Generated: `2026-05-28T03:43:47.301Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-dev-core/references/skill-resolver.md`
 
@@ -8,7 +8,7 @@ This file is the per-session compact-rules cache for the Skill Resolver protocol
 The orchestrator copies one or more `## Skill: <slug>` blocks below into every subagent briefing under `## Project Standards (auto-resolved)`.
 Subagents trust those compact rules and only read the full SKILL.md when explicitly instructed.
 
-Skills indexed: 19
+Skills indexed: 21
 
 ---
 ## Skill: acli
@@ -281,6 +281,34 @@ Skills indexed: 19
 
 ---
 
+## Skill: project-board-review
+
+**Purpose**: (no description in frontmatter)
+
+**Compact Rules**:
+- `project-board-review` launches subagents in key roles (Product Owner, Engineering Manager, QA Lead) to assess a project from multiple perspectives and produce a consolidated board review report for the VP/CTO/company owner.
+- Each subagent analyzes their domain, flags risks, and provides recommendations. The report is delivered in a format ready for stakeholder review.
+- ---
+- Trigger on: `project board review`, `stakeholder review`, `project assessment`, `PO + EM review`, `board report`, `CTO review`
+- ---
+- ---
+- Launch all three subagents in **parallel**. Each subagent must:
+- 1. Read relevant project files (`master-implementation-plan.md`, `business-data-map.md`, `project-dev-guide.md`, `project.yaml`)
+- 2. Inspect the live API at `{{environments.staging.api_url}}` (health, docs, key endpoints)
+- 3. Analyze from their role's perspective
+- 4. Flag **critical risks** that need immediate VP/CTO attention
+- 5. Provide a clean report with: findings, risks (🔴/🟡/🟢), recommendations
+- Each subagent MUST end their report with:
+- This gates the report — the VP must acknowledge or redirect before proceeding.
+- The orchestrator (this skill) reads all three reports and produces a consolidated board review covering:
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\project-board-review\SKILL.md` · phase: `unknown` · extraction strategy: B
+
+---
+
 ## Skill: project-bootstrap
 
 **Purpose**: Scaffolds the technical infrastructure of a new project: backend (DB schemas, API base, types, error handling), frontend (design system,...
@@ -446,6 +474,34 @@ Skills indexed: 19
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
 > Source: `.claude\skills\sprint-development\SKILL.md` · phase: `implementation` · extraction strategy: B
+
+---
+
+## Skill: sprint-gate-review
+
+**Purpose**: (no description in frontmatter)
+
+**Compact Rules**:
+- `sprint-gate-review` audits PBI documentation completeness before progressing to the next development phase. It acts as a phase gate, verifying that all stories have spec.md, impl-plan.md, edge-cases.md, and compliance-matrix.md artifacts before allowing the team to begin implementation.
+- ---
+- Trigger on: `sprint gate`, `phase gate review`, `backlog audit`, `PBI readiness check`, `story audit`, `ready for sprint`, `backlog health check`
+- Do NOT use for: implementation, testing, product definition, or infrastructure scaffolding.
+- ---
+- For each story in scope, verify:
+- **Scoring**: Each gate = pass/fail. Pass = 1, Fail = 0. All 3 passes = Ready. Any fail = remediation task.
+- ---
+- Read `master-implementation-plan.md` to identify upcoming phase stories.
+- For each story folder in `.context/PBI/{STORY-KEY}/`, verify all 4 files exist.
+- For each artifact present, evaluate clarity and compliance.
+- Output a readiness matrix:
+- Flag failing stories. Assign remediation owner. Block phase progression until all stories pass.
+- ---
+- - `{{PROJECT_KEY}}` — from `.agents/project.yaml`
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\sprint-gate-review\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
