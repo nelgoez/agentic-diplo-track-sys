@@ -13,14 +13,14 @@ project:
   webapp_domain: null
 
 backend:
-  backend_repo: ../diploma-tracking-sys/server
+  backend_repo: nelgoez/diploma-tracking-sys
   backend_stack: 'Bun + Hono'
-  backend_entry: src/
+  backend_entry: server/src/
 
 frontend:
-  frontend_repo: ../diploma-tracking-sys/client
+  frontend_repo: nelgoez/diploma-tracking-sys
   frontend_stack: 'React + Vite + MUI'
-  frontend_entry: src/
+  frontend_entry: client/src/
   design_md_path: null
 
 database:
