@@ -10,7 +10,7 @@
 project:
   project_name: Diploma Tracking System
   project_key: DTS
-  webapp_domain: null
+  webapp_domain: nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app
 
 backend:
   backend_repo: nelgoez/diploma-tracking-sys
@@ -21,7 +21,7 @@ frontend:
   frontend_repo: nelgoez/diploma-tracking-sys
   frontend_stack: 'React + Vite + MUI'
   frontend_entry: client/src/
-  design_md_path: null
+  design_md_path: ./DESIGN.md
 
 database:
   db_type: PostgreSQL (Supabase)
@@ -45,6 +45,6 @@ environments:
     api_url: 'http://localhost:3000/api/v1'
     db_project_ref: vbjhxlezqhkmhpuypkvf
   staging:
-    web_url: null
-    api_url: https://server-xi-three-70.vercel.app/api/v1
+    web_url: https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app
+    api_url: https://server-git-main-nelgoezs-projects.vercel.app/api/v1
     db_project_ref: vbjhxlezqhkmhpuypkvf
