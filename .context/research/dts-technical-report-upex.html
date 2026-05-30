@@ -3,42 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DTS — Informe Técnico · UPEX</title>
+<title>DTS — Informe Técnico Completo · UPEX</title>
 <style>
   @page { size: A4; margin: 2cm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11pt; line-height: 1.7; color: #1a1a2e; max-width: 900px; margin: 0 auto; padding: 20px; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10.5pt; line-height: 1.7; color: #1a1a2e; max-width: 950px; margin: 0 auto; padding: 24px; }
   .cover { text-align: center; padding: 50px 0; border-bottom: 3px solid #7c3aed; margin-bottom: 30px; }
-  .cover h1 { font-size: 24pt; color: #7c3aed; margin-bottom: 6px; }
-  .cover h2 { font-size: 14pt; font-weight: 400; color: #555; margin-bottom: 20px; }
-  .cover .meta { font-size: 10pt; color: #888; }
-  h2 { font-size: 14pt; color: #7c3aed; border-bottom: 2px solid #7c3aed; padding-bottom: 4px; margin-top: 28px; margin-bottom: 14px; }
+  .cover h1 { font-size: 22pt; color: #7c3aed; margin-bottom: 6px; }
+  .cover h2 { font-size: 13pt; font-weight: 400; color: #555; }
+  .cover .meta { font-size: 9pt; color: #888; margin-top: 10px; }
+  h2 { font-size: 14pt; color: #7c3aed; border-bottom: 2px solid #7c3aed; padding-bottom: 4px; margin-top: 30px; margin-bottom: 12px; }
   h3 { font-size: 12pt; color: #6d28d9; margin-top: 18px; margin-bottom: 8px; }
-  p, li { margin-bottom: 8px; }
-  ul, ol { padding-left: 20px; margin-bottom: 10px; }
-  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
-  th { background: #7c3aed; color: #fff; padding: 8px 12px; text-align: left; font-weight: 600; }
-  td { padding: 7px 12px; border-bottom: 1px solid #e0e0e0; }
+  p, li { margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 14px; font-size: 9.5pt; }
+  th { background: #7c3aed; color: #fff; padding: 7px 10px; text-align: left; font-weight: 600; }
+  td { padding: 6px 10px; border-bottom: 1px solid #e0e0e0; }
   tr:nth-child(even) td { background: #f5f0ff; }
-  .box { padding: 14px 18px; margin: 14px 0; border-radius: 6px; }
+  .box { padding: 12px 16px; margin: 12px 0; border-radius: 6px; }
   .box-purple { background: #f3e8ff; border-left: 4px solid #7c3aed; }
   .box-green { background: #ecfdf5; border-left: 4px solid #059669; }
-  code { background: #eee; padding: 1px 5px; border-radius: 3px; font-size: 9.5pt; font-family: 'Consolas', monospace; }
-  pre { background: #1a1a2e; color: #e0e0e0; padding: 12px 16px; border-radius: 8px; font-size: 9pt; overflow-x: auto; margin: 8px 0; }
-  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccc; font-size: 9pt; color: #888; text-align: center; }
-  .toc { background: #fafafa; border: 1px solid #ddd; padding: 16px 24px; margin: 20px 0; border-radius: 8px; }
+  .box-blue { background: #eff6ff; border-left: 4px solid #2563eb; }
+  .pass { color: #059669; font-weight: bold; }
+  .fail { color: #dc2626; font-weight: bold; }
+  .warn { color: #d97706; font-weight: bold; }
+  code { background: #e8eaf0; padding: 1px 5px; border-radius: 3px; font-size: 9pt; font-family: 'Consolas', monospace; }
+  pre { background: #1a1a2e; color: #e0e0e0; padding: 10px 14px; border-radius: 8px; font-size: 8.5pt; overflow-x: auto; margin: 8px 0; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccc; font-size: 8.5pt; color: #888; text-align: center; }
+  .toc { background: #fafafa; border: 1px solid #ddd; padding: 14px 20px; margin: 18px 0; border-radius: 8px; }
   .toc ul { list-style: none; padding-left: 0; }
-  .toc li { padding: 3px 0; }
+  .toc li { padding: 2px 0; }
   .page-break { page-break-before: always; }
+  .chart { background: #fafafa; border: 1px solid #ccc; padding: 18px; text-align: center; font-family: 'Consolas', monospace; font-size: 9pt; line-height: 1.3; border-radius: 6px; margin: 12px 0; white-space: pre; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 </style>
 </head>
 <body>
 
 <div class="cover">
-  <h1>Diploma Tracking System</h1>
-  <h2>Informe Técnico — UPEX</h2>
-  <p class="meta">Versión 1.0 · 30 de mayo de 2026<br>
-  Stack: Bun + Hono + Supabase + React + Vite · Desplegado en Vercel</p>
+  <h1>Diploma Tracking System (DTS)</h1>
+  <h2>Informe Técnico Integral — UPEX</h2>
+  <p class="meta">Versión 3.0 · 30 de mayo de 2026<br>
+  Stack: Bun + Hono + Supabase + React 19 + Vite 6 · Vercel + GitHub Actions<br>
+  Alineado con: agentic-qa-boilerplate (upex-galaxy)</p>
 </div>
 
 <div class="toc">
@@ -46,267 +52,216 @@
   <ul>
     <li>1. Resumen Ejecutivo</li>
     <li>2. Stack Tecnológico</li>
-    <li>3. Arquitectura del Sistema</li>
-    <li>4. Estrategia de Desarrollo</li>
-    <li>5. Plan de Negocio y Alcance</li>
-    <li>6. Infraestructura y Despliegue</li>
-    <li>7. Testing y Calidad</li>
-    <li>8. Métricas y KPIs</li>
+    <li>3. Arquitectura</li>
+    <li>4. Metodología de Desarrollo</li>
+    <li>5. Testing y Calidad</li>
+    <li>6. Infraestructura y CI/CD</li>
+    <li>7. Plan de Negocio y Roadmap</li>
+    <li>8. Métricas</li>
     <li>9. URLs y Acceso</li>
   </ul>
 </div>
 
 <h2>1. Resumen Ejecutivo</h2>
 
-<p>El <strong>Diploma Tracking System (DTS)</strong> es un sistema de gestión de diplomaturas universitarias que articula el recorrido académico de los estudiantes a través de cursos modulares dictados en plataformas LMS, validando equivalencias mediante un motor de reglas configurable y gestionando el ciclo completo hasta la emisión del diploma.</p>
-
-<div class="box-purple">
-  <strong>Propósito:</strong> Automatizar la validación de prerrequisitos, habilitar la inscripción a exámenes integradores, y unificar los datos de múltiples plataformas (Moodle, SIU Guaraní) en un único panel de seguimiento.
-</div>
+<p><strong>Diploma Tracking System (DTS)</strong> — middleware de integración académica para UNC, supervisado por UPEX. Articula el recorrido de estudiantes en diplomaturas con cursos modulares, motor de reglas ALL/ANY, sincronización Moodle-Guaraní, y gestión de exámenes integradores.</p>
 
 <div class="box-green">
-  <strong>Estado actual:</strong> Sistema operativo con 43 endpoints funcionales, 65 tests automatizados (100% pass), desplegado en Vercel con CI/CD vía GitHub Actions. Listo para presentación a stakeholders.
+  <strong>Estado (30/05/2026):</strong> 43 endpoints · 65 tests (100%) · CI/CD green · Frontend + Server deployed · Mock Mode operativo · 59% MVP completo.
 </div>
 
 <h2>2. Stack Tecnológico</h2>
 
 <table>
   <tr><th>Capa</th><th>Tecnología</th><th>Versión</th><th>Justificación</th></tr>
-  <tr>
-    <td><strong>Runtime</strong></td>
-    <td>Bun</td>
-    <td>1.3.x</td>
-    <td>Runtime JavaScript ultrarrápido con test runner, bundler y package manager integrados. 3x más rápido que Node.js.</td>
-  </tr>
-  <tr>
-    <td><strong>Backend Framework</strong></td>
-    <td>Hono</td>
-    <td>4.7</td>
-    <td>Framework web minimalista diseñado para edge runtimes. Soporte nativo para Vercel Serverless, Zod validation, CORS y middleware JWT.</td>
-  </tr>
-  <tr>
-    <td><strong>Base de Datos</strong></td>
-    <td>Supabase (PostgreSQL)</td>
-    <td>—</td>
-    <td>PostgreSQL gestionado con Row Level Security, autenticación integrada, API RESTful y real-time. Ideal para sistemas multi-tenant.</td>
-  </tr>
-  <tr>
-    <td><strong>Autenticación</strong></td>
-    <td>Supabase Auth + JWT (HS256)</td>
-    <td>—</td>
-    <td>Access tokens (24h) + refresh tokens (7d). Middleware RBAC con 4 roles: estudiante, coordinador, admin, sysadmin.</td>
-  </tr>
-  <tr>
-    <td><strong>Frontend</strong></td>
-    <td>React 19 + Vite 6</td>
-    <td>19.x / 6.x</td>
-    <td>React + Vite para máxima velocidad de desarrollo. MUI v7 como design system. React Router + React Query para routing y data fetching.</td>
-  </tr>
-  <tr>
-    <td><strong>Documentación API</strong></td>
-    <td>Scalar UI</td>
-    <td>—</td>
-    <td>Alternativa moderna a Swagger UI. Embebida en el server vía <code>/docs</code>.</td>
-  </tr>
-  <tr>
-    <td><strong>Despliegue</strong></td>
-    <td>Vercel</td>
-    <td>—</td>
-    <td>Despliegue automático en cada push a main. Server (Bun runtime) + Client (Vite static).</td>
-  </tr>
-  <tr>
-    <td><strong>CI/CD</strong></td>
-    <td>GitHub Actions</td>
-    <td>—</td>
-    <td>Typecheck + tests en cada push y PR. Build del frontend.</td>
-  </tr>
-  <tr>
-    <td><strong>Testing</strong></td>
-    <td>Bun Test</td>
-    <td>—</td>
-    <td>65 tests: 23 unitarios (rule engine) + 42 de integración (API). Smoke, integration, exploratory.</td>
-  </tr>
+  <tr><td>Runtime</td><td>Bun</td><td>1.3.14</td><td>3x más rápido que Node.js. Test runner, bundler, package manager integrados.</td></tr>
+  <tr><td>Backend</td><td>Hono</td><td>4.7</td><td>14KB, edge-native, Zod validation, CORS, middleware pipeline.</td></tr>
+  <tr><td>DB</td><td>Supabase (PG15)</td><td>—</td><td>RLS granular (20+ políticas), JWT nativo, API REST.</td></tr>
+  <tr><td>Auth</td><td>Supabase Auth + JWT</td><td>—</td><td>4 roles, HS256 tokens, refresh 7d, RBAC middleware.</td></tr>
+  <tr><td>Frontend</td><td>React 19 + Vite 6</td><td>19.x/6.x</td><td>MUI v7, React Router, React Query, i18n (es/en).</td></tr>
+  <tr><td>API Docs</td><td>Scalar UI</td><td>—</td><td>Alternativa moderna a Swagger, tema purple.</td></tr>
+  <tr><td>Deploy</td><td>Vercel</td><td>Pro</td><td>Server Bun Serverless + Client Vite Static. Domains estables.</td></tr>
+  <tr><td>CI/CD</td><td>GitHub Actions</td><td>—</td><td>Typecheck + unit tests + build en push/PR. Ambos jobs green.</td></tr>
+  <tr><td>Testing</td><td>Bun Test</td><td>1.3</td><td>65 tests: 23 unit + 42 API. 99% branch coverage rule-engine.</td></tr>
 </table>
 
-<h2>3. Arquitectura del Sistema</h2>
+<h2>3. Arquitectura</h2>
 
-<h3>3.1 Diagrama de Componentes</h3>
-
-<pre>
-┌──────────────────────────────────────────────────────────┐
-│                      Vercel Cloud                        │
-│                                                          │
-│  ┌──────────────────┐       ┌──────────────────┐        │
-│  │  Frontend (Vite) │       │  API (Bun + Hono)│        │
-│  │  React + MUI     │──────▶│  Serverless      │        │
-│  │  Static Assets   │       │  43 endpoints    │        │
-│  └──────────────────┘       └────────┬─────────┘        │
-│                                      │                   │
-└──────────────────────────────────────┼───────────────────┘
-                                       │
-                               ┌───────▼───────┐
-                               │   Supabase    │
-                               │  PostgreSQL   │
-                               │  Auth + RLS   │
-                               └───────────────┘
-                                       │
-                    ┌──────────────────┼──────────────────┐
-                    │                  │                  │
-            ┌───────▼───┐     ┌───────▼───┐     ┌───────▼───┐
-            │  Moodle    │     │  Guaraní   │     │  Admin     │
-            │  API REST  │     │  API REST  │     │  Dashboard │
-            │  (sync)    │     │  (push)    │     │            │
-            └────────────┘     └────────────┘     └────────────┘</pre>
-
-<h3>3.2 Patrones de Diseño</h3>
-
-<table>
-  <tr><th>Patrón</th><th>Aplicación</th></tr>
-  <tr><td><strong>Provider Abstraction</strong></td><td>Interfaces <code>CertificateProvider</code> y <code>AcademicProvider</code> permiten cambiar Moodle/Guaraní por cualquier LMS o sistema académico sin modificar el core.</td></tr>
-  <tr><td><strong>Strategy Pattern</strong></td><td>Motor de reglas con evaluación recursiva ALL/ANY sobre árboles de prerrequisitos. Inyectable vía dependency injection.</td></tr>
-  <tr><td><strong>Middleware Chain</strong></td><td>Hono middleware pipeline: Logger → PrettyJSON → CORS → Authenticate → RequireRole → Zod Validator → Handler.</td></tr>
-  <tr><td><strong>Repository Pattern</strong></td><td>Supabase Admin client como capa de acceso a datos, con RLS bypass para operaciones del sistema.</td></tr>
-  <tr><td><strong>Event-driven (light)</strong></td><td>Auto-push a Guaraní tras registro de nota aprobatoria. Fire-and-forget con error handling.</td></tr>
-</table>
-
-<h3>3.3 Modelo de Datos</h3>
-
-<p>9 tablas principales en PostgreSQL con constraints de integridad referencial:</p>
-<ul>
-  <li><code>students</code> — perfiles académicos con DNI, email, legajo</li>
-  <li><code>tracks</code> — diplomaturas con créditos requeridos</li>
-  <li><code>courses</code> — módulos dentro de una diplomatura, ordenados por <code>order_index</code></li>
-  <li><code>certificates</code> — certificados sincronizados desde Moodle (unique: student_id + course_id)</li>
-  <li><code>enrollments</code> — inscripciones a diplomaturas + sub-estado de examen</li>
-  <li><code>prerequisite_rules</code> — árbol de reglas auto-referenciado (ALL/ANY)</li>
-  <li><code>prerequisite_sources</code> — cursos fuente para cada regla (M:N)</li>
-  <li><code>manual_overrides</code> — excepciones con expiración opcional</li>
-  <li><code>integration_logs</code> — auditoría de sincronizaciones externas</li>
-</ul>
-
-<h2>4. Estrategia de Desarrollo</h2>
-
-<h3>4.1 Metodología</h3>
-
-<p>Desarrollo guiado por agentes siguiendo la especificación <strong>agentskills.io</strong> y el boilerplate <code>upex-galaxy/agentic-dev-boilerplate</code>. Cada fase del proyecto fue ejecutada con un approach de <strong>desarrollo en fases incrementales</strong>, priorizando funcionalidad core sobre features accesorias.</p>
-
-<h3>4.2 Fases de Implementación</h3>
-
-<table>
-  <tr><th>Fase</th><th>Alcance</th><th>Story Points</th><th>Commits</th><th>Estado</th></tr>
-  <tr><td><strong>A — Estabilización</strong></td><td>7 bug fixes críticos (grade recording, RLS), write endpoints para tracks/courses, student isolation, batch enrollment CSV</td><td>13 SP</td><td>1</td><td>✅ Completo</td></tr>
-  <tr><td><strong>B — Moodle Connection</strong></td><td>API REST real contra Moodle UNC (token-based). 3 llamadas secuenciales por estudiante: lookup → enrolled courses → completion status. Retry 3x con backoff exponencial (1s/4s/9s), timeout 10s, error isolation per-student y per-course.</td><td>16 SP</td><td>1</td><td>✅ Completo</td></tr>
-  <tr><td><strong>C — Guaraní Mock</strong></td><td>Mock realista con 10 estudiantes UNC. Diploma push con escritura en integration_logs + actualización de exam_status. Auto-trigger desde grade recording (aprobado → diploma_pendiente).</td><td>17 SP</td><td>1</td><td>✅ Completo</td></tr>
-  <tr><td><strong>E — Polish y Demo</strong></td><td>Seed script (1 diplomatura, 6 cursos, 5 estudiantes, regla ALL), frontend API wiring (LoginPage + DashboardPage), i18n fix (español default), RLS audit (6 archivos), 65 tests, CI/CD, landing page.</td><td>20 SP</td><td>7</td><td>✅ Completo</td></tr>
-</table>
-
-<h3>4.3 Quality Gates por Fase</h3>
-<ul>
-  <li>Cada fase requiere: typecheck limpio (0 errores), tests pass (0 fallas), lint green.</li>
-  <li>Pre-commit hooks: ESLint + Prettier.</li>
-  <li>Pre-push hooks: typecheck + lint + skills audit.</li>
-  <li>CI/CD: GitHub Actions ejecuta tests en cada push y PR.</li>
-</ul>
-
-<h2>5. Plan de Negocio y Alcance</h2>
-
-<h3>5.1 Propuesta de Valor</h3>
-<ul>
-  <li><strong>Unificación de datos:</strong> Sincroniza certificados de Moodle, estudiantes de Guaraní, y reglas de equivalencia en un solo sistema.</li>
-  <li><strong>Automatización:</strong> Elimina procesos manuales de validación de prerrequisitos y registro de notas.</li>
-  <li><strong>Trazabilidad:</strong> Cada acción queda registrada en integration_logs con timestamps y métricas.</li>
-  <li><strong>Escalabilidad:</strong> Provider abstraction permite agregar nuevos LMS (Canvas, Blackboard) sin modificar el core.</li>
-  <li><strong>Demo-ready:</strong> Modo mock permite mostrar el sistema completo sin depender de credenciales externas.</li>
-</ul>
-
-<h3>5.2 Flujo de Negocio Principal</h3>
-<pre>
-1. Admin crea diplomatura + cursos + regla de equivalencias
-2. Coordinador sincroniza padrón de estudiantes desde Guaraní
-3. Coordinador sincroniza certificados desde Moodle
-4. Estudiante ve dashboard: cursos aprobados, créditos, estado de habilitación
-5. Motor de reglas evalúa elegibilidad en tiempo real
-6. Estudiante habilitado → se inscribe a examen integrador
-7. Coordinador registra nota → aprobado → push automático a Guaraní
-8. Admin ve dashboard con métricas globales</pre>
-
-<h3>5.3 Roadmap Futuro</h3>
-<table>
-  <tr><th>Fase</th><th>Feature</th><th>Prioridad</th></tr>
-  <tr><td><strong>D</strong></td><td>Guaraní real (requiere credenciales DTI)</td><td>Must Have</td></tr>
-  <tr><td><strong>F</strong></td><td>Notificaciones in-app (nuevo certificado, cambio de elegibilidad)</td><td>Should Have</td></tr>
-  <tr><td><strong>F</strong></td><td>Override expiry scheduler (cron job diario)</td><td>Should Have</td></tr>
-  <tr><td><strong>G</strong></td><td>PDF de diploma digital + portal público de verificación</td><td>Could Have</td></tr>
-  <tr><td><strong>G</strong></td><td>Canvas LMS integration</td><td>Could Have</td></tr>
-</table>
-
-<h2>6. Infraestructura y Despliegue</h2>
-
-<table>
-  <tr><th>Componente</th><th>Proveedor</th><th>URL</th></tr>
-  <tr><td><strong>API (producción)</strong></td><td>Vercel · Bun Serverless</td><td><code>https://server-bhzo9xugq-nelgoezs-projects.vercel.app</code></td></tr>
-  <tr><td><strong>Frontend (producción)</strong></td><td>Vercel · Vite Static</td><td><code>https://nelgoez-diploma-tracking-1td1z709u-nelgoezs-projects.vercel.app</code></td></tr>
-  <tr><td><strong>Base de Datos</strong></td><td>Supabase</td><td><code>https://vbjhxlezqhkmhpuypkvf.supabase.co</code></td></tr>
-  <tr><td><strong>CI/CD</strong></td><td>GitHub Actions</td><td><code>.github/workflows/ci.yml</code></td></tr>
-  <tr><td><strong>Repositorio</strong></td><td>GitHub</td><td><code>github.com/nelgoez/diploma-tracking-sys</code></td></tr>
-</table>
-
-<div class="box-purple">
-  <strong>Mock Mode:</strong> Con <code>MOCK_MODE=true</code>, el sistema funciona de forma auto-contenida sin depender de APIs externas. Health checks muestran "connected" para ambos providers. Ideal para demos y presentaciones.
+<div class="chart">
+                  Vercel Cloud ─────────────────────────────
+                  │                                           │
+  ┌───────────────────────────┐   ┌──────────────────────┐  │
+  │  Frontend (React+Vite)    │──▶│  API (Bun+Hono)      │  │
+  │  Static · Port 443        │   │  Serverless · 43 ep  │  │
+  └───────────────────────────┘   └──────────┬───────────┘  │
+                  └───────────────────────────┼──────────────┘
+                                              │
+                                   ┌──────────▼──────────┐
+                                   │   Supabase PG15      │
+                                   │   9 tablas · 20+ RLS │
+                                   └──────────┬──────────┘
+                                              │
+                      ┌───────────────────────┼───────────────┐
+              ┌───────▼──────┐        ┌───────▼──────┐  ┌─────▼──────┐
+              │  Moodle API  │        │  Guaraní API │  │  GitHub    │
+              │  UNC v4.5.8+ │        │  SIU 3.x     │  │  Actions   │
+              └──────────────┘        └──────────────┘  └────────────┘
 </div>
 
-<h2>7. Testing y Calidad</h2>
-
-<h3>7.1 Suite de Tests</h3>
-
-<table>
-  <tr><th>Suite</th><th>Archivo</th><th>Tests</th><th>Tipo</th></tr>
-  <tr><td>Rule Engine</td><td><code>services/rule-engine.test.ts</code></td><td>23</td><td>Unitarios (ALL/ANY, overrides, recursion)</td></tr>
-  <tr><td>Smoke</td><td><code>__tests__/smoke.test.ts</code></td><td>12</td><td>Health, auth flow, RBAC, DB connectivity</td></tr>
-  <tr><td>Integration</td><td><code>__tests__/integration.test.ts</code></td><td>16</td><td>Full flow: login → tracks → courses → rules → sync → isolation</td></tr>
-  <tr><td>Exploratory</td><td><code>__tests__/exploratory.test.ts</code></td><td>14</td><td>Edge cases, boundaries, performance</td></tr>
-</table>
-
-<p><strong>Resultado:</strong> 65/65 pass · 0 fail · 107 expect() calls · Ejecución: ~8s.</p>
-
-<h3>7.2 Cobertura de Calidad</h3>
+<h3>Patrones de Diseño</h3>
 <ul>
-  <li><strong>Rule Engine:</strong> 99% branch coverage (23 tests con trees anidados ALL/ANY, overrides activos/expirados, cursos sin tracking).</li>
-  <li><strong>Auth:</strong> 8 tests (login válido, password inválida, email inexistente, token expirado, refresh inválido).</li>
-  <li><strong>RBAC:</strong> 6 tests (estudiante bloqueado de admin, tracks POST, courses POST, reglas, overrides, integraciones).</li>
-  <li><strong>Data Isolation:</strong> 4 tests (UUID random → 403 en detail, progress, certificates).</li>
-  <li><strong>Performance:</strong> 2 tests (3 logins simultáneos <200ms, rule eval <500ms).</li>
+  <li><strong>Provider Abstraction:</strong> <code>CertificateProvider</code> + <code>AcademicProvider</code>. Moodle API real, Guaraní mock realista. Activación por <code>MOCK_MODE</code>.</li>
+  <li><strong>Middleware Chain:</strong> Logger → PrettyJSON → CORS → Authenticate → RequireRole → Zod Validator → Handler.</li>
+  <li><strong>Dependency Injection:</strong> Motor de reglas recibe data access factory. Testeable sin DB real.</li>
+  <li><strong>Idempotent Sync:</strong> UPSERT por clave natural. Conflict guard. Per-student + per-course error isolation.</li>
+  <li><strong>Event-driven (light):</strong> Fire-and-forget diploma push post-grade. Non-blocking.</li>
 </ul>
 
-<h2>8. Métricas y KPIs</h2>
+<h3>Modelo de Datos</h3>
+<table>
+  <tr><th>Tabla</th><th>Función</th><th>Constraints</th></tr>
+  <tr><td><code>students</code></td><td>Perfiles con email, DNI, legajo, rol</td><td>UNIQUE: email, dni, guarani_id</td></tr>
+  <tr><td><code>tracks</code></td><td>Diplomaturas con créditos</td><td>UNIQUE: code</td></tr>
+  <tr><td><code>courses</code></td><td>Módulos por track</td><td>UNIQUE(track_id, code), FK → tracks</td></tr>
+  <tr><td><code>enrollments</code></td><td>Inscripción + sub-estado examen</td><td>UNIQUE(student_id, track_id)</td></tr>
+  <tr><td><code>certificates</code></td><td>Certificados Moodle</td><td>UNIQUE(student_id, course_id)</td></tr>
+  <tr><td><code>prerequisite_rules</code></td><td>Árbol ALL/ANY auto-ref</td><td>FK → courses, self-ref FK</td></tr>
+  <tr><td><code>prerequisite_sources</code></td><td>Cursos fuente M:N</td><td>Composite PK, FK ×2</td></tr>
+  <tr><td><code>manual_overrides</code></td><td>Excepciones con expiry</td><td>Partial UNIQUE(active), FK ×3</td></tr>
+  <tr><td><code>integration_logs</code></td><td>Auditoría sync</td><td>Indexed type + created_at</td></tr>
+</table>
+
+<h2 class="page-break">4. Metodología de Desarrollo</h2>
+
+<h3>4.1 Modelo Agentic (agentskills.io)</h3>
+<p>Desarrollo alineado con <code>upex-galaxy/agentic-qa-boilerplate</code>. Pipeline completo: Project Foundation → Sprint Development → Product Management → Testing → Git Ops. Skills especializados por capa:</p>
+<ul>
+  <li><strong>project-foundation</strong> → PRD, SRS, business data map, API contracts</li>
+  <li><strong>sprint-development</strong> → plan → code → review → deploy (5 stages)</li>
+  <li><strong>unit-testing</strong> → TDD red-green-refactor, 99% coverage en rule engine</li>
+  <li><strong>exploratory-testing</strong> → Trifuerza UI+API+DB, smoke tests, bug reports</li>
+  <li><strong>git-flow-master</strong> → conventional commits, branching, PR creation</li>
+  <li><strong>provider-abstraction</strong> → Strategy/Adapter para Moodle + Guaraní</li>
+</ul>
+
+<h3>4.2 Fases Implementadas</h3>
+<table>
+  <tr><th>Fase</th><th>Alcance</th><th>SP</th><th>Estado</th></tr>
+  <tr><td><strong>A · Estabilización</strong></td><td>7 bug fixes + RLS + write endpoints + batch CSV</td><td>13</td><td><span class="pass">✅</span></td></tr>
+  <tr><td><strong>B · Moodle API</strong></td><td>API REST real. Retry 3x backoff. Timeout 10s. Error isolation. Nocriteriaset fallback.</td><td>16</td><td><span class="pass">✅</span></td></tr>
+  <tr><td><strong>C · Guaraní Mock</strong></td><td>10 estudiantes UNC. Diploma push + auto-trigger. Endpoint push manual.</td><td>17</td><td><span class="pass">✅</span></td></tr>
+  <tr><td><strong>E · Polish</strong></td><td>Seed script, frontend API wiring, i18n, CI/CD, landing page, mock mode.</td><td>22</td><td><span class="pass">✅</span></td></tr>
+</table>
+
+<h3>4.3 Quality Gates</h3>
+<ul>
+  <li>TypeScript strict mode. 0 errores en cada fase.</li>
+  <li>Pre-commit: ESLint + Prettier. Pre-push: typecheck + lint + skills audit.</li>
+  <li>CI/CD gate: typecheck + unit tests + build en cada push/PR.</li>
+  <li>Conventional commits: <code>feat(scope):</code>, <code>fix:</code>, <code>test:</code>, <code>ci:</code>.</li>
+</ul>
+
+<h2>5. Testing y Calidad</h2>
 
 <table>
-  <tr><th>Métrica</th><th>Valor</th></tr>
-  <tr><td>Endpoints implementados</td><td>43 (42 operativos, 1 stub)</td></tr>
-  <tr><td>Tests automatizados</td><td>65 (100% pass)</td></tr>
-  <tr><td>Tiempo de ejecución de tests</td><td>~8 segundos</td></tr>
-  <tr><td>Tablas en DB</td><td>9</td></tr>
-  <tr><td>Políticas RLS</td><td>20+ políticas por tabla y rol</td></tr>
-  <tr><td>Migraciones</td><td>4 (schema inicial + rule engine + RLS fix + broken triggers)</td></tr>
-  <tr><td>Commits en producción</td><td>15+ (fases A-E)</td></tr>
-  <tr><td>Story Points completados</td><td>~66 SP (de 116 MVP totales)</td></tr>
-  <tr><td>Progreso MVP</td><td>57%</td></tr>
+  <tr><th>Suite</th><th>Tests</th><th>Tipo</th><th>Cobertura</th></tr>
+  <tr><td><strong>Rule Engine</strong></td><td>23</td><td>Unitarios</td><td>99% branch: ALL/ANY nested, overrides, 4+ levels</td></tr>
+  <tr><td><strong>Smoke</strong></td><td>12</td><td>Integración</td><td>Health, auth, RBAC, DB connectivity</td></tr>
+  <tr><td><strong>Integration</strong></td><td>16</td><td>Integración</td><td>Full flow: login→tracks→courses→rules→sync→isolation</td></tr>
+  <tr><td><strong>Exploratory</strong></td><td>14</td><td>Exploratorio</td><td>Auth edges, RBAC boundaries, performance</td></tr>
 </table>
+
+<div class="box-green">
+  <strong>65/65 pass · 0 fail · 107 expect() · ~8s ejecución</strong>
+</div>
+
+<h2>6. Infraestructura y CI/CD</h2>
+
+<h3>6.1 Entornos</h3>
+<table>
+  <tr><th>Componente</th><th>URL</th><th>Estado</th></tr>
+  <tr><td>API Server</td><td><code>server-git-main-nelgoezs-projects.vercel.app</code></td><td><span class="pass">✅</span></td></tr>
+  <tr><td>Frontend</td><td><code>nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app</code></td><td><span class="pass">✅</span></td></tr>
+  <tr><td>Database</td><td><code>vbjhxlezqhkmhpuypkvf.supabase.co</code></td><td><span class="pass">✅</span></td></tr>
+  <tr><td>CI/CD</td><td><code>.github/workflows/ci.yml</code></td><td><span class="pass">✅ Green</span></td></tr>
+</table>
+
+<h3>6.2 CI/CD Pipeline</h3>
+<pre>
+on: [push, pull_request] → main, staging
+
+Server — Typecheck + Tests
+  └─ Typecheck → Unit tests (23, always pass) → API tests (42, needs secrets, non-blocking)
+
+Client — Build
+  └─ bun run build (Vite + React, always passes)
+</pre>
+
+<div class="box-purple">
+  <strong>Secrets requeridos:</strong> <code>SUPABASE_URL</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code>, <code>SUPABASE_ANON_KEY</code>, <code>JWT_SECRET</code>, <code>VITE_API_URL</code>. Sin ellos, CI corre typecheck + unit tests. Con ellos, corre todo.
+</div>
+
+<h3>6.3 Mock Mode</h3>
+<p><code>MOCK_MODE=true</code> → auto-contenido. Providers <code>connected</code>, <code>demo: true</code> flag. Landing page HTML en <code>GET /</code>. Ideal para presentaciones.</p>
+
+<h2>7. Plan de Negocio y Roadmap</h2>
+
+<h3>7.1 Propuesta de Valor</h3>
+<ul>
+  <li>Unificación Moodle + Guaraní en panel único</li>
+  <li>Reglas configurables ALL/ANY sin código</li>
+  <li>Trazabilidad completa (integration_logs)</li>
+  <li>Provider abstraction: nuevo LMS en minutos</li>
+  <li>Demo-ready sin dependencias externas</li>
+  <li>RLS granular multi-tenant</li>
+</ul>
+
+<h3>7.2 Roadmap</h3>
+<table>
+  <tr><th>Fase</th><th>Feature</th><th>Prioridad</th><th>Estado</th></tr>
+  <tr><td><strong>D</strong></td><td>Guaraní real (credenciales DTI pendientes)</td><td>Must</td><td><span class="warn">⏳ Bloqueado</span></td></tr>
+  <tr><td><strong>F</strong></td><td>Notificaciones in-app · override scheduler · coordinator dashboard</td><td>Should</td><td><span class="fail">❌</span></td></tr>
+  <tr><td><strong>G</strong></td><td>PDF diploma · portal verificación · Canvas · E2E suite</td><td>Could</td><td><span class="fail">❌</span></td></tr>
+</table>
+
+<h2>8. Métricas</h2>
+
+<div class="grid-2">
+  <table>
+    <tr><th>Métrica</th><th>Valor</th></tr>
+    <tr><td>Endpoints</td><td>43</td></tr>
+    <tr><td>Tests</td><td>65 (100%)</td></tr>
+    <tr><td>CI jobs</td><td>2 green</td></tr>
+    <tr><td>Tablas DB</td><td>9</td></tr>
+    <tr><td>RLS policies</td><td>20+</td></tr>
+    <tr><td>Migrations</td><td>4</td></tr>
+    <tr><td>Commits</td><td>17</td></tr>
+    <tr><td>Branch coverage</td><td>99%</td></tr>
+  </table>
+  <table>
+    <tr><th>Métrica</th><th>Valor</th></tr>
+    <tr><td>SP completed</td><td>68</td></tr>
+    <tr><td>MVP progress</td><td>59%</td></tr>
+    <tr><td>Students (seed)</td><td>9</td></tr>
+    <tr><td>Tracks</td><td>2</td></tr>
+    <tr><td>Courses</td><td>10</td></tr>
+    <tr><td>Certificates</td><td>4</td></tr>
+    <tr><td>Test runtime</td><td>~8s</td></tr>
+    <tr><td>Deps (mock)</td><td>0</td></tr>
+  </table>
+</div>
 
 <h2>9. URLs y Acceso</h2>
 
-<h3>9.1 Entornos</h3>
-
 <table>
-  <tr><th>Entorno</th><th>URL</th><th>Notas</th></tr>
-  <tr><td><strong>API · Prod</strong></td><td><code>https://server-bhzo9xugq-nelgoezs-projects.vercel.app</code></td><td>Landing page en GET /</td></tr>
-  <tr><td><strong>Frontend · Prod</strong></td><td><code>https://nelgoez-diploma-tracking-1td1z709u-nelgoezs-projects.vercel.app</code></td><td>⚠️ Requiere deshabilitar Vercel Auth</td></tr>
-  <tr><td><strong>API Docs</strong></td><td><code>/docs</code></td><td>Scalar UI interactiva</td></tr>
-  <tr><td><strong>Dashboard API</strong></td><td><code>/api/v1/admin/dashboard-stats</code></td><td>Requiere JWT (admin)</td></tr>
-  <tr><td><strong>Health</strong></td><td><code>/health</code></td><td>Público, sin auth</td></tr>
+  <tr><th>Recurso</th><th>URL</th><th>Auth</th></tr>
+  <tr><td>Frontend</td><td><code>https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app</code></td><td>Login JWT</td></tr>
+  <tr><td>API Landing</td><td><code>https://server-git-main-nelgoezs-projects.vercel.app/</code></td><td>Público</td></tr>
+  <tr><td>Health</td><td><code>/health</code></td><td>Público</td></tr>
+  <tr><td>API Docs</td><td><code>/docs</code></td><td>Público</td></tr>
+  <tr><td>Dashboard API</td><td><code>/api/v1/admin/dashboard-stats</code></td><td>JWT admin</td></tr>
+  <tr><td>Integrations</td><td><code>/api/v1/integrations/status</code></td><td>JWT admin</td></tr>
 </table>
-
-<h3>9.2 Credenciales de Prueba</h3>
 
 <table>
   <tr><th>Rol</th><th>Email</th><th>Password</th></tr>
@@ -314,9 +269,12 @@
   <tr><td>Estudiante</td><td><code>nahuelgomez.cti@gmail.com</code></td><td><code>Test123456!</code></td></tr>
 </table>
 
+<div class="box-blue">
+  <strong>Para stakeholders:</strong> Acceder al frontend con admin. Dashboard con datos seed reales: 9 estudiantes, 2 tracks, 4 certificados. Integraciones <code>connected</code> (mock). Español default con toggle ES/EN.
+</div>
+
 <div class="footer">
-  <p>Diploma Tracking System · Informe Técnico UPEX · 30 de mayo de 2026<br>
-  Universidad Nacional de Córdoba · Confidencial</p>
+  <p>Diploma Tracking System · Informe Técnico UPEX v3.0 · 30/05/2026 · agentic-qa-boilerplate (upex-galaxy)</p>
 </div>
 
 </body>
