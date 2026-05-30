@@ -58,6 +58,11 @@ Thumbs.db
 .claude/skills/
 .agents/skills/
 
+.playwright-cli/
+moodle-*.yaml
+moodle-*.json
+edx-*.yaml
+
 # ===========================================
 # MCP reference templates - never format
 # ===========================================

@@ -20,6 +20,13 @@ export default antfu({
     'reports',
     'cli/legacy/**',
     '*.min.js',
+    // Playwright CLI auto-generated snapshots
+    '.playwright-cli/**',
+    // Tmp session files at root
+    'moodle-*.yaml',
+    'moodle-*.json',
+    'edx-*.yaml',
+    '*.yml',
     // Documentation files (contain code examples that shouldn't be linted)
     '**/*.md',
     // GitHub workflows (YAML files)
