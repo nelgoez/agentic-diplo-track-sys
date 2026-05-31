@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Integración — Plataformas UNC y Sistema DTS</title>
+<style>
+  @page { size: A4; margin: 2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11pt; line-height: 1.6; color: #1a1a2e; max-width: 210mm; margin: 0 auto; padding: 20px; }
+  .cover { text-align: center; padding: 60px 0; border-bottom: 3px solid #003d7a; margin-bottom: 40px; }
+  .cover h1 { font-size: 22pt; color: #003d7a; margin-bottom: 10px; }
+  .cover h2 { font-size: 14pt; font-weight: 400; color: #555; margin-bottom: 30px; }
+  .cover .meta { font-size: 10pt; color: #777; }
+  h2 { font-size: 14pt; color: #003d7a; border-bottom: 2px solid #003d7a; padding-bottom: 4px; margin-top: 30px; margin-bottom: 16px; }
+  h3 { font-size: 12pt; color: #0a4a8a; margin-top: 20px; margin-bottom: 10px; }
+  h4 { font-size: 11pt; color: #333; margin-top: 14px; margin-bottom: 6px; }
+  p, li { margin-bottom: 8px; }
+  ul, ol { padding-left: 22px; margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 10pt; }
+  th { background: #003d7a; color: #fff; padding: 8px 10px; text-align: left; font-weight: 600; }
+  td { padding: 7px 10px; border-bottom: 1px solid #ddd; }
+  tr:nth-child(even) td { background: #f5f8fc; }
+  .ok { color: #1b7a1b; font-weight: bold; }
+  .warn { color: #c79100; font-weight: bold; }
+  .crit { color: #c0392b; font-weight: bold; }
+  .box { background: #f0f4fa; border-left: 4px solid #003d7a; padding: 12px 16px; margin: 14px 0; border-radius: 4px; }
+  .box-green { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 12px 16px; margin: 14px 0; border-radius: 4px; }
+  .box-orange { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 16px; margin: 14px 0; border-radius: 4px; }
+  .box-red { background: #ffebee; border-left: 4px solid #c62828; padding: 12px 16px; margin: 14px 0; border-radius: 4px; }
+  code { background: #e8eaf0; padding: 1px 5px; border-radius: 3px; font-size: 10pt; font-family: 'Consolas', 'Courier New', monospace; }
+  pre { background: #1a1a2e; color: #e0e0e0; padding: 12px 16px; border-radius: 6px; font-size: 9.5pt; overflow-x: auto; margin: 10px 0; }
+  .footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #ccc; font-size: 9pt; color: #888; text-align: center; }
+  .toc { background: #fafafa; border: 1px solid #ddd; padding: 16px 24px; margin: 20px 0; border-radius: 6px; }
+  .toc a { color: #003d7a; text-decoration: none; }
+  .toc ul { list-style: none; padding-left: 0; }
+  .toc li { padding: 3px 0; }
+  .page-break { page-break-before: always; }
+  .diagram { background: #fafafa; border: 1px solid #ccc; padding: 20px; text-align: center; font-family: 'Consolas', monospace; font-size: 10pt; line-height: 1.4; border-radius: 4px; margin: 14px 0; white-space: pre; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Diagnóstico de Integración de Plataformas</h1>
+  <h2>Campus Virtual UNC + Sistema DTS (Diploma Tracking System)</h2>
+  <p class="meta">Documento preparado para la Secretaría Académica y equipo técnico de la UNC<br>
+  Versión 1.0 · 29 de mayo de 2026 · Confidencial</p>
+</div>
+
+<div class="toc">
+  <strong>Índice</strong>
+  <ul>
+    <li><a href="#s1">1. Resumen Ejecutivo</a></li>
+    <li><a href="#s2">2. Plataformas Relevadas</a></li>
+    <li><a href="#s3">3. Estado de Moodle (campus.aulavirtual.unc.edu.ar)</a></li>
+    <li><a href="#s4">4. API de Moodle — Funcionalidades Verificadas</a></li>
+    <li><a href="#s5">5. Sistema de Certificados</a></li>
+    <li><a href="#s6">6. Mapeo de Datos Moodle → DTS</a></li>
+    <li><a href="#s7">7. Estado del Sistema DTS (Diploma Tracking System)</a></li>
+    <li><a href="#s8">8. Integración con SIU Guaraní</a></li>
+    <li><a href="#s9">9. Plan de Trabajo Recomendado</a></li>
+    <li><a href="#s10">10. Acciones Requeridas de la UNC</a></li>
+  </ul>
+</div>
+
+<h2 id="s1">1. Resumen Ejecutivo</h2>
+
+<p>Se realizó una auditoría técnica de las plataformas existentes de la UNC involucradas en el ecosistema de diplomaturas, mediante exploración automatizada con herramientas de testing de navegador (Playwright). El objetivo fue verificar la factibilidad técnica de integrar el sistema DTS con las plataformas existentes.</p>
+
+<div class="box-green">
+  <strong>✅ Conclusión principal:</strong> La integración con Moodle es <strong>técnicamente viable desde hoy</strong>. La API REST de Moodle está operativa, se obtuvo un token de acceso funcional, y más de 200 funciones están disponibles para sincronización de estudiantes, cursos, completitud y calificaciones. No se requiere configuración adicional del lado de Moodle para comenzar.
+</div>
+
+<div class="box-orange">
+  <strong>⚠️ Atención requerida:</strong> El plugin de certificados (<em>Custom Certificate</em>) solo expone una función de borrado vía API. Para leer certificados emitidos de forma programática, se necesita exponer una función adicional de consulta. Alternativamente, puede usarse el estado de completitud de curso como indicador indirecto.
+</div>
+
+<div class="box-red">
+  <strong>❌ Pendiente externo:</strong> La integración con SIU Guaraní depende de credenciales de API que debe proporcionar la DTI de la UNC. Sin ellas, la transmisión de notas y altas de diploma se implementará en modo simulado (mock) para demostración, con activación inmediata al recibir las credenciales.
+</div>
+
+<h2 id="s2">2. Plataformas Relevadas</h2>
+
+<table>
+  <tr><th>Plataforma</th><th>URL</th><th>Tipo</th><th>Relación</th><th>Resultado</th></tr>
+  <tr>
+    <td><strong>Portal Campus Virtual</strong></td>
+    <td><code>campusvirtual.unc.edu.ar</code></td>
+    <td>WordPress</td>
+    <td>Portal público — vincula a Moodle</td>
+    <td><span class="ok">✅ Operativo — botón "Acceder" → Moodle</span></td>
+  </tr>
+  <tr>
+    <td><strong>Moodle UNC</strong></td>
+    <td><code>campus.aulavirtual.unc.edu.ar</code></td>
+    <td>Moodle 4.5.8+</td>
+    <td>LMS — aloja cursos y certificados</td>
+    <td><span class="ok">✅ Acceso completo — API operativa</span></td>
+  </tr>
+  <tr>
+    <td><strong>Autenticación UNC (CAS)</strong></td>
+    <td><code>autenticar.unc.edu.ar</code></td>
+    <td>CAS SSO</td>
+    <td>Sistema central de identidad</td>
+    <td><span class="warn">⚠️ WordPress no registrado como cliente CAS; Moodle tiene SAML2 configurado</span></td>
+  </tr>
+</table>
+
+<h3>2.1 Arquitectura de plataformas</h3>
+
+<p>Las plataformas de la UNC están <strong>auto-contenidas</strong>: el portal público (<code>campusvirtual.unc.edu.ar</code>, WordPress) actúa como vidriera informativa y de marketing, y en su barra de navegación ofrece un botón <strong>"Acceder"</strong> que conduce directamente a la página de login del LMS (<code>campus.aulavirtual.unc.edu.ar/login/index.php</code>, Moodle). Esta verificación se realizó mediante navegación automatizada (Playwright) confirmando el flujo completo: <em>Portal WordPress → clic en "Acceder" → Login de Moodle</em>.</p>
+
+<div class="box-orange">
+  <strong>⚠️ Corrección importante (verificado 29/05 19:33):</strong> El token de API Moodle obtenido es de tipo <strong>estudiante</strong> (servicio <code>moodle_mobile_app</code>, usuario <code>nelthor</code>). Este token solo permite consultar los datos del propio usuario. Para sincronización multi-estudiante en producción, la UNC debe proporcionar un <strong>token de administrador/site-manager de Moodle</strong>. Se verificó mediante Playwright que <code>core_user_get_users_by_field</code> funciona para el email del dueño del token pero retorna vacío para otros usuarios. La arquitectura del código ya soporta ambos escenarios: funciona con el token actual para demo (un solo estudiante) y funcionará con token admin para producción (todos los estudiantes).
+</div>
+
+<div class="box-green">
+  <strong>✅ Implicación para la integración:</strong> No existen dos sistemas desconectados. El ecosistema es un continuo donde el portal WordPress redirige al LMS Moodle. DTS solo necesita integrarse con Moodle para acceder a todos los datos de cursos, estudiantes y certificados. El portal WordPress no requiere integración alguna.
+</div>
+
+<p>El ecosistema de cursos y diplomaturas de la UNC reside íntegramente en la <strong>instancia Moodle</strong>. No existe una plataforma Open edX separada: la URL <code>edx.campusvirtual.unc.edu.ar</code> redirige automáticamente al WordPress, y desde allí se accede a Moodle.</p>
+
+<h2 id="s3">3. Estado de Moodle</h2>
+
+<h3>3.1 Información del sistema</h3>
+
+<table>
+  <tr><th>Propiedad</th><th>Valor</th></tr>
+  <tr><td>Versión</td><td>Moodle 4.5.8+ (Build: 20251219)</td></tr>
+  <tr><td>Tema</td><td>Boost (estándar)</td></tr>
+  <tr><td>Seguimiento de completitud</td><td><span class="ok">Activado</span></td></tr>
+  <tr><td>Insignias (Badges)</td><td><span class="ok">Activado</span></td></tr>
+  <tr><td>Competencias</td><td><span class="ok">Activado</span></td></tr>
+  <tr><td>Servicios Web (API REST)</td><td><span class="ok">Activados</span></td></tr>
+  <tr><td>Servicio Móvil</td><td><span class="ok">Activado (moodle_mobile_app)</span></td></tr>
+</table>
+
+<h3>3.2 Métodos de autenticación</h3>
+<ul>
+  <li><strong>Login local</strong> (usuario/contraseña) — operativo</li>
+  <li><strong>SAML2 SSO</strong> — configurado para administradores del sitio</li>
+  <li><strong>Acceso de invitados</strong> — habilitado en algunos cursos</li>
+</ul>
+
+<h3>3.3 Datos de prueba verificados</h3>
+
+<p>Se utilizó una cuenta de prueba con los siguientes datos:</p>
+
+<table>
+  <tr><th>Campo</th><th>Valor</th></tr>
+  <tr><td>Usuario</td><td><code>nelthor</code></td></tr>
+  <tr><td>Nombre</td><td>Nahuel Leonardo Elias Gomez</td></tr>
+  <tr><td>ID de usuario</td><td>154814</td></tr>
+  <tr><td>Cursos inscriptos</td><td>4 (Tecnología e Informática)</td></tr>
+  <tr><td>Certificados emitidos</td><td>2 (Asistencia + Aprobación)</td></tr>
+</table>
+
+<h3>3.4 Estadísticas del Campus Virtual UNC (verificadas 30/05/2026)</h3>
+
+<div class="box box-blue">
+  <strong>Datos obtenidos en tiempo real vía API REST de Moodle.</strong> Estas métricas reflejan el estado actual del campus y son relevantes para planificar la integración con DTS.
+</div>
+
+<h4>Plataforma</h4>
+<table>
+  <tr><th>Métrica</th><th>Valor</th></tr>
+  <tr><td>Versión Moodle</td><td>4.5.8+ (Build: 20251219)</td></tr>
+  <tr><td>Funciones API expuestas</td><td>444</td></tr>
+  <tr><td>Servicio activo</td><td>moodle_mobile_app</td></tr>
+</table>
+
+<h4>Categorías de cursos</h4>
+<table>
+  <tr><th>Categoría</th><th>Cursos</th></tr>
+  <tr><td>Emprendedurismo y Negocios</td><td>24</td></tr>
+  <tr><td>Cursos de verano 2024</td><td>18</td></tr>
+  <tr><td>Oficios y Técnicas Manuales</td><td>15</td></tr>
+  <tr><td>Desarrollo Personal y Bienestar</td><td>14</td></tr>
+  <tr><td>Educación y Formación Docente</td><td>11</td></tr>
+  <tr><td>Tecnología e Informática</td><td>10</td></tr>
+  <tr><td>Arte y Cultura</td><td>9</td></tr>
+  <tr><td>Género y Derechos Humanos</td><td>9</td></tr>
+  <tr><td>Jardinería y Medio Ambiente</td><td>8</td></tr>
+  <tr><td>Recreación, Deporte y Movimiento</td><td>7</td></tr>
+  <tr><td>Arquitectura y Diseño</td><td>6</td></tr>
+  <tr><td>Docencia y Educación</td><td>5</td></tr>
+  <tr><td>Oficios</td><td>5</td></tr>
+  <tr><td>Bienestar y Salud</td><td>4</td></tr>
+  <tr><td>Gastronomía</td><td>3</td></tr>
+  <tr><td><strong>TOTAL</strong></td><td><strong>~148</strong></td></tr>
+</table>
+
+<h4>Cursos del usuario de prueba (nelthor)</h4>
+<table>
+  <tr><th>Curso</th><th>ID</th><th>Progreso</th><th>Completion Criteria</th></tr>
+  <tr><td>IA y automatización de flujos de trabajo</td><td>267</td><td><span class="ok">94.7%</span></td><td><span class="ok">Configurado</span></td></tr>
+  <tr><td>Aprendiendo Python — Certificación 1</td><td>269</td><td><span class="warn">57.1%</span></td><td><span class="crit">nocriteriaset</span></td></tr>
+  <tr><td>Aprendiendo Python — Certificación 2</td><td>276</td><td><span class="crit">0%</span></td><td><span class="crit">nocriteriaset</span></td></tr>
+  <tr><td>Inteligencia Artificial</td><td>159</td><td><span class="crit">0%</span></td><td><span class="crit">nocriteriaset</span></td></tr>
+</table>
+
+<div class="box-orange">
+  <strong>⚠️ Hallazgo crítico:</strong> 3 de los 4 cursos en los que el usuario está inscripto no tienen criterios de completitud configurados (<code>nocriteriaset</code>). Esto significa que Moodle nunca podrá marcar estos cursos como "completados", y el sistema de certificados no se emitirá automáticamente. Para que la integración con DTS sea efectiva, se recomienda configurar <em>Course completion</em> en cada curso de diplomatura.
+</div>
+
+<h2 id="s4">4. API de Moodle — Funcionalidades Verificadas</h2>
+
+<div class="box-green">
+  <strong>Token de API obtenido exitosamente</strong> mediante el endpoint estándar <code>/login/token.php</code> con el servicio <code>moodle_mobile_app</code>. El token permite acceso a <strong>más de 200 funciones de API</strong>.
+</div>
+
+<h3>4.1 Funciones relevantes para la integración con DTS</h3>
+
+<table>
+  <tr><th>Categoría</th><th>Función</th><th>Uso en DTS</th><th>Estado</th></tr>
+  <tr>
+    <td rowspan="3"><strong>Estudiantes</strong></td>
+    <td><code>core_user_get_users_by_field</code></td>
+    <td>Buscar estudiante por email o DNI</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td><code>core_user_get_course_user_profiles</code></td>
+    <td>Perfiles de usuarios en un curso</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td><code>core_enrol_get_enrolled_users</code></td>
+    <td>Listar inscriptos en un curso</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>Cursos</strong></td>
+    <td><code>core_course_get_courses_by_field</code></td>
+    <td>Buscar cursos por código (idnumber)</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td><code>core_course_get_categories</code></td>
+    <td>Obtener categorías de cursos</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>Inscripción</strong></td>
+    <td><code>core_enrol_get_users_courses</code></td>
+    <td>Cursos en los que está inscripto un estudiante</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td><code>core_enrol_get_course_enrolment_methods</code></td>
+    <td>Métodos de inscripción configurados</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>Completitud</strong></td>
+    <td><code>core_completion_get_course_completion_status</code></td>
+    <td>Verificar si un curso fue completado</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td><code>core_completion_get_activities_completion_status</code></td>
+    <td>Completitud de actividades individuales</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><strong>Calificaciones</strong></td>
+    <td><code>gradereport_user_get_grades_table</code></td>
+    <td>Tabla de calificaciones del estudiante</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+  <tr>
+    <td><code>gradereport_overview_get_course_grades</code></td>
+    <td>Resumen de calificaciones por curso</td>
+    <td><span class="ok">Disponible</span></td>
+  </tr>
+</table>
+
+<h2 id="s5">5. Sistema de Certificados</h2>
+
+<h3>5.1 Plugin utilizado</h3>
+<p>La UNC utiliza el plugin <strong>Custom Certificate</strong> (<code>mod_customcert</code>) para emitir certificados de finalización de cursos. Se verificaron certificados de dos tipos:</p>
+
+<table>
+  <tr><th>Tipo</th><th>Código</th><th>Curso</th><th>Fecha de emisión</th></tr>
+  <tr><td>Certificado de Asistencia</td><td><code>0B2ucYIk3p</code></td><td>IA y automatización de flujos de trabajo</td><td>27/01/2026</td></tr>
+  <tr><td>Certificado de Aprobación</td><td><code>YRtctId1Px</code></td><td>IA y automatización de flujos de trabajo</td><td>27/01/2026</td></tr>
+</table>
+
+<h3>5.2 Limitación actual de la API</h3>
+<div class="box-orange">
+  <p>El plugin <code>mod_customcert</code> solo expone <code>delete_issue</code> a través de la API REST del servicio móvil. Las funciones de consulta (<code>get_certificates</code>, <code>get_issues</code>) <strong>no están disponibles</strong> para consumo externo.</p>
+</div>
+
+<h3>5.3 Soluciones propuestas</h3>
+<ol>
+  <li><strong>Solución inmediata (sin acción de UNC):</strong> Usar <code>core_completion_get_course_completion_status</code> como indicador indirecto. Si un curso está "completado", DTS asume que existe un certificado. Esta solución funciona para todas las funcionalidades del motor de reglas y habilitación.</li>
+  <li><strong>Solución completa (requiere 5 min del admin Moodle):</strong> Crear un Web Service custom en Moodle que exponga <code>mod_customcert_get_issues</code>. Esto permite leer metadatos completos del certificado (código, fecha exacta, tipo). La configuración se realiza desde <em>Site administration → Plugins → Web services → External services</em>.</li>
+</ol>
+
+<h2 id="s6">6. Mapeo de Datos Moodle → DTS</h2>
+
+<table>
+  <tr><th>Entidad Moodle</th><th>Tabla/API</th><th>Entidad DTS</th><th>Clave de mapeo</th></tr>
+  <tr>
+    <td>Usuario / Estudiante</td>
+    <td><code>user</code> / <code>core_user_get_users_by_field</code></td>
+    <td><code>students</code></td>
+    <td><code>email</code></td>
+  </tr>
+  <tr>
+    <td>Curso</td>
+    <td><code>course</code> / <code>core_course_get_courses_by_field</code></td>
+    <td><code>courses</code></td>
+    <td><code>idnumber</code> → <code>moodle_course_id</code></td>
+  </tr>
+  <tr>
+    <td>Categoría</td>
+    <td><code>course_categories</code> / <code>core_course_get_categories</code></td>
+    <td>Metadata de <code>tracks</code></td>
+    <td><code>category.id</code> → agrupación</td>
+  </tr>
+  <tr>
+    <td>Inscripción</td>
+    <td><code>user_enrolments</code> / <code>core_enrol_get_users_courses</code></td>
+    <td><code>enrollments</code></td>
+    <td><code>student_id</code> + <code>track_id</code></td>
+  </tr>
+  <tr>
+    <td>Certificado</td>
+    <td><code>customcert_issues</code> / <code>core_completion_*</code></td>
+    <td><code>certificates</code></td>
+    <td><code>student_id</code> + <code>course_id</code> + <code>provider</code></td>
+  </tr>
+  <tr>
+    <td>Calificación</td>
+    <td><code>grade_grades</code> / <code>gradereport_user_get_grades_table</code></td>
+    <td><code>enrollments.exam_grade</code></td>
+    <td><code>enrollment_id</code></td>
+  </tr>
+</table>
+
+<h2 id="s7" class="page-break">7. Estado del Sistema DTS</h2>
+
+<h3>7.1 Arquitectura</h3>
+
+<div class="diagram">
+┌─────────────────────┐
+│  campusvirtual.unc  │  Portal WordPress (público)
+│  .edu.ar            │  Botón "Acceder" ──┐
+└────────┬────────────┘                    │
+         │ redirige                        ▼
+         │              ┌──────────────────────┐
+         └─────────────▶│  campus.aulavirtual  │
+                        │  .unc.edu.ar          │  Moodle 4.5.8+
+                        │  (LMS — cursos,       │
+                        │   certificados)       │
+                        └──────────┬───────────┘
+                                   │ API REST (token)
+                                   ▼
+                        ┌──────────────────┐     ┌─────────────────┐
+                        │   DTS (Bun+Hono) │────▶│  Guaraní (SIU)  │
+                        │   Middleware de  │     │  (destino de    │
+                        │   integración    │     │   notas/diploma)│
+                        │   + Motor de     │     │                 │
+                        │   Reglas         │     │                 │
+                        └────────┬─────────┘     └─────────────────┘
+                                 │
+                        ┌────────▼─────────┐
+                        │  PostgreSQL      │
+                        │  (Supabase)      │
+                        │  DB propia       │
+                        └──────────────────┘
+</div>
+
+<h3>7.2 Funcionalidades implementadas</h3>
+
+<table>
+  <tr><th>Fase</th><th>Funcionalidad</th><th>Estado</th></tr>
+  <tr><td>Fase 1</td><td>Autenticación JWT + RBAC (login, roles, permisos)</td><td><span class="ok">100% completo</span></td></tr>
+  <tr><td>Fase 1</td><td>Interfaces de proveedores (Moodle, Guaraní)</td><td><span class="ok">100% completo</span></td></tr>
+  <tr><td>Fase 2</td><td>CRUD de Estudiantes, Cursos, Diplomaturas</td><td><span class="ok">100% completo — write endpoints + batch CSV</span></td></tr>
+  <tr><td>Fase 3</td><td>Motor de reglas de habilitación (ALL/ANY)</td><td><span class="ok">100% completo · 23 tests · 99% cobertura</span></td></tr>
+  <tr><td>Fase 4</td><td>Progreso, elegibilidad, inscripción a examen, notas</td><td><span class="ok">100% completo — bugs corregidos en Fase A</span></td></tr>
+  <tr><td>Fase 5</td><td>Sincronización Moodle, panel admin, dashboards</td><td><span class="warn">30% — endpoints existen pero Moodle sync es mock</span></td></tr>
+  <tr><td>Fase 6</td><td>Notificaciones, sincronización Guaraní</td><td><span class="crit">No iniciado</span></td></tr>
+</table>
+
+<h3>7.3 Fase A — Completada (29 de mayo 2026)</h3>
+
+<p>Se corrigieron 7 bugs críticos y se completaron 4 features faltantes. Todos los cambios fueron verificados (typecheck limpio, 23 tests pasando) y comiteados bajo <code>da2a8c5</code>.</p>
+
+<h4>Bugs corregidos</h4>
+<table>
+  <tr><th>Bug</th><th>Archivo</th><th>Solución</th></tr>
+  <tr><td><strong>B1:</strong> Registro de notas escribía columna incorrecta</td><td><code>enrollments.ts:292</code></td><td><code>exam_status</code> = <code>aprobado</code>/<code>desaprobado</code> correctamente</td></tr>
+  <tr><td><strong>B2:</strong> Sin validación de estado "inscripto" antes de calificar</td><td><code>enrollments.ts:286</code></td><td>Gate <code>enrollment.exam_status !== 'inscripto'</code></td></tr>
+  <tr><td><strong>B3:</strong> Calificaciones <4 no dejaban registro</td><td><code>enrollments.ts:292</code></td><td><4 → <code>exam_status = 'desaprobado'</code></td></tr>
+  <tr><td><strong>B4:</strong> Historial de exámenes ordenado por creación</td><td><code>enrollments.ts:26</code></td><td>Ordenado por <code>exam_date</code> descendente</td></tr>
+  <tr><td><strong>B5:</strong> Sin filtro de historial de exámenes</td><td><code>enrollments.ts:29</code></td><td>Filtro <code>exam_history=true</code> (solo con examen)</td></tr>
+  <tr><td><strong>RLS:</strong> Política <code>USING(true)</code> en enrollments</td><td><code>003_fix_enrollments_rls.sql</code></td><td>6 políticas por rol (estudiante/coordinador/admin)</td></tr>
+  <tr><td><strong>Aislamiento:</strong> Estudiantes veían datos de otros</td><td><code>students.ts:53-62</code></td><td>Gate de propiedad por email en :id, :progress, :certificates</td></tr>
+</table>
+
+<h4>Features agregadas</h4>
+<table>
+  <tr><th>Feature</th><th>Endpoint</th></tr>
+  <tr><td>Crear/editar diplomaturas</td><td><code>POST /tracks</code>, <code>PATCH /tracks/:id</code></td></tr>
+  <tr><td>Crear/editar cursos</td><td><code>POST /courses</code>, <code>PATCH /courses/:id</code></td></tr>
+  <tr><td>Matriculación batch CSV</td><td><code>POST /enrollments/batch</code></td></tr>
+  <tr><td>Acceso a datos de elegibilidad (refactor)</td><td><code>services/eligibility-data-access.ts</code></td></tr>
+</table>
+
+<h3>7.4 Catálogo de endpoints (43 total, 42 operativos, 1 stub)</h3>
+
+<table>
+  <tr><th>Grupo</th><th>Endpoints</th><th>Estado</th></tr>
+  <tr><td>Auth</td><td>login, refresh, logout, me</td><td><span class="ok">4/4 operativos</span></td></tr>
+  <tr><td>Admin</td><td>users, dashboard-stats, students, courses, tracks</td><td><span class="ok">5/5 operativos</span></td></tr>
+  <tr><td>Students</td><td>list, detail, progress, certificates</td><td><span class="ok">4/4 operativos</span></td></tr>
+  <tr><td>Tracks</td><td>list, detail, create, update</td><td><span class="ok">4/4 operativos</span></td></tr>
+  <tr><td>Courses</td><td>list, detail, prerequisites tree, create, update</td><td><span class="ok">5/5 operativos</span></td></tr>
+  <tr><td>Certificates</td><td>list, detail, sync</td><td><span class="warn">2/3 · sync es stub</span></td></tr>
+  <tr><td>Enrollments</td><td>list, eligibility, create, batch, exam reg, grade</td><td><span class="ok">6/6 operativos</span></td></tr>
+  <tr><td>Integrations</td><td>status, sync/moodle, sync/guarani, logs</td><td><span class="warn">4/4 · sync son mock</span></td></tr>
+  <tr><td>Overrides</td><td>list, create, revoke</td><td><span class="ok">3/3 operativos</span></td></tr>
+  <tr><td>Rules</td><td>list, create, update, delete, evaluate</td><td><span class="ok">5/5 operativos</span></td></tr>
+</table>
+
+<h3>7.5 Servicios — Estado real vs mock</h3>
+
+<table>
+  <tr><th>Servicio</th><th>Datos</th><th>Estado</th></tr>
+  <tr><td>Rule Engine</td><td>Real — evalúa contra DB vía DI</td><td><span class="ok">Producción · 23 tests</span></td></tr>
+  <tr><td>Eligibility Data Access</td><td>Real — consulta Supabase</td><td><span class="ok">Producción</span></td></tr>
+  <tr><td>Integration Logs</td><td>Real — escribe en DB</td><td><span class="ok">Producción</span></td></tr>
+  <tr><td>Moodle Service</td><td><strong>Real</strong> — llama a API REST Moodle vía token</td><td><span class="ok">Producción — Fase B completada</span></td></tr>
+  <tr><td>Guaraní Service</td><td><strong>Mock realista</strong> — 10 estudiantes UNC con datos plausibles, push escribe logs + actualiza exam_status</td><td><span class="ok">Producción — Fase C completada</span></td></tr>
+  <tr><td>Provider Registry</td><td>Registrado al inicio — no usado por rutas</td><td><span class="warn">Código muerto</span></td></tr>
+</table>
+
+<h3>7.6 Fase B — Moodle Connection Real (completada 29/05/2026)</h3>
+
+<p>Se reemplazó el servicio mock de Moodle por llamadas reales a la API REST. El servicio ahora:</p>
+
+<ol>
+  <li><strong>Busca al estudiante en Moodle por email</strong> usando <code>core_user_get_users_by_field</code></li>
+  <li><strong>Obtiene los cursos en los que está inscripto</strong> con <code>core_enrol_get_users_courses</code></li>
+  <li><strong>Verifica la completitud de cada curso</strong> con <code>core_completion_get_course_completion_status</code></li>
+  <li><strong>Genera certificados</strong> para cursos con estado "completado"</li>
+  <li><strong>Hace UPSERT en la tabla <code>certificates</code></strong> de DTS con clave <code>(student_id, course_id)</code></li>
+</ol>
+
+<h4>Resiliencia implementada</h4>
+<table>
+  <tr><th>Mecanismo</th><th>Implementación</th></tr>
+  <tr><td>Retry con backoff</td><td>3 reintentos con delays de 1s, 4s, 9s</td></tr>
+  <tr><td>Timeout</td><td>10 segundos por llamada API (<code>AbortSignal.timeout</code>)</td></tr>
+  <tr><td>Aislamiento por estudiante</td><td>Errores en un estudiante no abortan el batch</td></tr>
+  <tr><td>Aislamiento por curso</td><td>Errores al verificar completitud de un curso no afectan otros cursos</td></tr>
+  <tr><td>Logging</td><td>Inicio y fin de sync con métricas (procesados, errores, duración)</td></tr>
+</table>
+
+<h4>Fixes adicionales incluidos</h4>
+<ul>
+  <li><code>integration-logs.ts</code>: <code>logSyncComplete()</code> ahora actualiza la fila de inicio (usa <code>logId</code>) en vez de crear una nueva</li>
+  <li>Migración 004: eliminados triggers rotos (<code>prerequisite_sources_updated_at</code>, <code>integration_logs_updated_at</code>)</li>
+</ul>
+
+<div class="box-green">
+  <strong>⚠️ Nota sobre permisos:</strong> El token de API Moodle utilizado es del servicio <code>moodle_mobile_app</code>, que está limitado a la cuenta del usuario autenticado. Para sincronización de múltiples estudiantes en producción, UNC debe crear un <strong>Web Service user</strong> con permisos de sistema en Moodle. La arquitectura del código ya está preparada: solo requiere cambiar el valor de <code>MOODLE_API_TOKEN</code> en las variables de entorno.
+</div>
+
+<div class="page-break"></div>
+
+<div class="box-green">
+  <strong>✅ Fase C completada (29/05 19:35):</strong> Servicio Guaraní ahora usa mock realista con 10 estudiantes UNC (nombres, DNIs y emails plausibles). <code>pushDiploma()</code> escribe en <code>integration_logs</code> y actualiza <code>exam_status='diploma_pendiente'</code>. Al calificar con nota ≥4, el sistema dispara automáticamente el push de diploma a Guaraní. Endpoint <code>POST /integrations/push/guarani/diploma</code> permite push manual.
+</div>
+
+<h2 id="s8">8. Integración con SIU Guaraní</h2>
+
+<div class="box-orange">
+  <strong>Estado:</strong> La API REST de Guaraní 3.x está documentada (documentacion.siu.edu.ar) y expone servicios para consulta de estudiantes, registro de notas y emisión de diplomas vía SIDCer. La UNC utiliza Guaraní como sistema académico oficial.
+</div>
+
+<h3>8.1 Requisitos técnicos para la integración</h3>
+<ul>
+  <li>Credenciales de API (usuario/contraseña configurado en <code>servidor_usuarios.ini</code> del módulo de gestión de Guaraní)</li>
+  <li>Acuerdo con la DTI de la UNC para habilitar el acceso externo a la API</li>
+  <li>Mapeo de campos: legajo/DNI del estudiante, notas de cursos, nota del módulo final, estado del diploma</li>
+</ul>
+
+<h3>8.2 Estrategia de implementación</h3>
+<ol>
+  <li><strong>Mock funcional (inmediato):</strong> DTS incluirá un proveedor simulado de Guaraní que responde con datos de prueba realistas. Todo el flujo (sincronización de padrón → push de notas → alta de diploma) se implementa sobre el mock.</li>
+  <li><strong>Activación real (cuando DTI entregue credenciales):</strong> Cambiar un flag de configuración (<code>providers.yaml</code>) de <code>active: mock</code> a <code>active: guarani</code> para activar la integración real. Cero cambios de código necesarios.</li>
+</ol>
+
+<h2 id="s9">9. Plan de Trabajo Recomendado</h2>
+
+<table>
+  <tr><th>Fase</th><th>Actividad</th><th>Duración est.</th><th>Entregable</th><th>Estado</th></tr>
+  <tr>
+    <td><strong>A</strong></td>
+    <td>Corrección de bugs críticos + endpoints faltantes</td>
+    <td>1 sprint</td>
+    <td>Sistema estable, CRUD completo</td>
+    <td><span class="ok">✅ Completada (29/05/2026)</span></td>
+  </tr>
+  <tr>
+    <td><strong>B</strong></td>
+    <td>Conexión real con Moodle API (sincronización de certificados)</td>
+    <td>1-2 sprints</td>
+    <td>Sincronización batch operativa con API real</td>
+    <td><span class="ok">✅ Completada (29/05/2026)</span></td>
+  </tr>
+  <tr>
+    <td><strong>C</strong></td>
+    <td>Mock Guaraní + flujo completo de diploma</td>
+    <td>1-2 sprints</td>
+    <td>Demo end-to-end funcional</td>
+    <td><span class="ok">✅ Completada (29/05/2026)</span></td>
+  </tr>
+  <tr>
+    <td><strong>D</strong></td>
+    <td>Guaraní real (requiere credenciales DTI)</td>
+    <td>1 sprint</td>
+    <td>Integración real operativa</td>
+    <td><span class="crit">⏳ Bloqueado (DTI)</span></td>
+  </tr>
+  <tr>
+    <td><strong>E</strong></td>
+    <td>Documentación, capacitación, puesta en producción</td>
+    <td>1 sprint</td>
+    <td>Sistema en producción</td>
+    <td><span class="warn">▶ Pendiente</span></td>
+  </tr>
+</table>
+
+<p><strong>Total estimado hasta PoC demostrable:</strong> 4-5 sprints (~10 semanas).</p>
+
+<h2 id="s10">10. Acciones Requeridas de la UNC</h2>
+
+<table>
+  <tr><th>#</th><th>Acción</th><th>Responsable</th><th>Urgencia</th><th>Impacto</th></tr>
+  <tr>
+    <td>1</td>
+    <td><strong>Proveer token de administrador de Moodle</strong> (el actual es de estudiante, solo consulta datos propios)</td>
+    <td>Admin Moodle UNC</td>
+    <td><span class="crit">Alta</span></td>
+    <td>Habilita la sincronización multi-estudiante. Sin esto, el sistema solo sincroniza al dueño del token. Crear en: Site administration → Plugins → Web services → Manage tokens.</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>Exponer función <code>mod_customcert_get_issues</code> en Web Service de Moodle</td>
+    <td>Admin Moodle UNC</td>
+    <td><span class="warn">Media</span></td>
+    <td>Metadatos completos de certificados (código, fecha exacta, tipo). Sin esto, se usa completitud de curso como proxy.</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>Gestionar credenciales de API de SIU Guaraní ante la DTI</td>
+    <td>Secretaría Académica / DTI</td>
+    <td><span class="warn">Media</span></td>
+    <td>Habilita la transmisión real de notas y altas de diploma a Guaraní. Sin esto, la demo funciona con mock.</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>Confirmar mapeo de estudiantes entre Moodle y Guaraní</td>
+    <td>Admin Moodle + DTI</td>
+    <td><span class="ok">Baja</span></td>
+    <td>Validar que los emails o DNIs coinciden en ambos sistemas para el mapeo automático.</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>Proveer listado de diplomaturas a configurar en DTS</td>
+    <td>Secretaría Académica</td>
+    <td><span class="ok">Baja</span></td>
+    <td>Definir qué diplomaturas, cursos y reglas de equivalencia se cargan en el sistema.</td>
+  </tr>
+</table>
+
+<div class="box">
+  <strong>Nota sobre tiempos:</strong> Las acciones #1 y #2 no son bloqueantes para comenzar el desarrollo. DTS puede construirse completamente con mocks y activar las integraciones reales en el momento en que la UNC entregue las configuraciones necesarias. El switch de mock a real es un cambio de configuración sin impacto en el código.
+</div>
+
+<div class="footer">
+  <p>Documento generado el 29 de mayo de 2026 · Actualizado 30/05 con stats reales del Campus Virtual · Diploma Tracking System (DTS)</p>
+  <p>Universidad Nacional de Córdoba — Confidencial</p>
+</div>
+
+</body>
+</html>

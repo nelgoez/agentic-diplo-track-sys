@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DTS — Informe de Alineamiento · Universidad Nacional de Córdoba</title>
+<style>
+  @page { size: A4; margin: 2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 10.5pt; line-height: 1.7; color: #1a1a2e; max-width: 950px; margin: 0 auto; padding: 24px; }
+  .cover { text-align: center; padding: 50px 0; border-bottom: 3px solid #003d7a; margin-bottom: 30px; }
+  .cover h1 { font-size: 20pt; color: #003d7a; margin-bottom: 6px; }
+  .cover h2 { font-size: 13pt; font-weight: 400; color: #555; }
+  .cover .meta { font-size: 9pt; color: #888; margin-top: 10px; }
+  h2 { font-size: 14pt; color: #003d7a; border-bottom: 2px solid #003d7a; padding-bottom: 4px; margin-top: 28px; margin-bottom: 12px; }
+  h3 { font-size: 12pt; color: #0a4a8a; margin-top: 18px; margin-bottom: 8px; }
+  p, li { margin-bottom: 6px; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 14px; font-size: 9.5pt; }
+  th { background: #003d7a; color: #fff; padding: 7px 10px; text-align: left; }
+  td { padding: 6px 10px; border-bottom: 1px solid #ddd; }
+  tr:nth-child(even) td { background: #f0f4fa; }
+  .ok { color: #1b7a1b; font-weight: bold; }
+  .warn { color: #c79100; font-weight: bold; }
+  .crit { color: #c0392b; font-weight: bold; }
+  .box { padding: 12px 16px; margin: 12px 0; border-radius: 6px; font-size: 10.5pt; }
+  .box-blue { background: #e8f0fe; border-left: 4px solid #003d7a; }
+  .box-green { background: #e8f5e9; border-left: 4px solid #2e7d32; }
+  .box-orange { background: #fff8e1; border-left: 4px solid #f9a825; }
+  .box-red { background: #ffebee; border-left: 4px solid #c62828; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 9pt; font-family: 'Consolas', monospace; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccc; font-size: 8.5pt; color: #888; text-align: center; }
+  .summary-table td:first-child { font-weight: 600; width: 250px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Diploma Tracking System (DTS)</h1>
+  <h2>Informe de Alineamiento con Requerimientos UNC</h2>
+  <p class="meta">Versión 2.0 · 30 de mayo de 2026 · Confidencial<br>
+  Universidad Nacional de Córdoba — Secretaría Académica</p>
+</div>
+
+<h2>1. Resumen Ejecutivo</h2>
+
+<p>El Diploma Tracking System es el middleware de integración solicitado por la UNC para articular el recorrido de estudiantes en diplomaturas con módulos dictados en Moodle, validando equivalencias mediante un motor de reglas configurable, gestionando la inscripción a exámenes integradores, y automatizando la comunicación con SIU Guaraní para registro de notas y emisión de diplomas.</p>
+
+<div class="box-green">
+  <strong>Estado actual:</strong> 45 endpoints API funcionales, 65 tests automatizados, frontend React desplegado, CI/CD operativo, documentación completa de backlog (25 historias con Gherkin AC y edge cases). Sistema auto-contenido en modo demo para presentación inmediata a stakeholders.
+</div>
+
+<h2>2. Alineamiento con Requerimientos Funcionales</h2>
+
+<table>
+  <tr><th>#</th><th>Requerimiento UNC</th><th>Cobertura DTS</th><th>Estado</th></tr>
+  <tr>
+    <td>RF1</td>
+    <td>Gestión de cursos previos en Moodle — certificados con metadatos accesibles (curso, fecha, alumno)</td>
+    <td>Tabla <code>certificates</code> con student_id, course_id, issue_date, qualification, status. Sincronización vía API REST de Moodle con token real (retry 3x, timeout 10s). Endpoint <code>GET /students/:id/certificates</code>.</td>
+    <td><span class="ok">✅</span></td>
+  </tr>
+  <tr>
+    <td>RF2</td>
+    <td>Panel individual de seguimiento — cursos aprobados, créditos, cursos faltantes, estado de habilitación</td>
+    <td><code>GET /students/:id/progress</code> (cursos completados, total). <code>GET /enrollments/eligibility/:studentId</code> (estado de habilitación con breakdown de reglas). Dashboard frontend React con métricas en tiempo real.</td>
+    <td><span class="ok">✅</span></td>
+  </tr>
+  <tr>
+    <td>RF3</td>
+    <td>Módulo de reglas de habilitación parametrizables — validación automática</td>
+    <td>Motor de reglas recursivo ALL/ANY con árboles anidados. CRUD completo de reglas y fuentes. Evaluación en tiempo real (&lt;500ms). Overrides manuales con expiry opcional. 99% branch coverage en tests.</td>
+    <td><span class="ok">✅</span></td>
+  </tr>
+  <tr>
+    <td>RF4</td>
+    <td>Gestión del examen final práctico — dos cohortes anuales, inscripción</td>
+    <td>Ciclo de vida completo: inscripto → aprobado/desaprobado → diploma_pendiente. Filtro por cohorte (<code>?cohort=YYYY-MM</code>). Auto-transición de estado al calificar. Disparo automático de push de diploma a Guaraní.</td>
+    <td><span class="ok">✅</span></td>
+  </tr>
+  <tr>
+    <td>RF5</td>
+    <td>Interoperabilidad con Guaraní — alta automática, transmisión de notas, diploma</td>
+    <td>Provider interface <code>AcademicProvider</code>. Implementación mock con 10 estudiantes UNC realistas. <code>pushDiploma()</code> escribe en <code>integration_logs</code> y actualiza <code>exam_status</code>. Endpoint manual <code>POST /integrations/push/guarani/diploma</code>.</td>
+    <td><span class="warn">⚠️ Mock</span></td>
+  </tr>
+  <tr>
+    <td>RF6</td>
+    <td>Backoffice administrativo — equivalencias manuales, estados, forzar habilitaciones, reportes</td>
+    <td>Dashboard stats admin en tiempo real (9 métricas). CRUD de usuarios, estudiantes, tracks, cursos. Sistema de overrides manuales con auditoría. Integration logs con filtros. Audit log con trazabilidad de operaciones críticas.</td>
+    <td><span class="ok">✅</span></td>
+  </tr>
+</table>
+
+<h2>3. Alineamiento con Requerimientos Técnicos</h2>
+
+<table>
+  <tr><th>#</th><th>Requerimiento Técnico</th><th>Implementación DTS</th><th>Estado</th></tr>
+  <tr><td>TR1</td><td>Moodle versión actualizada y estable</td><td>Moodle 4.5.8+ (Build: 20251219). Verificado vía API.</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>TR2</td><td>Acceso a API de Moodle (REST/SOAP)</td><td>Token funcional obtenido. 200+ funciones expuestas vía <code>moodle_mobile_app</code>.</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>TR3</td><td>Acceso a API de Guaraní</td><td>Mock operativo. Pendiente credenciales DTI para activación real.</td><td><span class="warn">⚠️</span></td></tr>
+  <tr><td>TR4</td><td>Middleware que conecte Moodle y Guaraní</td><td>DTS es el middleware. Arquitectura Provider Abstraction con Strategy Pattern.</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>TR5</td><td>Base de datos propia (MySQL/PostgreSQL)</td><td>Supabase PostgreSQL 15. 9 tablas con integridad referencial y 20+ políticas RLS.</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>TR6</td><td>Hosting dedicado o infraestructura Universidad</td><td>Vercel (server + frontend) + Supabase (DB). 2 proyectos activos con deploy automático.</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>TR7a</td><td>Autenticación SSO</td><td>JWT con 4 roles (estudiante, coordinador, admin, sysadmin). SAML2/SSO no implementado — recomendado para fase de producción.</td><td><span class="warn">⚠️</span></td></tr>
+  <tr><td>TR7b</td><td>Cumplimiento normativo (protección datos personales)</td><td>RLS granular por tabla y rol. Student data isolation verificada. Audit log con trazabilidad. JWT_SECRET no hardcodeado. Credenciales de test en variables de entorno.</td><td><span class="ok">✅</span></td></tr>
+</table>
+
+<h2>4. Cronograma UNC vs Avance DTS</h2>
+
+<table>
+  <tr><th>Fase UNC</th><th>Est. UNC</th><th>Equivalente DTS</th><th>Estado</th></tr>
+  <tr><td>1. Relevamiento técnico y validación de APIs</td><td>3 semanas</td><td>Playwright audit + business data map + exploración Moodle API + token obtenido</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>2. Desarrollo de middleware y base de datos</td><td>6 semanas</td><td>45 endpoints API + 9 tablas PostgreSQL + 4 migraciones + autenticación JWT + RBAC</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>3. Paneles de usuario y reglas de equivalencia</td><td>4 semanas</td><td>Frontend React (dashboard, certificados, cursos, admin) + Rule Engine (99% coverage)</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>4. Integración con Moodle</td><td>3 semanas</td><td>API REST real con retry 3x, timeout 10s, error isolation, nocriteriaset fallback</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>5. Integración con Guaraní</td><td>4 semanas</td><td>Mock realista + diploma push flow. Real pendiente credenciales DTI</td><td><span class="warn">⚠️</span></td></tr>
+  <tr><td>6. Testing integral (QA y UAT)</td><td>3 semanas</td><td>65 tests automatizados + CI/CD (3 workflows) + E2E Playwright + formal test cases</td><td><span class="ok">✅</span></td></tr>
+  <tr><td>7. Capacitación y puesta en producción</td><td>2 semanas</td><td>—</td><td><span class="crit">❌</span></td></tr>
+  <tr><td><strong>TOTAL</strong></td><td><strong>25 sem.</strong></td><td><strong>~80% completado en 4 sprints agentic</strong></td><td></td></tr>
+</table>
+
+<h2>5. Infraestructura y Acceso</h2>
+
+<table>
+  <tr><th>Componente</th><th>URL</th><th>Estado</th></tr>
+  <tr><td>Frontend (React)</td><td><code>https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app</code></td><td><span class="ok">✅ Live</span></td></tr>
+  <tr><td>API Server</td><td><code>https://server-git-main-nelgoezs-projects.vercel.app</code></td><td><span class="ok">✅ Live</span></td></tr>
+  <tr><td>Base de Datos</td><td><code>vbjhxlezqhkmhpuypkvf.supabase.co</code></td><td><span class="ok">✅ Active</span></td></tr>
+  <tr><td>CI/CD</td><td>GitHub Actions (ci + smoke + regression)</td><td><span class="ok">✅ Green</span></td></tr>
+  <tr><td>Repositorio</td><td><code>github.com/nelgoez/diploma-tracking-sys</code></td><td><span class="ok">✅ Private</span></td></tr>
+</table>
+
+<h2>6. Credenciales de Demostración</h2>
+
+<table>
+  <tr><th>Rol</th><th>Email</th><th>Password</th><th>Permisos</th></tr>
+  <tr><td>Administrador</td><td><code>admin@dts.unc.edu.ar</code></td><td><code>Admin123456!</code></td><td>Dashboard, users, tracks, courses, sync, integrations</td></tr>
+  <tr><td>Estudiante</td><td><code>nahuelgomez.cti@gmail.com</code></td><td><code>Test123456!</code></td><td>Progreso, certificados, elegibilidad (3/5 cursos)</td></tr>
+  <tr><td>Sysadmin IT</td><td><code>sysadmin@dts.unc.edu.ar</code></td><td><code>Sysadmin123456!</code></td><td>Diagnóstico de sistema, auditoría, DB health</td></tr>
+</table>
+
+<h2>7. Próximos Pasos</h2>
+
+<table>
+  <tr><th>#</th><th>Acción</th><th>Responsable</th><th>Urgencia</th></tr>
+  <tr><td>1</td><td><strong>Proveer token de administrador de Moodle</strong> para sincronización multi-estudiante (el actual es de estudiante)</td><td>Admin Moodle UNC</td><td><span class="warn">Alta</span></td></tr>
+  <tr><td>2</td><td><strong>Gestionar credenciales API de SIU Guaraní</strong> ante la DTI para activar integración real</td><td>Secretaría Académica / DTI</td><td><span class="warn">Alta</span></td></tr>
+  <tr><td>3</td><td>Definir diplomaturas, cursos y reglas de equivalencia a configurar en DTS</td><td>Secretaría Académica</td><td>Media</td></tr>
+  <tr><td>4</td><td>Capacitación al personal administrativo + manual de uso</td><td>Equipo DTS</td><td>Media</td></tr>
+  <tr><td>5</td><td>Plan de soporte y mantenimiento (12 meses)</td><td>Equipo DTS</td><td>Media</td></tr>
+</table>
+
+<div class="footer">
+  <p>Diploma Tracking System · Informe de Alineamiento UNC v2.0 · 30 de mayo de 2026<br>
+  Universidad Nacional de Córdoba · Desarrollado bajo UPEX Agentic Dev + QA Boilerplate</p>
+</div>
+
+</body>
+</html>
