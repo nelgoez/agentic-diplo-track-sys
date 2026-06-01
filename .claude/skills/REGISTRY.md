@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-05-28T03:43:47.301Z`
+> Generated: `2026-06-01T20:59:32.202Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-dev-core/references/skill-resolver.md`
 
@@ -286,17 +286,17 @@ Skills indexed: 21
 **Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `project-board-review` launches subagents in key roles (Product Owner, Engineering Manager, QA Lead) to assess a project from multiple perspectives and produce a consolidated board review report for the VP/CTO/company owner.
+- `project-board-review` launches subagents in key roles (Product Owner, Engineering Manager, QA Lead) to assess a project from multiple perspectives and produce a consolidated board review report for the VP/CEO/company owner.
 - Each subagent analyzes their domain, flags risks, and provides recommendations. The report is delivered in a format ready for stakeholder review.
 - ---
-- Trigger on: `project board review`, `stakeholder review`, `project assessment`, `PO + EM review`, `board report`, `CTO review`
+- Trigger on: `project board review`, `stakeholder review`, `project assessment`, `PO + EM review`, `board report`, `CEO review`
 - ---
 - ---
 - Launch all three subagents in **parallel**. Each subagent must:
 - 1. Read relevant project files (`master-implementation-plan.md`, `business-data-map.md`, `project-dev-guide.md`, `project.yaml`)
 - 2. Inspect the live API at `{{environments.staging.api_url}}` (health, docs, key endpoints)
 - 3. Analyze from their role's perspective
-- 4. Flag **critical risks** that need immediate VP/CTO attention
+- 4. Flag **critical risks** that need immediate VP/CEO attention
 - 5. Provide a clean report with: findings, risks (🔴/🟡/🟢), recommendations
 - Each subagent MUST end their report with:
 - This gates the report — the VP must acknowledge or redirect before proceeding.

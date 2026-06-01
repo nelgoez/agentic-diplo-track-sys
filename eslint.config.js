@@ -26,6 +26,8 @@ export default antfu({
     'moodle-*.yaml',
     'moodle-*.json',
     'edx-*.yaml',
+    'login.yaml',
+    'dashboard-final.yaml',
     '*.yml',
     // Documentation files (contain code examples that shouldn't be linted)
     '**/*.md',
