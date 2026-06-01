@@ -15,20 +15,20 @@ Implement the rule engine that powers eligibility evaluation for exams. Build pr
 
 | ID | Story | Dependencies | SP | Status |
 |----|-------|-------------|-----|--------|
-| DTS-RULE-1 | Prerequisite rules CRUD (create, list, update, delete) | DTS-CORE-2 | 8 | — |
-| DTS-RULE-2 | Rule engine evaluator (recursive tree) | DTS-RULE-1 | 8 | — |
-| DTS-RULE-3 | Manual override CRUD | DTS-RULE-2 + DTS-CORE-3 | 5 | — |
-| DTS-RULE-4 | View rule tree (read) | DTS-RULE-1 | 2 | — |
+| DTS-RULE-1 | Prerequisite rules CRUD (create, list, update, delete) | DTS-CORE-2 | 8 | Complete |
+| DTS-RULE-2 | Rule engine evaluator (recursive tree) | DTS-RULE-1 | 8 | Complete |
+| DTS-RULE-3 | Manual override CRUD | DTS-RULE-2 + DTS-CORE-3 | 5 | Complete |
+| DTS-RULE-4 | View rule tree (read) | DTS-RULE-1 | 2 | Complete |
 
 ---
 
 ## Key Deliverables
 
-- [ ] Prerequisite rules CRUD with tree structure
-- [ ] Rule engine: recursive ALL/ANY evaluation
-- [ ] Manual overrides with optional expiry
-- [ ] Rule tree viewer endpoint
-- [ ] Unit tests ≥95% branch coverage on rule engine
+- [x] Prerequisite rules CRUD with tree structure
+- [x] Rule engine: recursive ALL/ANY evaluation
+- [x] Manual overrides with optional expiry
+- [x] Rule tree viewer endpoint
+- [x] Unit tests ≥95% branch coverage on rule engine
 
 ---
 

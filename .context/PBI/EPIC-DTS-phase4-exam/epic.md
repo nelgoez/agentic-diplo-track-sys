@@ -15,21 +15,21 @@ Build the full exam lifecycle: student progress tracking, real-time eligibility 
 
 | ID | Story | Dependencies | SP | Status |
 |----|-------|-------------|-----|--------|
-| DTS-EXAM-1 | Student progress API | DTS-CORE-2 + DTS-CORE-3 + DTS-CORE-5 | 5 | — |
-| DTS-EXAM-2 | Eligibility check on dashboard | DTS-RULE-2 + DTS-EXAM-1 | 5 | — |
-| DTS-EXAM-3 | Exam enrollment (inscribir a examen) | DTS-EXAM-2 | 5 | — |
-| DTS-EXAM-4 | Grade recording (+ auto-status transition) | DTS-EXAM-3 | 5 | — |
-| DTS-EXAM-5 | Exam history view | DTS-EXAM-3 | 3 | — |
+| DTS-EXAM-1 | Student progress API | DTS-CORE-2 + DTS-CORE-3 + DTS-CORE-5 | 5 | Complete |
+| DTS-EXAM-2 | Eligibility check on dashboard | DTS-RULE-2 + DTS-EXAM-1 | 5 | Complete |
+| DTS-EXAM-3 | Exam enrollment (inscribir a examen) | DTS-EXAM-2 | 5 | Complete |
+| DTS-EXAM-4 | Grade recording (+ auto-status transition) | DTS-EXAM-3 | 5 | In Progress |
+| DTS-EXAM-5 | Exam history view | DTS-EXAM-3 | 3 | Complete |
 
 ---
 
 ## Key Deliverables
 
-- [ ] Student progress API (modules + certificates)
-- [ ] Eligibility endpoint connected to rule engine
-- [ ] Exam registration with re-evaluation
+- [x] Student progress API (modules + certificates)
+- [x] Eligibility endpoint connected to rule engine
+- [x] Exam registration with re-evaluation
 - [ ] Grade recording with auto-status
-- [ ] Exam history for students
+- [x] Exam history for students
 
 ---
 

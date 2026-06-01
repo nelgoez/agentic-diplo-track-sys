@@ -15,23 +15,23 @@ Build the core domain layer of the Diploma Tracking System. Implement full CRUD 
 
 | ID | Story | Dependencies | SP | Status |
 |----|-------|-------------|-----|--------|
-| DTS-CORE-1 | Tracks CRUD (list, create, get, update) | DTS-AUTH-3 | 3 | — |
-| DTS-CORE-2 | Courses CRUD (list, create, get) | DTS-CORE-1 | 3 | — |
-| DTS-CORE-3 | Students CRUD (list, get, search) | DTS-AUTH-3 | 3 | — |
-| DTS-CORE-4 | Enrollment (single student to track) | DTS-CORE-1 + DTS-CORE-3 | 3 | — |
-| DTS-CORE-5 | Certificate list + get by ID | DTS-CORE-2 + DTS-CORE-3 | 2 | — |
-| DTS-CORE-6 | Batch enrollment from CSV | DTS-CORE-4 | 5 | — |
+| DTS-CORE-1 | Tracks CRUD (list, create, get, update) | DTS-AUTH-3 | 3 | Complete |
+| DTS-CORE-2 | Courses CRUD (list, create, get) | DTS-CORE-1 | 3 | Complete |
+| DTS-CORE-3 | Students CRUD (list, get, search) | DTS-AUTH-3 | 3 | Complete |
+| DTS-CORE-4 | Enrollment (single student to track) | DTS-CORE-1 + DTS-CORE-3 | 3 | Complete |
+| DTS-CORE-5 | Certificate list + get by ID | DTS-CORE-2 + DTS-CORE-3 | 2 | Complete |
+| DTS-CORE-6 | Batch enrollment from CSV | DTS-CORE-4 | 5 | Complete |
 
 ---
 
 ## Key Deliverables
 
-- [ ] Tracks CRUD (admin)
-- [ ] Courses CRUD (admin)
-- [ ] Students list + search + detail
-- [ ] Single enrollment (coordinator)
-- [ ] Certificate list view (student)
-- [ ] Batch CSV enrollment
+- [x] Tracks CRUD (admin)
+- [x] Courses CRUD (admin)
+- [x] Students list + search + detail
+- [x] Single enrollment (coordinator)
+- [x] Certificate list view (student)
+- [x] Batch CSV enrollment
 
 ---
 
