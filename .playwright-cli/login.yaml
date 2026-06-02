@@ -1,0 +1,23 @@
+- generic [ref=e4]:
+  - 'button "Cambiar Idioma: ES" [ref=e2] [cursor=pointer]'
+  - generic [ref=e7]:
+    - heading "Sistema de Gestión de Diplomas" [level=1] [ref=e8]
+    - paragraph [ref=e9]: Universidad Nacional de Córdoba
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic:
+          - text: Correo Electrónico
+          - generic: "*"
+        - generic [ref=e12]:
+          - textbox "Correo Electrónico" [ref=e13]
+          - group:
+            - generic: Correo Electrónico *
+      - generic [ref=e14]:
+        - generic:
+          - text: Contraseña
+          - generic: "*"
+        - generic [ref=e15]:
+          - textbox "Contraseña" [ref=e16]
+          - group:
+            - generic: Contraseña *
+      - button "Entrar" [ref=e17] [cursor=pointer]

@@ -1,0 +1,2 @@
+[     372ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://campus.aulavirtual.unc.edu.ar/report/completion/index.php?course=276:0
+[     438ms] [LOG] Starting Moodle session timeout warning. @ https://campus.aulavirtual.unc.edu.ar/lib/requirejs.php/1780021394/core/first.js:1190

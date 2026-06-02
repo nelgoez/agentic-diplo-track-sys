@@ -1,0 +1,62 @@
+- generic [ref=e4]:
+  - 'button "Cambiar Idioma: ES" [ref=e2] [cursor=pointer]'
+  - generic [ref=e22]:
+    - banner [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]: Sistema de Gestión de Diplomas
+        - paragraph [ref=e26]: Universidad Nacional de Córdoba
+        - button "Cerrar Sesión" [ref=e27] [cursor=pointer]:
+          - img [ref=e28]
+    - list [ref=e34]:
+      - listitem [ref=e35]:
+        - button "Panel Principal" [ref=e36] [cursor=pointer]:
+          - img [ref=e38]
+          - generic [ref=e41]: Panel Principal
+      - listitem [ref=e42]:
+        - button "Certificados" [ref=e43] [cursor=pointer]:
+          - img [ref=e45]
+          - generic [ref=e48]: Certificados
+      - listitem [ref=e49]:
+        - button "Cursos" [ref=e50] [cursor=pointer]:
+          - img [ref=e52]
+          - generic [ref=e56]: Cursos
+      - listitem [ref=e57]:
+        - button "Integraciones" [ref=e58] [cursor=pointer]:
+          - img [ref=e60]
+          - generic [ref=e63]: Integraciones
+      - listitem [ref=e64]:
+        - button "Administración" [ref=e65] [cursor=pointer]:
+          - img [ref=e67]
+          - generic [ref=e71]: Administración
+    - main [ref=e72]:
+      - generic [ref=e74]:
+        - heading "Bienvenido/a, Admin DTS" [level=4] [ref=e75]
+        - generic [ref=e76]:
+          - generic [ref=e79]:
+            - heading "Tu Progreso" [level=6] [ref=e80]
+            - generic [ref=e81]:
+              - paragraph [ref=e82]: Cursos Completados:0 /0
+              - progressbar [ref=e83]
+              - generic [ref=e85]: 0%completado
+            - generic [ref=e86]:
+              - generic [ref=e88]:
+                - img [ref=e89]
+                - heading "0" [level=5] [ref=e91]
+                - paragraph [ref=e92]: Créditos Acumulados
+              - generic [ref=e94]:
+                - img [ref=e95]
+                - heading "0" [level=5] [ref=e97]
+                - paragraph [ref=e98]: Créditos Requeridos
+              - generic [ref=e100]:
+                - img [ref=e101]
+                - generic [ref=e104]: En Curso
+                - paragraph [ref=e105]: Estado
+          - generic [ref=e108]:
+            - heading "Fecha del Examen" [level=6] [ref=e109]
+            - generic [ref=e111]: INHABILITADO
+            - alert [ref=e112]:
+              - img [ref=e114]
+              - generic [ref=e116]: Cursos Faltantes:0 dashboard.courses
+          - generic [ref=e119]:
+            - heading "Próximos Pasos" [level=6] [ref=e120]
+            - paragraph [ref=e121]: dashboard.next_steps_description

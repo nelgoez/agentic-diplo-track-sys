@@ -1,0 +1,17 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: This XML file does not appear to have any style information associated with it. The document tree is shown below.
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - text: <EXCEPTION
+      - generic [ref=e8]: class="core\exception\moodle_exception"
+      - text: ">"
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]: <ERRORCODE>
+        - text: invalidtoken
+        - generic [ref=e12]: </ERRORCODE>
+      - generic [ref=e13]:
+        - generic [ref=e14]: <MESSAGE>
+        - text: Ficha (token) no válida - ficha no encontrada
+        - generic [ref=e15]: </MESSAGE>
+    - generic [ref=e17]: </EXCEPTION>

@@ -1,0 +1,41 @@
+- generic [active] [ref=e1]:
+  - status
+  - generic [ref=e2]:
+    - link "Salta al contenido principal" [ref=e3] [cursor=pointer]:
+      - /url: "#maincontent"
+    - main [ref=e10]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - img "Campus Virtual UNC" [ref=e14]
+          - heading "Entrar a Campus Virtual UNC" [level=1] [ref=e15]
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - generic [ref=e18]: Nombre de usuario
+            - textbox "Nombre de usuario" [ref=e19]
+          - generic [ref=e20]:
+            - generic [ref=e21]: Contraseña
+            - generic [ref=e22]:
+              - textbox "Contraseña" [ref=e23]
+              - generic: 
+          - button "Acceder" [ref=e25] [cursor=pointer]
+          - link "¿Olvidó su contraseña?" [ref=e27] [cursor=pointer]:
+            - /url: https://campus.aulavirtual.unc.edu.ar/login/forgot_password.php
+        - generic [ref=e29]:
+          - heading "Identifíquese usando su cuenta en:" [level=2] [ref=e30]
+          - link "Sólo administración del sitio" [ref=e31] [cursor=pointer]:
+            - /url: https://campus.aulavirtual.unc.edu.ar/auth/saml2/login.php?wants&idp=f53c9ddfc5f6b8a66107c7531b930fd5&passive=off
+        - generic [ref=e33]:
+          - heading "Registrarse como usuario" [level=2] [ref=e34]
+          - text: Para acceder a esta página debe crear una cuenta primero.
+        - link "Crear nueva cuenta" [ref=e36] [cursor=pointer]:
+          - /url: https://campus.aulavirtual.unc.edu.ar/login/signup.php
+        - heading "Algunos cursos permiten el acceso de invitados" [level=2] [ref=e38]
+        - button "Entrar como persona invitada" [ref=e40] [cursor=pointer]
+        - generic [ref=e42]:
+          - button "Español - Internacional ‎(es)‎" [ref=e48] [cursor=pointer]:
+            - text: Español - Internacional ‎(es)‎
+            - text: 
+          - button "Aviso de Cookies" [ref=e50] [cursor=pointer]
+    - contentinfo:
+      - button "Mostrar pie de página" [ref=e51] [cursor=pointer]:
+        - generic [ref=e52]: "?"

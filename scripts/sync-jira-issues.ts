@@ -30,8 +30,12 @@
  *   ATLASSIAN_EMAIL=your-email@example.com
  *   ATLASSIAN_API_TOKEN=ATATT3x...
  *
+ * Project key resolution (in precedence order):
+ *   1. JIRA_PROJECT_KEY env var (override, e.g. JIRA_PROJECT_KEY=ACME bun run jira:sync-issues ...)
+ *   2. .agents/project.yaml -> project.project_key (default source-of-truth)
+ *   3. None set or `null` -> the script fails with an actionable message.
+ *
  * Optional:
- *   JIRA_PROJECT=SQ                    # Default project key
  *   JIRA_SYNC_OUTPUT=.context/PBI      # Output directory
  *
  * Get your API token at: https://id.atlassian.com/manage-profile/security/api-tokens
@@ -51,38 +55,35 @@
  *     --include-comments Include Jira comments in comments.md
  *     --dry-run         Show what would be done without writing files
  *     --json            Output results as JSON
+ *   get <KEY>           Sync ONE issue (any type) with ALL custom fields (canonical read; replaces `acli view`)
+ *   jql "<query>"       Sync every issue matching a raw JQL query
  *   help                Show this help message
  *
  * EXAMPLES:
  *   bun run jira:sync-issues status
  *   bun run jira:sync-issues pull
- *   bun run jira:sync-issues pull --epic SQ-20
- *   bun run jira:sync-issues pull --story SQ-21
+ *   bun run jira:sync-issues pull --epic {{PROJECT_KEY}}-20
+ *   bun run jira:sync-issues pull --story {{PROJECT_KEY}}-21
  *   bun run jira:sync-issues pull --include-comments --dry-run
  *
  * ============================================================================
  */
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
+import { parse as parseYaml } from 'yaml';
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
 
 const DEFAULT_OUTPUT_DIR = '.context/PBI';
-const DEFAULT_PROJECT = 'SQ';
+const PROJECT_YAML_PATH = join(import.meta.dir, '..', '.agents', 'project.yaml');
 
-/** Files that should never be overwritten by sync */
-const PROTECTED_FILES = new Set([
-  'test-cases.md',
-  'implementation-plan.md',
-]);
-
-/** File patterns that should never be overwritten */
-const PROTECTED_PATTERNS = [
-  /^feature-.+\.md$/,
-];
+// No files are protected from overwrite. Jira is the single source of truth and the
+// sync re-materializes every file it owns on each run (per-field files only when the
+// Jira field is non-empty). Hand-authored NON-Jira files (context.md, evidence/,
+// test-specs/, …) use names the sync never writes, so they are never touched.
 
 /**
  * Maps each semantic key consumed by this script to its canonical Jira slug
@@ -92,16 +93,23 @@ const PROTECTED_PATTERNS = [
  */
 const SLUG_MAPPING = {
   // Story fields
-  acceptanceCriteria: 'acceptance_criteria_gherkin',
+  acceptanceCriteria: 'acceptance_criteria',
   businessRules: 'business_rules_specification',
   scope: 'scope',
   mockup: 'mockup',
   workflow: 'workflow',
   storyPoints: 'story_points',
-  webLink: 'weblink_url',
+  webLink: 'weblink',
+  outOfScope: 'out_of_scope',
+  specImplementationPlan: 'spec_implementation_plan',
+  acceptanceTestPlan: 'acceptance_test_plan',
+  acceptanceTestResults: 'acceptance_test_results',
+  // Epic-level planning fields
+  featureImplementationPlan: 'feature_implementation_plan',
+  featureTestPlan: 'feature_test_plan',
   // Bug/Defect fields
-  actualResult: 'actual_result_comportamiento',
-  expectedResult: 'expected_result_output',
+  actualResult: 'actual_result',
+  expectedResult: 'expected_result',
   errorType: 'error_type',
   severity: 'severity',
   testEnvironment: 'test_environment',
@@ -149,9 +157,26 @@ function loadJiraFields(): Record<string, JiraFieldEntry> {
 }
 
 /**
+ * Semantic keys whose Jira custom field could NOT be resolved from
+ * `.agents/jira-fields.json` (field not configured in this Jira instance).
+ * Populated by `buildCustomFields()`. The per-field writer (`syncFieldFiles`)
+ * consults this to emit a fallback-pointer stub instead of silently skipping —
+ * so downstream skills know the field's content lives in the issue's
+ * comments/description (see `.agents/jira-required.yaml` → `fallback:`).
+ */
+const UNRESOLVED_FIELDS = new Set<SemanticKey>();
+
+/**
  * Resolves every entry in `SLUG_MAPPING` against `.agents/jira-fields.json` and returns
  * a `{ <semanticKey>: customfield_XXXXX }` record matching the legacy shape that
  * the rest of this file consumes (so call sites need no change).
+ *
+ * Graceful degradation: a slug missing from the catalog is NO LONGER fatal. Its ID
+ * resolves to `''` — a harmless empty field id that is filtered out of API requests
+ * and yields `undefined` on lookup — and the semantic key is recorded in
+ * `UNRESOLVED_FIELDS`. A workspace that hasn't configured every methodology custom
+ * field can still sync the issues it can; missing fields fall back to comments/
+ * description rather than blocking the whole run.
  */
 function buildCustomFields(): Record<SemanticKey, string> {
   const fields = loadJiraFields();
@@ -159,10 +184,9 @@ function buildCustomFields(): Record<SemanticKey, string> {
   for (const [semanticKey, slug] of Object.entries(SLUG_MAPPING) as [SemanticKey, string][]) {
     const entry = fields[slug];
     if (!entry || typeof entry.id !== 'string') {
-      throw new Error(
-        `sync-jira-issues: slug '${slug}' (for '${semanticKey}') not found in .agents/jira-fields.json. `
-        + 'Run `bun run jira:sync-fields --force` to refresh, or update SLUG_MAPPING in scripts/sync-jira-issues.ts.',
-      );
+      out[semanticKey] = '';
+      UNRESOLVED_FIELDS.add(semanticKey);
+      continue;
     }
     out[semanticKey] = entry.id;
   }
@@ -185,7 +209,10 @@ const EPIC_FIELDS = [
   'assignee',
   'parent',
   'issuetype',
-];
+  // Epic-level planning fields (rich text → materialized as separate files)
+  CUSTOM_FIELDS.featureImplementationPlan,
+  CUSTOM_FIELDS.featureTestPlan,
+].filter(Boolean); // drop unresolved fields ('') so they never hit the Jira API
 
 /** Fields to request for Stories */
 const STORY_FIELDS = [
@@ -193,12 +220,16 @@ const STORY_FIELDS = [
   CUSTOM_FIELDS.acceptanceCriteria,
   CUSTOM_FIELDS.businessRules,
   CUSTOM_FIELDS.scope,
+  CUSTOM_FIELDS.outOfScope,
   CUSTOM_FIELDS.mockup,
   CUSTOM_FIELDS.workflow,
+  CUSTOM_FIELDS.specImplementationPlan,
+  CUSTOM_FIELDS.acceptanceTestPlan,
+  CUSTOM_FIELDS.acceptanceTestResults,
   CUSTOM_FIELDS.storyPoints,
   CUSTOM_FIELDS.webLink,
   'issuelinks', // For traceability (tests, defects, bugs, etc.)
-];
+].filter(Boolean); // drop unresolved fields ('') so they never hit the Jira API
 
 /** Fields to request for Bugs/Defects */
 const BUG_FIELDS = [
@@ -215,7 +246,7 @@ const BUG_FIELDS = [
   CUSTOM_FIELDS.workaround,
   CUSTOM_FIELDS.evidence,
   CUSTOM_FIELDS.fixType,
-];
+].filter(Boolean); // drop unresolved fields ('') so they never hit the Jira API
 
 /** Fields to request for Tests */
 const TEST_FIELDS = [
@@ -235,11 +266,14 @@ const IMPROVEMENT_FIELDS = [
 // TYPES
 // ============================================================================
 
+type ProjectKeySource = 'env' | 'project.yaml';
+
 interface Config {
   baseUrl: string
   email: string
   apiToken: string
   project: string
+  projectKeySource: ProjectKeySource
   outputDir: string
 }
 
@@ -383,6 +417,8 @@ interface ParsedArgs {
   subcommand?: IssueTypeFilter
   epic?: string
   story?: string
+  getKey?: string
+  jql?: string
   includeComments: boolean
   dryRun: boolean
   json: boolean
@@ -471,12 +507,66 @@ function parseArgs(args: string[]): ParsedArgs {
     }
   }
 
+  // Positional capture for single-issue / JQL read commands.
+  if (result.command === 'get') {
+    result.getKey = args[1];
+  }
+  if (result.command === 'jql') {
+    result.jql = args.slice(1).filter(a => !a.startsWith('--')).join(' ').trim();
+  }
+
   return result;
 }
 
 // ============================================================================
 // CONFIGURATION
 // ============================================================================
+
+interface ResolvedProjectKey {
+  key: string
+  source: ProjectKeySource
+}
+
+/**
+ * Reads `project.project_key` from `.agents/project.yaml`. Returns `null` when
+ * the file is missing, the field is absent, or its value is `null` / a blank
+ * string (the boilerplate ships with `project_key: null` on purpose).
+ */
+function readProjectKeyFromYaml(): string | null {
+  if (!existsSync(PROJECT_YAML_PATH)) { return null; }
+  let parsed: unknown;
+  try {
+    parsed = parseYaml(readFileSync(PROJECT_YAML_PATH, 'utf8'));
+  }
+  catch {
+    return null;
+  }
+  if (parsed === null || typeof parsed !== 'object') { return null; }
+  const project = (parsed as Record<string, unknown>).project;
+  if (project === null || typeof project !== 'object') { return null; }
+  const raw = (project as Record<string, unknown>).project_key;
+  if (typeof raw !== 'string') { return null; }
+  const trimmed = raw.trim();
+  return trimmed === '' ? null : trimmed;
+}
+
+/**
+ * Resolves the active Jira project key. Precedence:
+ *   1. `JIRA_PROJECT_KEY` env var (explicit override).
+ *   2. `.agents/project.yaml` → `project.project_key`.
+ *   3. Neither set → throws an actionable error so the script never silently
+ *      points at a stale or wrong project.
+ */
+function resolveProjectKey(): ResolvedProjectKey {
+  const envKey = process.env.JIRA_PROJECT_KEY?.trim();
+  if (envKey) { return { key: envKey, source: 'env' }; }
+  const yamlKey = readProjectKeyFromYaml();
+  if (yamlKey) { return { key: yamlKey, source: 'project.yaml' }; }
+  throw new Error(
+    'sync-jira-issues: project key is not set. '
+    + 'Either pass `JIRA_PROJECT_KEY=<KEY>` or set `project.project_key` in `.agents/project.yaml`.',
+  );
+}
 
 function getConfig(): Config {
   const baseUrl = process.env.ATLASSIAN_URL;
@@ -492,13 +582,29 @@ function getConfig(): Config {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
 
+  const projectKey = resolveProjectKey();
+
   return {
     baseUrl: baseUrl!.replace(/\/$/, ''), // Remove trailing slash
     email: email!,
     apiToken: apiToken!,
-    project: process.env.JIRA_PROJECT || DEFAULT_PROJECT,
+    project: projectKey.key,
+    projectKeySource: projectKey.source,
     outputDir: process.env.JIRA_SYNC_OUTPUT || DEFAULT_OUTPUT_DIR,
   };
+}
+
+/**
+ * Prints "Using project=<KEY> (source: ...)" once per command run so the user
+ * never has to guess which project the script is hitting. Skipped under
+ * `--json` so machine-readable output stays clean.
+ */
+function logProjectBanner(config: Config, options: { json?: boolean } = {}): void {
+  if (options.json) { return; }
+  const sourceLabel = config.projectKeySource === 'env'
+    ? 'JIRA_PROJECT_KEY env override'
+    : '.agents/project.yaml';
+  log.info(`Using project=${config.project} (source: ${sourceLabel})`);
 }
 
 // ============================================================================
@@ -822,11 +928,6 @@ function generateSlug(summary: string): string {
 // FILE SYSTEM OPERATIONS
 // ============================================================================
 
-function isProtectedFile(filename: string): boolean {
-  if (PROTECTED_FILES.has(filename)) { return true; }
-  return PROTECTED_PATTERNS.some(pattern => pattern.test(filename));
-}
-
 function findExistingFolder(baseDir: string, key: string, type: 'epic' | 'story'): string | null {
   const prefix = type === 'epic' ? `EPIC-${key}` : `STORY-${key}`;
   const searchDir = type === 'epic' ? join(baseDir, 'epics') : baseDir;
@@ -860,17 +961,16 @@ function ensureDir(path: string): void {
   }
 }
 
-function writeIfNotProtected(
+/**
+ * Writes an index / standalone-issue file. Jira is the source of truth, so this
+ * always overwrites (no protection). `'skipped'` is retained in the return union
+ * only for call-site compatibility — it is never produced.
+ */
+function writeIndexFile(
   filePath: string,
   content: string,
   dryRun: boolean,
 ): { written: boolean, status: 'created' | 'updated' | 'skipped' } {
-  const filename = filePath.split('/').pop() || '';
-
-  if (isProtectedFile(filename)) {
-    return { written: false, status: 'skipped' };
-  }
-
   const exists = existsSync(filePath);
 
   if (!dryRun) {
@@ -884,6 +984,133 @@ function writeIfNotProtected(
 }
 
 // ============================================================================
+// PER-FIELD FILE MATERIALIZATION (hybrid output: index + 1 file per rich-text field)
+// ============================================================================
+
+interface FieldFileSpec {
+  key: SemanticKey
+  file: string
+  title: string
+}
+
+/** Story-level rich-text fields → one Markdown file each (written only when non-empty). */
+const STORY_FIELD_FILES: FieldFileSpec[] = [
+  { key: 'acceptanceCriteria', file: 'acceptance-criteria.md', title: 'Acceptance Criteria' },
+  { key: 'businessRules', file: 'business-rules.md', title: 'Business Rules' },
+  { key: 'scope', file: 'scope.md', title: 'Scope' },
+  { key: 'outOfScope', file: 'out-of-scope.md', title: 'Out Of Scope' },
+  { key: 'workflow', file: 'workflow.md', title: 'Workflow' },
+  { key: 'mockup', file: 'mockup.md', title: 'Mockup' },
+  { key: 'specImplementationPlan', file: 'implementation-plan.md', title: 'Implementation Plan (Dev)' },
+  { key: 'acceptanceTestPlan', file: 'acceptance-test-plan.md', title: 'Acceptance Test Plan (QA)' },
+  { key: 'acceptanceTestResults', file: 'acceptance-test-results.md', title: 'Acceptance Test Results (QA)' },
+];
+
+/** Epic-level rich-text planning fields → one Markdown file each. */
+const EPIC_FIELD_FILES: FieldFileSpec[] = [
+  { key: 'featureImplementationPlan', file: 'feature-implementation-plan.md', title: 'Feature Implementation Plan (Dev)' },
+  { key: 'featureTestPlan', file: 'feature-test-plan.md', title: 'Feature Test Plan (QA)' },
+];
+
+/**
+ * Writes a per-field Markdown file. Always overwrites — Jira is the source of
+ * truth for these fields and no file is protected; this is only ever called when
+ * the Jira field has content.
+ */
+function writeFieldFile(
+  filePath: string,
+  content: string,
+  dryRun: boolean,
+): 'created' | 'updated' {
+  const exists = existsSync(filePath);
+  if (!dryRun) { writeFileSync(filePath, content, 'utf-8'); }
+  return exists ? 'updated' : 'created';
+}
+
+/** Renders the body of a per-field Markdown file (thin header + the field content). */
+function renderFieldFile(
+  issueKey: string,
+  spec: FieldFileSpec,
+  content: string,
+  config: Config,
+): string {
+  return [
+    `# ${issueKey} — ${spec.title}`,
+    '',
+    `> Jira field: \`${CUSTOM_FIELDS[spec.key]}\` · [View in Jira](${config.baseUrl}/browse/${issueKey})`,
+    '',
+    content.trim(),
+    '',
+    '---',
+    '_Synced from Jira by sync-jira-issues_',
+    '',
+  ].join('\n');
+}
+
+/**
+ * Renders a fallback-pointer stub for a per-field file whose Jira custom field is
+ * NOT configured in this workspace (the semantic key is in `UNRESOLVED_FIELDS`).
+ * The dedicated file still exists so skills find a predictable path, but it points
+ * to the fallback source (the issue's comments / description) per the
+ * `.agents/jira-required.yaml` → `fallback:` contract.
+ */
+function renderFieldStub(
+  issueKey: string,
+  spec: FieldFileSpec,
+  config: Config,
+): string {
+  return [
+    `# ${issueKey} — ${spec.title}`,
+    '',
+    `> ⚠️ The Jira custom field for \`${spec.title}\` is **not configured** in this Jira instance.`,
+    '> Per the methodology fallback, this field\'s content lives in the issue\'s comments or description.',
+    `> Re-sync with \`--include-comments\` and read \`comments.md\`, or [View in Jira](${config.baseUrl}/browse/${issueKey}).`,
+    '',
+    '---',
+    '_Synced from Jira by sync-jira-issues_',
+    '',
+  ].join('\n');
+}
+
+/**
+ * Materializes the per-field files for an issue into `folder`. Returns the specs
+ * actually written (field non-empty) so the index can link them.
+ */
+function syncFieldFiles(
+  issueKey: string,
+  fields: JiraIssueFields,
+  specs: FieldFileSpec[],
+  folder: string,
+  config: Config,
+  dryRun: boolean,
+  result: SyncResult,
+): FieldFileSpec[] {
+  const present: FieldFileSpec[] = [];
+  for (const spec of specs) {
+    // Field not configured in this Jira instance → emit a fallback-pointer stub
+    // so the dedicated file path is predictable and skills know to read the
+    // fallback (comments/description) instead.
+    if (UNRESOLVED_FIELDS.has(spec.key)) {
+      const filePath = join(folder, spec.file);
+      const status = writeFieldFile(filePath, renderFieldStub(issueKey, spec, config), dryRun);
+      if (status === 'created') { result.files.created++; }
+      else { result.files.updated++; }
+      present.push(spec);
+      continue;
+    }
+    const raw = fields[CUSTOM_FIELDS[spec.key]] as AdfDocument | string | null;
+    const md = adfToMarkdown(raw);
+    if (!md.trim()) { continue; }
+    const filePath = join(folder, spec.file);
+    const status = writeFieldFile(filePath, renderFieldFile(issueKey, spec, md, config), dryRun);
+    if (status === 'created') { result.files.created++; }
+    else { result.files.updated++; }
+    present.push(spec);
+  }
+  return present;
+}
+
+// ============================================================================
 // MARKDOWN GENERATORS
 // ============================================================================
 
@@ -891,6 +1118,7 @@ function generateEpicMarkdown(
   epic: JiraIssue,
   stories: JiraIssue[],
   config: Config,
+  presentFields: FieldFileSpec[] = [],
 ): string {
   const fields = epic.fields;
   const description = adfToMarkdown(fields.description);
@@ -932,6 +1160,15 @@ function generateEpicMarkdown(
     lines.push('');
   }
 
+  // Planning field files (hybrid: epic rich-text plans live in their own files)
+  if (presentFields.length > 0) {
+    lines.push('---', '', '## Planning', '');
+    for (const spec of presentFields) {
+      lines.push(`- [${spec.title}](./${spec.file})`);
+    }
+    lines.push('');
+  }
+
   // Add metadata
   lines.push(
     '---',
@@ -948,7 +1185,7 @@ function generateEpicMarkdown(
     lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
   }
 
-  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -957,20 +1194,12 @@ function generateStoryMarkdown(
   story: JiraIssue,
   epic: JiraIssue | null,
   config: Config,
+  presentFields: FieldFileSpec[] = [],
 ): string {
   const fields = story.fields;
 
-  // Extract all custom fields
+  // Index only — rich-text fields live in their own files (see `presentFields`).
   const description = adfToMarkdown(fields.description);
-  const acceptanceCriteria = adfToMarkdown(
-    fields[CUSTOM_FIELDS.acceptanceCriteria] as AdfDocument | null,
-  );
-  const businessRules = adfToMarkdown(
-    fields[CUSTOM_FIELDS.businessRules] as AdfDocument | null,
-  );
-  const scope = adfToMarkdown(fields[CUSTOM_FIELDS.scope] as AdfDocument | null);
-  const mockup = adfToMarkdown(fields[CUSTOM_FIELDS.mockup] as AdfDocument | null);
-  const workflow = adfToMarkdown(fields[CUSTOM_FIELDS.workflow] as AdfDocument | null);
   const storyPoints = fields[CUSTOM_FIELDS.storyPoints] as number | undefined;
   const webLink = fields[CUSTOM_FIELDS.webLink] as string | null;
 
@@ -985,71 +1214,39 @@ function generateStoryMarkdown(
   }
 
   lines.push(
+    `**Type:** ${String(fields.issuetype?.name || 'Story')}`,
+    `**Status:** ${String(fields.status?.name || 'Unknown')}`,
     `**Priority:** ${String(fields.priority?.name || 'Not set')}`,
     `**Story Points:** ${storyPoints ?? '-'}`,
-    `**Status:** ${String(fields.status?.name || 'Unknown')}`,
-    '',
-    '---',
-    '',
-    '## User Story',
-    '',
   );
-
-  if (description) {
-    lines.push(description, '');
-  }
-  else {
-    lines.push('_No description provided_', '');
-  }
-
-  // Acceptance Criteria
-  if (acceptanceCriteria) {
-    lines.push('---', '', '## Acceptance Criteria', '', acceptanceCriteria, '');
-  }
-
-  // Business Rules
-  if (businessRules) {
-    lines.push('---', '', '## Business Rules', '', businessRules, '');
-  }
-
-  // Scope
-  if (scope) {
-    lines.push('---', '', '## Scope', '', scope, '');
-  }
-
-  // Mockup
-  if (mockup) {
-    lines.push('---', '', '## Mockup', '', mockup, '');
-  }
-
-  // Workflow
-  if (workflow) {
-    lines.push('---', '', '## Workflow', '', workflow, '');
-  }
-
-  // WebLink (References)
   if (webLink) {
-    lines.push('---', '', '## References', '', `- [External Link](${webLink})`, '');
+    lines.push(`**Web Link:** ${webLink}`);
   }
 
-  // Traceability - Group linked issues by type
+  lines.push('', '---', '', '## Overview', '');
+  lines.push(description || '_No description provided_', '');
+
+  // Manifest of per-field files (1 file = 1 Jira custom field)
+  if (presentFields.length > 0) {
+    lines.push(
+      '---',
+      '',
+      '## Fields',
+      '',
+      '> Each rich-text field is a separate file in this folder.',
+      '',
+    );
+    for (const spec of presentFields) {
+      lines.push(`- [${spec.title}](./${spec.file})`);
+    }
+    lines.push('');
+  }
+
+  // Traceability - linked issues grouped by type
   const traceabilitySection = generateTraceabilitySection(fields.issuelinks, config);
   if (traceabilitySection) {
     lines.push('---', '', '## Traceability', '', traceabilitySection, '');
   }
-
-  // Definition of Done (standard checklist)
-  lines.push(
-    '---',
-    '',
-    '## Definition of Done',
-    '',
-    '- [ ] Implementation complete',
-    '- [ ] Unit tests written',
-    '- [ ] Code reviewed',
-    '- [ ] Documentation updated',
-    '',
-  );
 
   // Metadata
   lines.push(
@@ -1067,7 +1264,7 @@ function generateStoryMarkdown(
     lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
   }
 
-  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1099,7 +1296,7 @@ function generateCommentsMarkdown(
     }
   }
 
-  lines.push('', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1210,7 +1407,7 @@ function generateBugMarkdown(
     lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
   }
 
-  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1314,7 +1511,7 @@ function generateDefectMarkdown(
     lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
   }
 
-  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1373,7 +1570,7 @@ function generateImprovementMarkdown(
     lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
   }
 
-  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1431,7 +1628,71 @@ function generateTestMarkdown(
     lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
   }
 
-  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
+
+  return lines.join('\n');
+}
+
+/**
+ * Generic materializer for Xray container issue types (Test Plan, Test Execution,
+ * Test Set, Pre-Condition). Captures the `description` — which is where the ATP body
+ * (Test Plan) and ATR body (Test Execution) live in Modality jira-xray — plus links
+ * and metadata. Run results / per-TC pass-fail / coverage are NOT captured here; read
+ * those via xray-cli.
+ */
+function generateXrayArtifactMarkdown(
+  issue: JiraIssue,
+  label: string,
+  config: Config,
+): string {
+  const fields = issue.fields;
+  const description = adfToMarkdown(fields.description);
+  const components = fields.components?.map(c => c.name).join(', ') || 'None';
+
+  const lines: string[] = [
+    `# ${label}: ${fields.summary}`,
+    '',
+    `**Jira Key:** [${issue.key}](${config.baseUrl}/browse/${issue.key})`,
+    `**Status:** ${fields.status?.name || 'Unknown'}`,
+    `**Components:** ${components}`,
+    '',
+    '> Run results / coverage are NOT synced — read those via xray-cli. This file mirrors the issue description.',
+    '',
+    '---',
+    '',
+    '## Description',
+    '',
+    description || '_No description provided_',
+    '',
+  ];
+
+  if (fields.issuelinks && fields.issuelinks.length > 0) {
+    lines.push('---', '', '## Related Issues', '');
+    for (const link of fields.issuelinks) {
+      if (link.inwardIssue) {
+        lines.push(`- ${link.type.inward}: [${link.inwardIssue.key}](${config.baseUrl}/browse/${link.inwardIssue.key}) - ${link.inwardIssue.fields.summary}`);
+      }
+      if (link.outwardIssue) {
+        lines.push(`- ${link.type.outward}: [${link.outwardIssue.key}](${config.baseUrl}/browse/${link.outwardIssue.key}) - ${link.outwardIssue.fields.summary}`);
+      }
+    }
+    lines.push('');
+  }
+
+  lines.push(
+    '---',
+    '',
+    '## Metadata',
+    '',
+    `- **Created:** ${fields.created ? new Date(fields.created).toLocaleDateString() : 'Unknown'}`,
+    `- **Updated:** ${fields.updated ? new Date(fields.updated).toLocaleDateString() : 'Unknown'}`,
+    `- **Reporter:** ${fields.reporter?.displayName || 'Unknown'}`,
+    `- **Assignee:** ${fields.assignee?.displayName || 'Unassigned'}`,
+  );
+  if (fields.labels && fields.labels.length > 0) {
+    lines.push(`- **Labels:** ${fields.labels.join(', ')}`);
+  }
+  lines.push('', '---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1472,7 +1733,7 @@ function generateEpicTreeMarkdown(
     }
   }
 
-  lines.push('---', '', '_Synced from Jira by sync-jira-issues_', `_Last sync: ${new Date().toISOString()}_`, '');
+  lines.push('---', '', '_Synced from Jira by sync-jira-issues_', '');
 
   return lines.join('\n');
 }
@@ -1502,10 +1763,13 @@ async function syncStory(
     ensureDir(storyFolder);
   }
 
-  // Write story.md
-  const storyContent = generateStoryMarkdown(story, epic, config);
+  // Materialize per-field files first so the index can list which exist.
+  const present = syncFieldFiles(story.key, story.fields, STORY_FIELD_FILES, storyFolder, config, options.dryRun, result);
+
+  // Write story.md (index)
+  const storyContent = generateStoryMarkdown(story, epic, config, present);
   const storyPath = join(storyFolder, 'story.md');
-  const storyResult = writeIfNotProtected(storyPath, storyContent, options.dryRun);
+  const storyResult = writeIndexFile(storyPath, storyContent, options.dryRun);
 
   if (storyResult.status === 'created') { result.files.created++; }
   else if (storyResult.status === 'updated') { result.files.updated++; }
@@ -1516,7 +1780,7 @@ async function syncStory(
     const comments = await fetchComments(config, story.key);
     const commentsContent = generateCommentsMarkdown(comments, story.key, config);
     const commentsPath = join(storyFolder, 'comments.md');
-    const commentsResult = writeIfNotProtected(commentsPath, commentsContent, options.dryRun);
+    const commentsResult = writeIndexFile(commentsPath, commentsContent, options.dryRun);
 
     if (commentsResult.status === 'created') { result.files.created++; }
     else if (commentsResult.status === 'updated') { result.files.updated++; }
@@ -1561,13 +1825,16 @@ async function syncEpic(
 
   if (!options.json) {
     log.line('');
-    log.info(`Syncing ${epicFolder.split('/').pop()}`);
+    log.info(`Syncing ${basename(epicFolder)}`);
   }
 
-  // Write epic.md
-  const epicContent = generateEpicMarkdown(epic, stories, config);
+  // Materialize epic-level planning field files (feature impl plan, feature test plan)
+  const presentEpicFields = syncFieldFiles(epic.key, epic.fields, EPIC_FIELD_FILES, epicFolder, config, options.dryRun, result);
+
+  // Write epic.md (index)
+  const epicContent = generateEpicMarkdown(epic, stories, config, presentEpicFields);
   const epicPath = join(epicFolder, 'epic.md');
-  const epicResult = writeIfNotProtected(epicPath, epicContent, options.dryRun);
+  const epicResult = writeIndexFile(epicPath, epicContent, options.dryRun);
 
   if (epicResult.status === 'created') { result.files.created++; }
   else if (epicResult.status === 'updated') { result.files.updated++; }
@@ -1594,6 +1861,53 @@ async function syncEpic(
   return { epic, stories };
 }
 
+/**
+ * Syncs a single Story (used by `pull --story`, `get`, and `jql`). Places the
+ * story under its parent epic's folder; orphan stories (no parent) land under
+ * `epics/_orphans/` instead of failing, so a `get <orphan>` still materializes.
+ */
+async function syncSingleStory(
+  config: Config,
+  storyKey: string,
+  options: SyncOptions,
+  result: SyncResult,
+): Promise<void> {
+  if (!options.json) {
+    log.info(`Fetching story ${storyKey}...`);
+  }
+
+  const story = await fetchIssue(config, storyKey, STORY_FIELDS);
+
+  if (story.fields.issuetype?.name === 'Epic') {
+    throw new Error(`${storyKey} is an Epic, not a Story. Use the epic path (pull --epic / get) instead.`);
+  }
+
+  const parentKey = story.fields.parent?.key;
+  let epic: JiraIssue | null = null;
+  let epicFolder: string;
+
+  if (parentKey) {
+    epic = await fetchIssue(config, parentKey, EPIC_FIELDS);
+    epicFolder = findExistingFolder(config.outputDir, parentKey, 'epic')
+      ?? join(config.outputDir, 'epics', getFolderName(parentKey, epic.fields.summary, 'epic'));
+  }
+  else {
+    result.warnings.push(`${storyKey}: Story has no parent Epic (orphan) — placed under epics/_orphans/`);
+    epicFolder = join(config.outputDir, 'epics', '_orphans');
+  }
+
+  if (!options.dryRun) {
+    ensureDir(epicFolder);
+    ensureDir(join(epicFolder, 'stories'));
+  }
+
+  if (!options.json) {
+    log.tree(story.key, story.fields.summary, true);
+  }
+
+  await syncStory(config, story, epic, epicFolder, options, result);
+}
+
 async function syncAll(config: Config, options: SyncOptions): Promise<SyncResult> {
   const startTime = Date.now();
 
@@ -1615,39 +1929,7 @@ async function syncAll(config: Config, options: SyncOptions): Promise<SyncResult
     const allEpicData: Array<{ epic: JiraIssue, stories: JiraIssue[] }> = [];
 
     if (options.storyKey) {
-      // Sync single story
-      if (!options.json) {
-        log.info(`Fetching story ${options.storyKey}...`);
-      }
-
-      const story = await fetchIssue(config, options.storyKey, STORY_FIELDS);
-
-      if (story.fields.issuetype?.name === 'Epic') {
-        throw new Error(`${options.storyKey} is an Epic, not a Story. Use --epic instead.`);
-      }
-
-      // Find parent epic
-      const parentKey = story.fields.parent?.key;
-      if (!parentKey) {
-        result.warnings.push(`${options.storyKey}: Story has no parent Epic (orphan)`);
-        throw new Error(`Story ${options.storyKey} has no parent Epic. Cannot sync orphan stories.`);
-      }
-
-      const epic = await fetchIssue(config, parentKey, EPIC_FIELDS);
-
-      // Find or create epic folder
-      let epicFolder = findExistingFolder(config.outputDir, parentKey, 'epic');
-      if (!epicFolder) {
-        const folderName = getFolderName(parentKey, epic.fields.summary, 'epic');
-        epicFolder = join(config.outputDir, 'epics', folderName);
-      }
-
-      if (!options.dryRun) {
-        ensureDir(epicFolder);
-        ensureDir(join(epicFolder, 'stories'));
-      }
-
-      await syncStory(config, story, epic, epicFolder, options, result);
+      await syncSingleStory(config, options.storyKey, options, result);
     }
     else if (options.epicKey) {
       // Sync single epic
@@ -1702,7 +1984,7 @@ async function syncAll(config: Config, options: SyncOptions): Promise<SyncResult
     if (allEpicData.length > 0 && !options.storyKey) {
       const treeContent = generateEpicTreeMarkdown(allEpicData, config);
       const treePath = join(config.outputDir, 'epic-tree.md');
-      const treeResult = writeIfNotProtected(treePath, treeContent, options.dryRun);
+      const treeResult = writeIndexFile(treePath, treeContent, options.dryRun);
 
       if (treeResult.status === 'created') { result.files.created++; }
       else if (treeResult.status === 'updated') { result.files.updated++; }
@@ -1759,7 +2041,7 @@ async function syncBugs(config: Config, options: SyncOptions): Promise<SyncResul
       }
 
       const content = generateBugMarkdown(bug, config);
-      const writeResult = writeIfNotProtected(filePath, content, options.dryRun);
+      const writeResult = writeIndexFile(filePath, content, options.dryRun);
 
       if (writeResult.status === 'created') { result.files.created++; }
       else if (writeResult.status === 'updated') { result.files.updated++; }
@@ -1885,7 +2167,7 @@ async function syncDefects(config: Config, options: SyncOptions): Promise<SyncRe
       }
 
       const content = generateDefectMarkdown(defect, linkedStory, config);
-      const writeResult = writeIfNotProtected(filePath, content, options.dryRun);
+      const writeResult = writeIndexFile(filePath, content, options.dryRun);
 
       if (writeResult.status === 'created') { result.files.created++; }
       else if (writeResult.status === 'updated') { result.files.updated++; }
@@ -1945,7 +2227,7 @@ async function syncImprovements(config: Config, options: SyncOptions): Promise<S
       }
 
       const content = generateImprovementMarkdown(improvement, config);
-      const writeResult = writeIfNotProtected(filePath, content, options.dryRun);
+      const writeResult = writeIndexFile(filePath, content, options.dryRun);
 
       if (writeResult.status === 'created') { result.files.created++; }
       else if (writeResult.status === 'updated') { result.files.updated++; }
@@ -2005,7 +2287,7 @@ async function syncTests(config: Config, options: SyncOptions): Promise<SyncResu
       }
 
       const content = generateTestMarkdown(test, config);
-      const writeResult = writeIfNotProtected(filePath, content, options.dryRun);
+      const writeResult = writeIndexFile(filePath, content, options.dryRun);
 
       if (writeResult.status === 'created') { result.files.created++; }
       else if (writeResult.status === 'updated') { result.files.updated++; }
@@ -2025,6 +2307,115 @@ async function syncTests(config: Config, options: SyncOptions): Promise<SyncResu
 }
 
 // ============================================================================
+// SINGLE-ISSUE / JQL ROUTING (canonical read path — replaces `acli view`)
+// ============================================================================
+
+function emptyResult(): SyncResult {
+  return {
+    success: true,
+    synced: { epics: 0, stories: 0, bugs: 0, defects: 0, improvements: 0, tests: 0 },
+    warnings: [],
+    files: { created: 0, updated: 0, skipped: 0 },
+    duration_ms: 0,
+  };
+}
+
+/**
+ * Writes a single non-Story/Epic issue to its type folder. Handles Bug, Defect,
+ * Improvement, Test (full custom-field materializers) plus the Xray container types
+ * Test Plan / Test Execution / Test Set / Pre-Condition (generic description capture —
+ * this is where the ATP/ATR body lives in Modality jira-xray).
+ */
+async function syncStandaloneIssue(
+  config: Config,
+  key: string,
+  type: string,
+  options: SyncOptions,
+  result: SyncResult,
+): Promise<void> {
+  let fields: string[];
+  let subdir: string;
+  let prefix: string;
+  switch (type) {
+    case 'Bug': fields = BUG_FIELDS; subdir = 'bugs'; prefix = 'BUG'; break;
+    case 'Defect': fields = BUG_FIELDS; subdir = 'defects'; prefix = 'DEFECT'; break;
+    case 'Improvement': fields = IMPROVEMENT_FIELDS; subdir = 'improvements'; prefix = 'IMPROVEMENT'; break;
+    case 'Test': fields = TEST_FIELDS; subdir = 'tests'; prefix = 'TEST'; break;
+    case 'Test Plan': fields = TEST_FIELDS; subdir = 'test-plans'; prefix = 'TESTPLAN'; break;
+    case 'Test Execution': fields = TEST_FIELDS; subdir = 'test-executions'; prefix = 'TESTEXEC'; break;
+    case 'Test Set': fields = TEST_FIELDS; subdir = 'test-sets'; prefix = 'TESTSET'; break;
+    case 'Pre-Condition': fields = TEST_FIELDS; subdir = 'preconditions'; prefix = 'PRECONDITION'; break;
+    default:
+      result.warnings.push(`${key}: unsupported issue type '${type}' — skipped`);
+      return;
+  }
+
+  const issue = await fetchIssue(config, key, fields);
+  const dir = join(config.outputDir, subdir);
+  if (!options.dryRun) { ensureDir(dir); }
+  const filePath = join(dir, `${prefix}-${key}-${generateSlug(issue.fields.summary)}.md`);
+
+  let content: string;
+  if (type === 'Defect') { content = generateDefectMarkdown(issue, findLinkedStory(issue), config); }
+  else if (type === 'Bug') { content = generateBugMarkdown(issue, config); }
+  else if (type === 'Improvement') { content = generateImprovementMarkdown(issue, config); }
+  else if (type === 'Test') { content = generateTestMarkdown(issue, config); }
+  else { content = generateXrayArtifactMarkdown(issue, type.toUpperCase(), config); }
+
+  const r = writeIndexFile(filePath, content, options.dryRun);
+  if (r.status === 'created') { result.files.created++; }
+  else if (r.status === 'updated') { result.files.updated++; }
+  else { result.files.skipped++; }
+
+  if (type === 'Bug') { result.synced.bugs++; }
+  else if (type === 'Defect') { result.synced.defects++; }
+  else if (type === 'Improvement') { result.synced.improvements++; }
+  else if (type === 'Test') { result.synced.tests++; }
+}
+
+/** Detects an issue's type and routes it to the correct materializer (full custom fields). */
+async function routeIssueByKey(
+  config: Config,
+  key: string,
+  options: SyncOptions,
+  result: SyncResult,
+): Promise<void> {
+  const probe = await fetchIssue(config, key, ['issuetype', 'summary']);
+  const type = probe.fields.issuetype?.name ?? 'Unknown';
+
+  if (type === 'Epic') {
+    await syncEpic(config, key, options, result);
+  }
+  else if (type === 'Story') {
+    await syncSingleStory(config, key, options, result);
+  }
+  else {
+    await syncStandaloneIssue(config, key, type, options, result);
+  }
+}
+
+function printGetSummary(result: SyncResult, options: SyncOptions): void {
+  if (options.json) { log.json(result); return; }
+  if (result.warnings.length > 0) {
+    log.line('');
+    log.warn(`${result.warnings.length} warning(s):`);
+    for (const w of result.warnings) { log.dim(`  - ${w}`); }
+  }
+  log.line('');
+  log.title('Summary');
+  log.line('─'.repeat(20));
+  const s = result.synced;
+  log.line(`Synced: ${s.epics} epic(s), ${s.stories} story(ies), ${s.bugs} bug(s), ${s.defects} defect(s), ${s.improvements} improvement(s), ${s.tests} test(s)`);
+  log.line(`Files created:  ${result.files.created}`);
+  log.line(`Files updated:  ${result.files.updated}`);
+  log.line(`Files skipped:  ${result.files.skipped}`);
+  log.line(`Duration:       ${(result.duration_ms / 1000).toFixed(1)}s`);
+  log.line('');
+  if (result.success) { log.success('Sync completed'); }
+  else { log.error('Sync completed with errors'); }
+}
+
+// ============================================================================
 // COMMANDS
 // ============================================================================
 
@@ -2038,7 +2429,7 @@ async function cmdStatus(): Promise<void> {
     log.success(`ATLASSIAN_URL: ${config.baseUrl}`);
     log.success(`ATLASSIAN_EMAIL: ${config.email}`);
     log.success(`ATLASSIAN_API_TOKEN: ${'*'.repeat(20)}`);
-    log.info(`Project: ${config.project}`);
+    logProjectBanner(config);
     log.info(`Output: ${config.outputDir}`);
 
     log.line('');
@@ -2059,7 +2450,7 @@ async function cmdStatus(): Promise<void> {
       log.error('Authentication failed. Check ATLASSIAN_EMAIL and ATLASSIAN_API_TOKEN');
     }
     else if (errorMessage.includes('404')) {
-      log.error('Project not found. Check JIRA_PROJECT environment variable');
+      log.error('Project not found. Check JIRA_PROJECT_KEY env var or `project.project_key` in `.agents/project.yaml`.');
     }
     else {
       log.error(`Connection failed: ${errorMessage}`);
@@ -2089,6 +2480,7 @@ async function cmdPull(options: SyncOptions): Promise<void> {
 
   try {
     const config = getConfig();
+    logProjectBanner(config, { json: options.json });
     let result: SyncResult;
 
     // Route to the appropriate sync function based on issue type
@@ -2176,6 +2568,70 @@ async function cmdPull(options: SyncOptions): Promise<void> {
   }
 }
 
+async function cmdGet(key: string, options: SyncOptions): Promise<void> {
+  if (!options.json) {
+    log.title(`Jira Sync - Get ${key}`);
+    log.line('─'.repeat(40));
+    if (options.dryRun) { log.warn('DRY RUN - No files will be written'); }
+  }
+  const startTime = Date.now();
+  const result = emptyResult();
+  try {
+    const config = getConfig();
+    logProjectBanner(config, { json: options.json });
+    if (!options.dryRun) {
+      ensureDir(config.outputDir);
+      ensureDir(join(config.outputDir, 'epics'));
+    }
+    await routeIssueByKey(config, key, options, result);
+  }
+  catch (error) {
+    result.success = false;
+    result.warnings.push(`Error: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  result.duration_ms = Date.now() - startTime;
+  printGetSummary(result, options);
+  if (!result.success) { process.exit(1); }
+}
+
+async function cmdJql(jql: string, options: SyncOptions): Promise<void> {
+  if (!options.json) {
+    log.title('Jira Sync - JQL');
+    log.line('─'.repeat(40));
+    log.dim(`  ${jql}`);
+    if (options.dryRun) { log.warn('DRY RUN - No files will be written'); }
+  }
+  const startTime = Date.now();
+  const result = emptyResult();
+  try {
+    const config = getConfig();
+    logProjectBanner(config, { json: options.json });
+    if (!options.dryRun) {
+      ensureDir(config.outputDir);
+      ensureDir(join(config.outputDir, 'epics'));
+    }
+    const matches = await searchIssues(config, jql, ['issuetype', 'summary']);
+    if (!options.json) { log.success(`JQL matched ${matches.length} issue(s)`); }
+    for (let i = 0; i < matches.length; i++) {
+      const m = matches[i];
+      if (!options.json) { log.tree(m.key, m.fields.summary, i === matches.length - 1); }
+      try {
+        await routeIssueByKey(config, m.key, options, result);
+      }
+      catch (error) {
+        result.warnings.push(`${m.key}: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+  }
+  catch (error) {
+    result.success = false;
+    result.warnings.push(`Error: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  result.duration_ms = Date.now() - startTime;
+  printGetSummary(result, options);
+  if (!result.success) { process.exit(1); }
+}
+
 function cmdHelp(): void {
   console.log(`
 ${colors.bold}${colors.cyan}Jira Sync CLI${colors.reset}
@@ -2187,6 +2643,8 @@ ${colors.bold}USAGE${colors.reset}
 ${colors.bold}COMMANDS${colors.reset}
   status              Check configuration and connection
   pull                Sync Epics and Stories from Jira (default)
+  get <KEY>           Sync ONE issue (any type) with ALL custom fields → local files
+  jql "<query>"       Sync EVERY issue matching a raw JQL query (custom fields incl.)
   help                Show this help message
 
 ${colors.bold}PULL SUBCOMMANDS${colors.reset}
@@ -2206,26 +2664,29 @@ ${colors.bold}OPTIONS${colors.reset}
 ${colors.bold}EXAMPLES${colors.reset}
   bun run jira:sync-issues status
   bun run jira:sync-issues pull
-  bun run jira:sync-issues pull --epic SQ-20
-  bun run jira:sync-issues pull --story SQ-21
+  bun run jira:sync-issues pull --epic {{PROJECT_KEY}}-20
+  bun run jira:sync-issues pull --story {{PROJECT_KEY}}-21
   bun run jira:sync-issues pull bugs
   bun run jira:sync-issues pull defects
   bun run jira:sync-issues pull improvements --dry-run
   bun run jira:sync-issues pull tests
+  bun run jira:sync-issues get {{PROJECT_KEY}}-40
+  bun run jira:sync-issues jql "project = {{PROJECT_KEY}} AND status = 'Shift-Left QA'"
   bun run jira:sync-issues pull --include-comments --dry-run
 
 ${colors.bold}ENVIRONMENT VARIABLES${colors.reset}
   ATLASSIAN_URL         Jira instance URL (required)
   ATLASSIAN_EMAIL       Your email (required)
   ATLASSIAN_API_TOKEN   API token (required)
-  JIRA_PROJECT          Default project key (default: SQ)
+  JIRA_PROJECT_KEY          Project key override (default: read from .agents/project.yaml)
   JIRA_SYNC_OUTPUT      Output directory (default: .context/PBI)
 
-${colors.bold}PROTECTED FILES${colors.reset}
-  The following files are never overwritten:
-  - test-cases.md
-  - implementation-plan.md
-  - feature-*.md
+${colors.bold}OVERWRITE POLICY${colors.reset}
+  Jira is the source of truth — NO files are protected. Every file the sync owns
+  (story.md, epic.md, per-field .md, comments.md, bug/test/test-plan/... .md) is
+  re-materialized on each run (per-field files only when the Jira field is non-empty).
+  Hand-authored NON-Jira files (context.md, evidence/, test-specs/) use names the
+  sync never writes.
 
 ${colors.dim}Get API token: https://id.atlassian.com/manage-profile/security/api-tokens${colors.reset}
 `);
@@ -2248,6 +2709,32 @@ async function main(): Promise<void> {
         epicKey: args.epic,
         storyKey: args.story,
         issueType: args.subcommand || 'stories',
+        includeComments: args.includeComments,
+        dryRun: args.dryRun,
+        json: args.json,
+      });
+      break;
+
+    case 'get':
+      if (!args.getKey) {
+        log.error('Usage: bun run jira:sync-issues get <ISSUE-KEY>');
+        process.exit(1);
+      }
+      await cmdGet(args.getKey, {
+        issueType: 'stories',
+        includeComments: args.includeComments,
+        dryRun: args.dryRun,
+        json: args.json,
+      });
+      break;
+
+    case 'jql':
+      if (!args.jql) {
+        log.error('Usage: bun run jira:sync-issues jql "<JQL query>"');
+        process.exit(1);
+      }
+      await cmdJql(args.jql, {
+        issueType: 'stories',
         includeComments: args.includeComments,
         dryRun: args.dryRun,
         json: args.json,

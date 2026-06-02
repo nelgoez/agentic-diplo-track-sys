@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 6,
+  "lastSync": "2026-06-02T00:55:48.362Z",
+  "templateCommit": "0225426f66f41f393cde8a9abd71af8549a4e641",
+  "cliVersion": "6.0",
+  "syncedComponents": [
+    "claude",
+    "claude-config",
+    "agents",
+    "agents-docs",
+    "scripts",
+    "cli",
+    "docs",
+    "context",
+    "context-engineering",
+    "docs-mcp",
+    "vscode",
+    "husky",
+    "tooling"
+  ],
+  "variableSystemVersion": 1,
+  "perComponentCommit": {
+    "claude": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "claude-config": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "agents": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "agents-docs": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "scripts": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "cli": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "docs": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "context": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "context-engineering": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "docs-mcp": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "vscode": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "husky": "0225426f66f41f393cde8a9abd71af8549a4e641",
+    "tooling": "0225426f66f41f393cde8a9abd71af8549a4e641"
+  }
+}
