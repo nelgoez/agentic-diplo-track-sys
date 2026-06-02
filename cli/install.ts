@@ -26,12 +26,13 @@
 
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
-import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
+import { chmod, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 
 import { checkbox, password } from '@inquirer/prompts';
 import * as tui from './lib/tui.ts';
+import { nextStepsVars, varsFor } from './lib/variables-manifest.ts';
 
 // ============================================================================
 // Types
@@ -83,8 +84,8 @@ interface InstallState {
   postInstall: {
     agentsSetup: 'pending' | 'completed' | 'skipped-non-interactive' | 'failed'
     acliAuth: 'pending' | 'completed' | 'skipped-non-interactive' | 'skipped-no-binary' | 'skipped-no-auth' | 'failed'
-    jiraSyncFields: 'pending' | 'completed' | 'skipped-non-interactive' | 'skipped-no-auth' | 'failed'
-    jiraSyncWorkflows: 'pending' | 'completed' | 'skipped-non-interactive' | 'skipped-no-auth' | 'failed'
+    jiraSyncFields: 'pending' | 'completed' | 'skipped-non-interactive' | 'skipped-no-auth' | 'skipped-no-admin' | 'failed'
+    jiraSyncWorkflows: 'pending' | 'completed' | 'skipped-non-interactive' | 'skipped-no-auth' | 'skipped-no-admin' | 'failed'
     jiraCheck: 'pending' | 'completed' | 'skipped-non-interactive' | 'skipped-prereq' | 'failed'
   }
 }
@@ -161,6 +162,9 @@ const USER_LEVEL_SKILLS: ReadonlyArray<CommunitySkill> = [
   // any project the user touches, regardless of stack.
   { package: 'https://bun.sh/docs', skill: 'bun' },
   { package: 'https://github.com/microsoft/playwright-cli', skill: 'playwright-cli' },
+  // Cross-project human-in-the-loop feedback CLI (`toki`): a blocking browser UI
+  // the AI drives mid-conversation to collect structured, anchored answers.
+  { package: 'https://github.com/upex-galaxy/agentic-user-skills', skill: 'wokitoki' },
 ];
 
 // External CLIs the boilerplate's skills depend on. Installer NEVER auto-installs
@@ -168,51 +172,34 @@ const USER_LEVEL_SKILLS: ReadonlyArray<CommunitySkill> = [
 // Rule: any install whose command depends on the user's OS must be deferred to
 // the upstream docs (Rule 4). Single-shot cross-platform commands (e.g.
 // `bun add -g X`) MAY ship as `install`; everything else uses `docs` only.
-//
-// ── Cross-repo sentinel ───────────────────────────────────────────────────
-// This repo (agentic-dev-boilerplate) declares CLIs for a Next.js + Supabase
-// development stack. Sister repo agentic-qa-boilerplate declares a narrower
-// set for QA test automation. Per-CLI scope is tagged inline below as one of:
-//   `[shared]`     — declared in BOTH dev + qa, same purpose
-//   `[dev-only]`   — declared only in dev (stack-specific to dev workflow)
-//   `[qa-only]`    — declared only in qa (would NOT appear here)
-// When changing this list, update the sister repo's EXTERNAL_CLIS too if the
-// CLI is intended to be `[shared]`, or extend the scope tag if scope shifts.
 const EXTERNAL_CLIS: ReadonlyArray<{ name: string, install?: string, docs: string, purpose: string, required?: boolean }> = [
   {
-    // [shared] — runtime + package manager in both repos.
     name: 'bun',
     docs: 'https://bun.com/',
     purpose: 'general-purpose runtime + package manager (this repo runs on bun)',
   },
   {
-    // [shared] — GitHub flow in both repos.
     name: 'gh',
     docs: 'https://github.com/cli/cli#installation',
     purpose: 'GitHub CLI — repos, PRs, releases, gh api',
   },
   {
-    // [dev-only] — dev uses Supabase as primary DB. qa does not.
     name: 'supabase',
     docs: 'https://supabase.com/docs/guides/local-development/cli/getting-started',
     purpose: 'database — migrations, types, local stack',
   },
   {
-    // [dev-only] — dev deploys to Vercel. qa deploys nothing (test-only repo).
     name: 'vercel',
     install: 'bun add -g vercel',
     docs: 'https://vercel.com/docs/cli',
     purpose: 'deploys + project linking',
   },
   {
-    // [shared] — transactional email used in both (dev: app email; qa: test fixtures).
     name: 'resend',
     docs: 'https://resend.com/docs/cli',
     purpose: 'email development + transactional sending',
   },
   {
-    // [shared] — Jira/Confluence CLI in both. Install depends on OS (brew tap
-    // on macOS, manual binary on Linux/Windows). Defer to upstream docs.
     // Required: the boilerplate ships the Atlassian MCP server as opt-in only
     // (docs/mcp/*.template.*), so acli is the sole default tool for Jira/
     // Confluence. Missing acli at install time is a hard abort.
@@ -222,17 +209,15 @@ const EXTERNAL_CLIS: ReadonlyArray<{ name: string, install?: string, docs: strin
     required: true,
   },
   {
-    // [shared] — agent-driven browser automation CLI. Binary produced by
-    // @playwright/cli is `playwright-cli`, NOT @playwright/test (devDep test
-    // runner library producing no global binary — `which playwright` would
-    // never find it).
+    // Binary produced by @playwright/cli is `playwright-cli`, NOT
+    // @playwright/test (devDep test runner library producing no global
+    // binary — `which playwright` would never find it).
     name: 'playwright-cli',
     install: 'bun add -g @playwright/cli@latest',
     docs: 'https://playwright.dev/agent-cli/introduction',
     purpose: 'browser automation — screenshots, traces, recordings',
   },
   {
-    // [shared] — JSON processor required by /acli skill.
     name: 'jq',
     docs: 'https://jqlang.org/',
     purpose: 'JSON processor — required by /acli skill for parsing acli --json output',
@@ -247,17 +232,33 @@ const SECRET_NAME_HINTS = ['TOKEN', 'KEY', 'SECRET', 'PASSWORD'];
 
 // Map MCP server → env vars its secrets depend on. Servers with empty arrays
 // have no secrets (so they're always "configured-no-key").
+//
+// The supabase MCP server is admin-scoped via SUPABASE_ACCESS_TOKEN (PAT).
+// The other Supabase vars (URL + publishable/secret keys) ARE consumed via
+// the "env" mapping in .mcp.json / opencode.jsonc, but they're project-bound
+// (require an existing Supabase project) — so they're deferred to doctor.
 const MCP_SERVER_SECRETS: Record<string, readonly string[]> = {
   context7: [],
   tavily: ['TAVILY_API_KEY'],
   supabase: [
     'SUPABASE_ACCESS_TOKEN',
-    'SUPABASE_URL',
-    'SUPABASE_ANON_KEY',
-    'SUPABASE_SERVICE_ROLE_KEY',
+    'NEXT_PUBLIC_SUPABASE_URL',
+    'SUPABASE_PUBLISHABLE_KEY',
+    'SUPABASE_SECRET_KEY',
   ],
   n8n: ['N8N_API_URL', 'N8N_API_KEY'],
 };
+
+// Vars discovered from committed MCP configs that the installer should NOT
+// prompt for at install time — they require an existing Supabase project /
+// n8n instance / backend. Surfaced later by `bun run doctor`.
+const INSTALLER_DEFERRED_VARS = new Set<string>([
+  'NEXT_PUBLIC_SUPABASE_URL',
+  'SUPABASE_PUBLISHABLE_KEY',
+  'SUPABASE_SECRET_KEY',
+  'N8N_API_URL',
+  'N8N_API_KEY',
+]);
 
 // ============================================================================
 // CLI flags
@@ -322,7 +323,9 @@ function which(binary: string): string | null {
   const result = spawnSync(probe, [binary], { encoding: 'utf8' });
   if (result.status !== 0) { return null; }
   const out = result.stdout.trim();
-  return out.length > 0 ? out : null;
+  // `where` prints one match per line; take the first.
+  const first = out.split(/\r?\n/)[0]?.trim() ?? '';
+  return first.length > 0 ? first : null;
 }
 
 function tryRun(binary: string, args: string[]): { ok: boolean, stdout: string, stderr: string } {
@@ -703,7 +706,7 @@ async function discoverRequiredEnvVars(agents: AgentId[]): Promise<string[]> {
   return [...seen].sort();
 }
 
-function parseEnvFile(content: string): Record<string, string> {
+export function parseEnvFile(content: string): Record<string, string> {
   const out: Record<string, string> = {};
   for (const rawLine of content.split('\n')) {
     const line = rawLine.trim();
@@ -723,7 +726,7 @@ function parseEnvFile(content: string): Record<string, string> {
   return out;
 }
 
-async function ensureEnvFileExists(): Promise<void> {
+export async function ensureEnvFileExists(): Promise<void> {
   if (existsSync(ENV_PATH)) { return; }
   if (existsSync(ENV_EXAMPLE_PATH)) {
     const tmpl = await readFile(ENV_EXAMPLE_PATH, 'utf8');
@@ -735,13 +738,35 @@ async function ensureEnvFileExists(): Promise<void> {
   log.warn('.env.example missing; created empty .env.');
 }
 
-async function appendVarsToEnv(vars: Record<string, string>): Promise<void> {
+export async function appendVarsToEnv(vars: Record<string, string>): Promise<void> {
   if (Object.keys(vars).length === 0) { return; }
   const existing = await readFile(ENV_PATH, 'utf8');
-  const needsNewline = existing.length > 0 && !existing.endsWith('\n');
-  const header = '\n# ===== Added by `bun run setup` =====\n';
-  const body = `${Object.entries(vars).map(([k, v]) => `${k}=${v}`).join('\n')}\n`;
-  await writeFile(ENV_PATH, `${existing}${needsNewline ? '\n' : ''}${header}${body}`, 'utf8');
+  // Upsert: replace an existing `KEY=` line in place so re-runs and the acli
+  // retry loop never accumulate duplicate secret lines; append only new keys.
+  const lines = existing.split('\n');
+  const remaining: Record<string, string> = { ...vars };
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trimStart().startsWith('#')) { continue; }
+    const eq = lines[i].indexOf('=');
+    if (eq <= 0) { continue; }
+    const key = lines[i].slice(0, eq).trim();
+    if (Object.prototype.hasOwnProperty.call(remaining, key)) {
+      lines[i] = `${key}=${remaining[key]}`;
+      delete remaining[key];
+    }
+  }
+  let next = lines.join('\n');
+  const toAppend = Object.entries(remaining);
+  if (toAppend.length > 0) {
+    const needsNewline = next.length > 0 && !next.endsWith('\n');
+    const header = '\n# ===== Added by `bun run setup` =====\n';
+    const body = `${toAppend.map(([k, v]) => `${k}=${v}`).join('\n')}\n`;
+    next = `${next}${needsNewline ? '\n' : ''}${header}${body}`;
+  }
+  // .env holds secrets — write 0600 (best effort; mode is a no-op on Windows).
+  await writeFile(ENV_PATH, next, { mode: 0o600 });
+  try { await chmod(ENV_PATH, 0o600); }
+  catch { /* best effort */ }
 }
 
 async function promptForVar(name: string): Promise<string> {
@@ -792,6 +817,14 @@ async function configureMcps(agents: AgentId[], state: InstallState): Promise<vo
       log.dim(`  ${name}: captured from shell environment`);
       continue;
     }
+    if (INSTALLER_DEFERRED_VARS.has(name)) {
+      // Non-critical project-bound / infra var: NOT prompted and NOT a blocking
+      // "pending" warning. Supabase/Postgres/app vars are auto-provisioned and
+      // pulled later via `bun run setup --variables`; n8n vars are optional.
+      // Surfaced only in the closing "Next steps — finish later" section.
+      log.dim(`  ${name}: deferred (non-critical — auto-provisioned / optional; see closing Next steps).`);
+      continue;
+    }
     if (NON_INTERACTIVE) {
       stillPending.push(name);
       continue;
@@ -828,6 +861,106 @@ async function configureMcps(agents: AgentId[], state: InstallState): Promise<vo
       state.mcps[server] = anyMissing ? 'placeholder' : 'configured-with-key';
     }
   }
+}
+
+// ----------------------------------------------------------------------------
+// Day-0 credentials (ATLASSIAN_*, RESEND_API_KEY)
+// ----------------------------------------------------------------------------
+//
+// Credentials a user CAN provide on a fresh clone (no existing cloud project
+// required). Promoted out of the acli auth loop (formerly Step 12.4) so the
+// user is asked even if they later skip Jira bootstrap.
+//
+// Project-bound vars (SUPABASE_URL + new-style keys, POSTGRES_*, N8N_*) are
+// deferred to `bun run doctor` — see INSTALLER_DEFERRED_VARS above.
+
+const DAY_ZERO_ATLASSIAN_VARS = ['ATLASSIAN_URL', 'ATLASSIAN_EMAIL', 'ATLASSIAN_API_TOKEN'] as const;
+
+async function configureDayZeroCredentials(state: InstallState): Promise<void> {
+  await ensureEnvFileExists();
+  const envValues = parseEnvFile(await readFile(ENV_PATH, 'utf8'));
+  const newValues: Record<string, string> = {};
+
+  // ── Atlassian credentials ─────────────────────────────────────────────────
+  const missingAtlassian = DAY_ZERO_ATLASSIAN_VARS.filter((name) => {
+    const fromFile = envValues[name];
+    if (fromFile && fromFile.trim().length > 0) { return false; }
+    const fromProcess = process.env[name];
+    return !(fromProcess && fromProcess.trim().length > 0);
+  });
+
+  if (missingAtlassian.length > 0) {
+    if (NON_INTERACTIVE) {
+      log.warn(`Atlassian vars missing in non-interactive mode: ${missingAtlassian.join(', ')}`);
+    }
+    else {
+      tui.note(
+        'Used by acli + scripts/sync-jira-*.ts. Get a token at: https://id.atlassian.com/manage-profile/security/api-tokens',
+        'Atlassian credentials',
+      );
+      for (const name of missingAtlassian) {
+        const value = await promptForVar(name);
+        if (value.length > 0) {
+          newValues[name] = value;
+          process.env[name] = value;
+        }
+      }
+    }
+  }
+  else {
+    log.dim('  ATLASSIAN_URL / ATLASSIAN_EMAIL / ATLASSIAN_API_TOKEN: already set.');
+  }
+
+  // ── Resend API key ────────────────────────────────────────────────────────
+  const currentResend = (envValues.RESEND_API_KEY ?? process.env.RESEND_API_KEY ?? '').trim();
+  if (currentResend.length === 0) {
+    if (NON_INTERACTIVE) {
+      log.dim('  RESEND_API_KEY: skipped in non-interactive mode.');
+    }
+    else {
+      tui.note(
+        'Optional. Used by application code AND for `resend` CLI authentication. Get a key: https://resend.com/api-keys — Docs: https://resend.com/docs/api-reference/introduction',
+        'Resend API key',
+      );
+      const value = await promptForVar('RESEND_API_KEY');
+      if (value.length > 0) {
+        newValues.RESEND_API_KEY = value;
+        process.env.RESEND_API_KEY = value;
+      }
+    }
+  }
+  else {
+    log.dim('  RESEND_API_KEY: already set.');
+  }
+
+  if (Object.keys(newValues).length > 0) {
+    await appendVarsToEnv(newValues);
+    reloadDotEnv();
+    log.success(`Wrote ${Object.keys(newValues).length} day-0 var(s) to .env: ${Object.keys(newValues).join(', ')}`);
+  }
+
+  // ── Resend CLI authentication attempt ────────────────────────────────────
+  const resendToken = (process.env.RESEND_API_KEY ?? '').trim();
+  if (resendToken.length > 0 && !NON_INTERACTIVE) {
+    const resendBin = tryRun('resend', ['--version']);
+    if (!resendBin.ok) {
+      log.dim('  resend CLI not installed — skipping auto-login. Install: npm i -g resend-cli');
+    }
+    else {
+      const loginRes = spawnSync('resend', ['login', '--api-key', resendToken], {
+        stdio: ['ignore', 'pipe', 'pipe'],
+        timeout: 10000,
+      });
+      if (loginRes.status === 0) {
+        process.stdout.write(`${tui.statusIcon('ok')} resend CLI authenticated.\n`);
+      }
+      else {
+        process.stdout.write(`${tui.statusIcon('warn')} resend CLI auto-login failed (exit ${loginRes.status}). Run manually: resend login\n`);
+      }
+    }
+  }
+
+  void state;
 }
 
 // ----------------------------------------------------------------------------
@@ -1244,7 +1377,9 @@ async function setupGithubRemote(state: InstallState): Promise<void> {
   log.success(`Remote created: ${account}/${repoName}`);
 
   // Step 2: push (separate so we can distinguish failure modes)
-  const pushRes = spawnSync('git', ['push', '-u', 'origin', 'main'], {
+  const branchRes = spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { encoding: 'utf8' });
+  const currentBranch = branchRes.status === 0 ? branchRes.stdout.trim() : 'main';
+  const pushRes = spawnSync('git', ['push', '-u', 'origin', currentBranch], {
     stdio: ['ignore', 'pipe', 'pipe'],
     encoding: 'utf8',
   });
@@ -1253,7 +1388,7 @@ async function setupGithubRemote(state: InstallState): Promise<void> {
     if (pushRes.stderr) { log.dim(`  ${pushRes.stderr.trim()}`); }
     log.dim('  This usually means pre-push hooks rejected the push.');
     log.dim('  Fix the hook errors then retry:');
-    log.dim('    git push -u origin main');
+    log.dim(`    git push -u origin ${currentBranch}`);
     return;
   }
   log.success('Initial push succeeded.');
@@ -1306,8 +1441,14 @@ function reloadDotEnv(): void {
       const eq = line.indexOf('=');
       if (eq < 0) { continue; }
       const k = line.slice(0, eq).trim();
-      const v = line.slice(eq + 1).trim().replace(/^['"]|['"]$/g, '');
-      if (k) { process.env[k] = v; }
+      let v = line.slice(eq + 1).trim();
+      // Strip only a *matched* surrounding quote pair — a lone quote is part of
+      // the value (e.g. a password) and must not be mangled.
+      if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith('\'') && v.endsWith('\''))) {
+        v = v.slice(1, -1);
+      }
+      // Don't overwrite an already-populated value with an empty one from .env.
+      if (k && (v !== '' || !process.env[k])) { process.env[k] = v; }
     }
   }
   catch {
@@ -1402,6 +1543,42 @@ async function jiraAuthLoop(): Promise<'authenticated' | 'skipped'> {
 }
 
 /**
+ * Stderr marker emitted by `scripts/sync-jira-fields.ts` and
+ * `scripts/sync-jira-workflows.ts` when the authenticated Jira user does not
+ * have Administer permission. The script exits 0 in that case (lack of admin
+ * is not a failure — the user can still use the repo with the boilerplate's
+ * bundled JSON), so we rely on this marker to distinguish a true success from
+ * a graceful skip.
+ */
+const JIRA_SKIP_NO_ADMIN_MARKER = '[JIRA_SYNC_SKIPPED_NO_ADMIN]';
+
+/**
+ * Run a Jira sync script while teeing its stderr through this process. Looks
+ * for the `[JIRA_SYNC_SKIPPED_NO_ADMIN]` marker to detect the no-admin skip
+ * path. Returns `'skipped-no-admin'` when the marker appears (exit code is
+ * 0 in that case), `'completed'` on plain success, or `'failed'` on non-zero
+ * exit without the marker.
+ */
+function runJiraSyncCapturingMarker(
+  args: string[],
+): 'completed' | 'failed' | 'skipped-no-admin' {
+  const child = spawnSync('bun', args, {
+    stdio: ['inherit', 'inherit', 'pipe'],
+  });
+  const stderrText = child.stderr ? child.stderr.toString('utf8') : '';
+  if (stderrText) {
+    process.stderr.write(stderrText);
+  }
+  if (stderrText.includes(JIRA_SKIP_NO_ADMIN_MARKER)) {
+    return 'skipped-no-admin';
+  }
+  if (child.status === 0) {
+    return 'completed';
+  }
+  return 'failed';
+}
+
+/**
  * PHASE 5 — INITIAL CONFIGURATION
  * Runs steps 12-14 after the main install phases.
  *
@@ -1458,6 +1635,7 @@ async function runPostInstallSteps(state: InstallState): Promise<void> {
       state.postInstall.acliAuth = 'skipped-non-interactive';
       process.stdout.write(`${tui.statusIcon('fail')} Missing ${missing.join(', ')} in environment / .env. Cannot authenticate acli non-interactively.\n`);
       process.stdout.write(`  Re-run manually: ${acliManualHint}\n`);
+      await writeInstallState(state);
       process.exit(1);
     }
     const probe = acliProbe();
@@ -1479,35 +1657,15 @@ async function runPostInstallSteps(state: InstallState): Promise<void> {
         state.postInstall.acliAuth = 'failed';
         process.stdout.write(`${tui.statusIcon('fail')} acli auth login failed (exit ${loginRes.status}).\n`);
         process.stdout.write(`  Re-run manually: ${acliManualHint}\n`);
+        await writeInstallState(state);
         process.exit(1);
       }
     }
   }
   else {
-    // Interactive: collect any missing ATLASSIAN_* vars via the existing
-    // promptForVar helper (which uses password() for *_TOKEN names), persist
-    // them to .env, then probe + login.
-    tui.note(
-      'Used by acli + scripts/sync-jira-*.ts. Get a token at: https://id.atlassian.com/manage-profile/security/api-tokens',
-      'Atlassian credentials',
-    );
-
+    // ATLASSIAN_* credentials were collected during Step 7c (day-0 creds).
+    // Here we only probe + authenticate; we DON'T re-prompt up front.
     reloadDotEnv();
-    const envValues = existsSync(ENV_PATH) ? parseEnvFile(readFileSync(ENV_PATH, 'utf8')) : {};
-    const newValues: Record<string, string> = {};
-    for (const name of ATLASSIAN_VARS) {
-      const fromFile = envValues[name];
-      const fromShell = process.env[name];
-      if ((fromFile && fromFile.trim().length > 0) || (fromShell && fromShell.trim().length > 0)) {
-        continue;
-      }
-      const value = await promptForVar(name);
-      if (value.length > 0) { newValues[name] = value; }
-    }
-    if (Object.keys(newValues).length > 0) {
-      await appendVarsToEnv(newValues);
-      reloadDotEnv();
-    }
 
     // Probe first: any existing acli session short-circuits the login.
     const probe = acliProbe();
@@ -1568,6 +1726,7 @@ async function runPostInstallSteps(state: InstallState): Promise<void> {
         state.postInstall.acliAuth = 'failed';
         process.stdout.write(`${tui.statusIcon('fail')} acli authentication failed after 3 attempts.\n`);
         process.stdout.write(`  Re-run manually: ${acliManualHint}\n`);
+        await writeInstallState(state);
         process.exit(1);
       }
     }
@@ -1596,13 +1755,19 @@ async function runPostInstallSteps(state: InstallState): Promise<void> {
       // script's safety check still protects user edits in later sessions
       // because the early-exit guard above short-circuits subsequent runs.
       const syncArgs = ['run', 'jira:sync-fields', '--', '--force'];
-      const res = spawnSync('bun', syncArgs, { stdio: 'inherit' });
-      state.postInstall.jiraSyncFields = res.status === 0 ? 'completed' : 'failed';
-      if (res.status === 0) {
+      const outcome = runJiraSyncCapturingMarker(syncArgs);
+      state.postInstall.jiraSyncFields = outcome;
+      if (outcome === 'completed') {
         process.stdout.write(`${tui.statusIcon('ok')} jira:sync-fields completed\n`);
       }
+      else if (outcome === 'skipped-no-admin') {
+        process.stdout.write(`${tui.statusIcon('warn')} jira:sync-fields skipped — your Jira user is not an Administrator.\n`);
+        process.stdout.write('  The boilerplate-bundled .agents/jira-fields.json stays as-is (repo still works).\n');
+        process.stdout.write('  Options: ask a Jira admin to run `bun run jira:sync-fields` and commit the result,\n');
+        process.stdout.write('           or download the UPEX standard catalog via `bun run jira:sync-fields --upex`.\n');
+      }
       else {
-        process.stdout.write(`${tui.statusIcon('fail')} jira:sync-fields exited with ${res.status}. Continuing.\n`);
+        process.stdout.write(`${tui.statusIcon('fail')} jira:sync-fields failed. Continuing.\n`);
       }
     }
   }
@@ -1617,18 +1782,29 @@ async function runPostInstallSteps(state: InstallState): Promise<void> {
     state.postInstall.jiraSyncWorkflows = 'skipped-non-interactive';
     process.stdout.write(`${tui.statusIcon('warn')} Skipped (no TTY). Re-run via: bun run jira:sync-workflows\n`);
   }
+  else if (state.postInstall.jiraSyncFields === 'skipped-no-admin') {
+    // Same root cause — admin permission missing. Skip to keep messages consistent.
+    state.postInstall.jiraSyncWorkflows = 'skipped-no-admin';
+    process.stdout.write(`${tui.statusIcon('warn')} Skipped — jira:sync-fields detected no Administer permission. Same applies here.\n`);
+    process.stdout.write('  UPEX-standard alternative: `bun run jira:sync-workflows --upex`.\n');
+  }
   else if (state.postInstall.jiraSyncFields !== 'completed') {
     state.postInstall.jiraSyncWorkflows = 'skipped-no-auth';
     process.stdout.write(`${tui.statusIcon('warn')} Skipped — jira:sync-fields did not complete (uses same Atlassian credentials).\n`);
   }
   else {
-    const res = spawnSync('bun', ['run', 'jira:sync-workflows'], { stdio: 'inherit' });
-    state.postInstall.jiraSyncWorkflows = res.status === 0 ? 'completed' : 'failed';
-    if (res.status === 0) {
+    const outcome = runJiraSyncCapturingMarker(['run', 'jira:sync-workflows']);
+    state.postInstall.jiraSyncWorkflows = outcome;
+    if (outcome === 'completed') {
       process.stdout.write(`${tui.statusIcon('ok')} jira:sync-workflows completed\n`);
     }
+    else if (outcome === 'skipped-no-admin') {
+      process.stdout.write(`${tui.statusIcon('warn')} jira:sync-workflows skipped — your Jira user is not an Administrator.\n`);
+      process.stdout.write('  The boilerplate-bundled .agents/jira-workflows.json stays as-is (repo still works).\n');
+      process.stdout.write('  UPEX-standard alternative: `bun run jira:sync-workflows --upex`.\n');
+    }
     else {
-      process.stdout.write(`${tui.statusIcon('fail')} jira:sync-workflows exited with ${res.status}. Continuing.\n`);
+      process.stdout.write(`${tui.statusIcon('fail')} jira:sync-workflows failed. Continuing.\n`);
     }
   }
 
@@ -1641,6 +1817,14 @@ async function runPostInstallSteps(state: InstallState): Promise<void> {
   else if (AUTO_NON_INTERACTIVE) {
     state.postInstall.jiraCheck = 'skipped-non-interactive';
     process.stdout.write(`${tui.statusIcon('warn')} Skipped (no TTY). Re-run via: bun run jira:check\n`);
+  }
+  else if (
+    state.postInstall.jiraSyncFields === 'skipped-no-admin'
+    || state.postInstall.jiraSyncWorkflows === 'skipped-no-admin'
+  ) {
+    state.postInstall.jiraCheck = 'skipped-prereq';
+    process.stdout.write(`${tui.statusIcon('warn')} Skipped — Jira sync was no-admin (boilerplate JSON in use). jira:check would compare against the upstream catalog, not yours.\n`);
+    process.stdout.write('  After downloading UPEX standard with `--upex`, you can run: bun run jira:check\n');
   }
   else if (state.postInstall.jiraSyncFields !== 'completed' || state.postInstall.jiraSyncWorkflows !== 'completed') {
     state.postInstall.jiraCheck = 'skipped-prereq';
@@ -1771,6 +1955,15 @@ function printClosingSummary(state: InstallState): void {
     stepNum++;
   }
 
+  // Env vars routed to Vercel (manifest-derived; replaces the hand-maintained
+  // deferred-var prose). Surfaces the one command that pushes the values just
+  // collected into .env up to Vercel env (local + remote, idempotent).
+  const vercelVarCount = varsFor('vercel').length;
+  process.stdout.write(`${circled[stepNum]}  ${COLORS.bold}Set up environment variables (local .env + Vercel)${COLORS.reset}\n`);
+  process.stdout.write(`    ${COLORS.cyan}bun run setup --variables${COLORS.reset}${COLORS.dim}            (add --dry-run to preview, --yes to skip the push confirm)${COLORS.reset}\n`);
+  process.stdout.write(`    ${COLORS.dim}Upserts .env and pushes ${vercelVarCount} app-runtime var(s) to Vercel (production/preview/development). Requires: vercel login + vercel link.${COLORS.reset}\n\n`);
+  stepNum++;
+
   process.stdout.write(`${circled[stepNum]}  ${COLORS.bold}Open the agent${COLORS.reset}\n`);
   process.stdout.write(`    ${COLORS.cyan}claude${COLORS.reset}                       ${COLORS.dim}(or: bun claude — works without direnv)${COLORS.reset}\n`);
   process.stdout.write(`    ${COLORS.dim}Launches your AI in this project's context.${COLORS.reset}\n\n`);
@@ -1784,6 +1977,20 @@ function printClosingSummary(state: InstallState): void {
   process.stdout.write(`${circled[stepNum]}  ${COLORS.bold}Sync project memory${COLORS.reset}\n`);
   process.stdout.write(`    ${COLORS.cyan}/sync-ai-memory${COLORS.reset}\n`);
   process.stdout.write(`    ${COLORS.dim}AFTER foundation + bootstrap exist. Updates README, CLAUDE.md, and other docs from the new project state.${COLORS.reset}\n\n`);
+
+  // 4c.1 — NEXT STEPS (non-critical vars). Critical tool creds (Atlassian,
+  // Resend, Tavily) were prompted above. These are NOT asked at install and NOT
+  // warnings — they're set later, each with a where/how-to-obtain hint. The
+  // auto-provisioned infra vars (Supabase, Postgres, app URL) are NEVER listed
+  // individually here — they're covered by the single `--variables` pull line.
+  tui.section('NEXT STEPS — finish later (non-critical vars, not blocking)');
+  process.stdout.write(`${COLORS.dim}  Critical tool credentials (Atlassian, Resend, Tavily) were already prompted above.${COLORS.reset}\n`);
+  for (const spec of nextStepsVars()) {
+    process.stdout.write(`→  ${COLORS.bold}${spec.name}${COLORS.reset}\n`);
+    process.stdout.write(`    ${COLORS.dim}${spec.obtainHint ?? spec.note}${COLORS.reset}\n`);
+  }
+  process.stdout.write(`→  ${COLORS.bold}App/infra vars (Supabase, Postgres, app URL)${COLORS.reset}\n`);
+  process.stdout.write(`    ${COLORS.dim}Auto-provisioned by the Supabase↔Vercel integration. Once your Vercel project exists, run ${COLORS.reset}${COLORS.cyan}bun run setup --variables${COLORS.reset}${COLORS.dim} and choose 'Pull from Vercel'.${COLORS.reset}\n\n`);
 
   // 4d — IN PARALLEL
   tui.section('IN PARALLEL — open another terminal, run while bootstrapping');
@@ -1955,6 +2162,36 @@ async function main(): Promise<void> {
     process.exit(code);
   }
 
+  // --variables: standalone env-var setup (local .env upsert + remote Vercel
+  // push), driven by the canonical VAR_MANIFEST. Runs ONLY runVariablesFlow,
+  // then exits — no detection / install / config steps. All logic lives in the
+  // self-contained cli/lib/variables-flow.ts.
+  if (process.argv.includes('--variables')) {
+    const { runVariablesFlow } = await import('./lib/variables-flow.ts');
+    // Explicit mode flags (scriptable / non-interactive) SKIP the interactive
+    // menu. `--variables-local` / `--variables-remote` are the canonical names;
+    // `--local-only` / `--remote-only` remain as aliases. Passing `--yes` or
+    // `--force` alone also opts out of the menu (clearly scriptable intent).
+    const wantLocal = process.argv.includes('--variables-local') || process.argv.includes('--local-only');
+    const wantRemote = process.argv.includes('--variables-remote') || process.argv.includes('--remote-only');
+    const hasModeFlag
+      = wantLocal
+        || wantRemote
+        || process.argv.includes('--yes')
+        || process.argv.includes('--force');
+    await runVariablesFlow({
+      mode: wantRemote ? 'remote' : wantLocal ? 'local' : 'both',
+      force: process.argv.includes('--force'),
+      dryRun: process.argv.includes('--dry-run'),
+      yes: process.argv.includes('--yes'),
+      nonInteractive: NON_INTERACTIVE,
+      // Show the interactive menu only when no explicit mode flag was given AND
+      // we have a TTY. Non-interactive / scriptable invocations run directly.
+      menu: !hasModeFlag && !NON_INTERACTIVE,
+    });
+    process.exit(0);
+  }
+
   // Logo + headline (printed once at the top)
   process.stdout.write(`${tui.logo()}\n\n`);
   process.stdout.write(`${tui.headline('agentic-dev-boilerplate — installer')}\n\n`);
@@ -2062,6 +2299,9 @@ async function main(): Promise<void> {
   await configureMcps(agents, state);
   await offerDirenvAutoload();
 
+  tui.section('Step 7c: Day-0 credentials (Atlassian, Resend)');
+  await configureDayZeroCredentials(state);
+
   // Step 9 — optional GitHub repo creation
   tui.section('Step 7b: GitHub repository (optional)');
   await setupGithubRemote(state);
@@ -2087,16 +2327,21 @@ async function main(): Promise<void> {
   printClosingSummary(state);
 }
 
-main().catch((err) => {
-  // Handle both @inquirer ExitPromptError and our own clack cancel wrappers
-  const name = err && typeof err === 'object' && 'name' in err ? (err as { name: string }).name : '';
-  if (name === 'ExitPromptError' || (err instanceof Error && err.message === 'Aborted by user.')) {
-    log.warn('Aborted by user.');
-    log.dim('Re-run anytime with: bun run setup');
-    process.exit(130);
-  }
-  log.error(`Fatal: ${(err as Error).message ?? String(err)}`);
-  if (err instanceof Error && err.stack) { log.dim(err.stack); }
-  log.dim('After fixing the issue above, re-run: bun run setup  (installer is idempotent — completed steps are skipped)');
-  process.exit(1);
-});
+// Only auto-run when install.ts is the program entry point. Guards the reused
+// `.env` helpers (exported above) from triggering a full install when another
+// module — e.g. cli/lib/variables-flow.ts — imports them.
+if (import.meta.main) {
+  main().catch((err) => {
+    // Handle both @inquirer ExitPromptError and our own clack cancel wrappers
+    const name = err && typeof err === 'object' && 'name' in err ? (err as { name: string }).name : '';
+    if (name === 'ExitPromptError' || (err instanceof Error && err.message === 'Aborted by user.')) {
+      log.warn('Aborted by user.');
+      log.dim('Re-run anytime with: bun run setup');
+      process.exit(130);
+    }
+    log.error(`Fatal: ${(err as Error).message ?? String(err)}`);
+    if (err instanceof Error && err.stack) { log.dim(err.stack); }
+    log.dim('After fixing the issue above, re-run: bun run setup  (installer is idempotent — completed steps are skipped)');
+    process.exit(1);
+  });
+}

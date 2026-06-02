@@ -1,0 +1,62 @@
+- generic [active] [ref=e1]:
+  - status
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#maincontent"
+    - navigation "Site navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "CAMPUS VIRTUAL" [ref=e6] [cursor=pointer]:
+          - /url: https://campus.aulavirtual.unc.edu.ar/
+          - img "CAMPUS VIRTUAL" [ref=e7]
+        - navigation [ref=e9]:
+          - menubar [ref=e10]:
+            - menuitem "Home" [ref=e11] [cursor=pointer]
+            - menuitem "Dashboard" [ref=e12] [cursor=pointer]
+            - menuitem "My courses" [ref=e13] [cursor=pointer]
+            - text: 
+        - list
+        - generic [ref=e14]:
+          - button "Show notification window with no new notifications" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 
+          - button "Toggle messaging drawer" [ref=e19] [cursor=pointer]:
+            - generic [ref=e20]: 
+          - generic [ref=e24]:
+            - button "User menu" [ref=e25] [cursor=pointer]: 
+            - text:  
+    - generic [ref=e29]:
+      - generic [ref=e30]: 
+      - complementary "Blocks" [ref=e33]:
+        - heading "Blocks" [level=2] [ref=e34]
+        - link "Skip Mesa de ayuda" [ref=e35] [cursor=pointer]:
+          - /url: "#sb-1"
+        - region "Mesa de ayuda" [ref=e36]:
+          - generic [ref=e37]:
+            - heading "Mesa de ayuda" [level=3] [ref=e38]
+            - blockquote [ref=e41]:
+              - generic [ref=e42]: Si tenés dificultades técnicas o administrativas, enviá un mail a
+              - link "consulta@campusvirtual.unc.edu.ar" [ref=e43] [cursor=pointer]:
+                - /url: mailto:consulta@campusvirtual.unc.edu.ar
+                - text: consulta@campusvirtual.unc.
+                - text: edu.ar
+              - text: .
+              - text: ¡Estamos para ayudarte!
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic:  
+        - banner [ref=e46]:
+          - generic [ref=e47]:
+            - generic:
+              - generic:
+                - navigation "Breadcrumb":
+                  - list
+            - heading "Campus Virtual UNC" [level=1] [ref=e53]
+        - main [ref=e57]:
+          - generic [ref=e59]:
+            - paragraph [ref=e60]: Access denied
+            - paragraph [ref=e61]:
+              - link "More information about this error" [ref=e62] [cursor=pointer]:
+                - /url: http://docs.moodle.org/405/en/error/admin/accessdenied
+          - button "Continue" [ref=e65] [cursor=pointer]
+      - contentinfo:
+        - button "Show footer" [ref=e66] [cursor=pointer]:
+          - generic [ref=e67]: "?"

@@ -1,0 +1,172 @@
+- generic [active] [ref=e1]:
+  - link "Saltar al contenido" [ref=e2] [cursor=pointer]:
+    - /url: "#content"
+  - generic [ref=e4]:
+    - link [ref=e7] [cursor=pointer]:
+      - /url: https://campusvirtual.unc.edu.ar
+    - generic [ref=e9]:
+      - navigation "Menu" [ref=e10]:
+        - list [ref=e11]:
+          - listitem [ref=e12]:
+            - link "Acceder" [ref=e13] [cursor=pointer]:
+              - /url: https://campus.aulavirtual.unc.edu.ar/login/index.php
+          - listitem [ref=e14]:
+            - link "Diplomaturas" [ref=e15] [cursor=pointer]:
+              - /url: https://campusvirtual.unc.edu.ar/diplomatura-desarrollo-personal-bienestar-integral/
+          - listitem [ref=e16]:
+            - link "Novedades" [ref=e17] [cursor=pointer]:
+              - /url: https://campusvirtual.unc.edu.ar/novedades/
+          - listitem [ref=e18]:
+            - link "Quiénes somos" [ref=e19] [cursor=pointer]:
+              - /url: https://campusvirtual.unc.edu.ar/sumate-a-nuestra-comunidad/
+          - listitem [ref=e20]:
+            - link "Portal de Transparencia" [ref=e21] [cursor=pointer]:
+              - /url: https://lookerstudio.google.com/reporting/74bd1dc9-5d29-4cb2-86e9-ef2b38154a57
+      - text:  
+    - link "Instagram" [ref=e26] [cursor=pointer]:
+      - /url: https://www.instagram.com/campusvirtual.unc/
+      - generic [ref=e27]: Instagram
+      - generic [ref=e28]: 
+  - main [ref=e32]:
+    - article [ref=e33]:
+      - generic [ref=e36]:
+        - search [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: Products search
+            - searchbox "Products search" [ref=e47]
+            - button "Search":
+              - img
+        - generic [ref=e53]:
+          - tablist [ref=e55]:
+            - tab "Categorías" [selected] [ref=e56] [cursor=pointer]:
+              - generic [ref=e57]: Categorías
+          - generic [ref=e64]:
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+            - list
+        - link "Encontrá las ofertas académicas que ofrecen las facultades y dependencias de la UNC" [ref=e69] [cursor=pointer]:
+          - /url: https://campusvirtual.unc.edu.ar/facultades-unc/
+          - generic [ref=e71]: Encontrá las ofertas académicas que ofrecen las facultades y dependencias de la UNC
+  - generic [ref=e76]:
+    - list [ref=e79]:
+      - listitem [ref=e80]:
+        - generic [ref=e82]: 
+        - generic [ref=e83]: Bv. de la Reforma, Ciudad Universitaria, Córdoba
+      - listitem [ref=e84]:
+        - generic [ref=e86]: 
+        - generic [ref=e87]: consulta@campusvirtual.unc.edu.ar
+      - listitem [ref=e88]:
+        - link "Seguinos en nuestro instagram" [ref=e89] [cursor=pointer]:
+          - /url: https://www.instagram.com/campusvirtual.unc/?igsh=MWxudXZ3YXBhYmg2ZA%3D%3D
+          - generic [ref=e91]: 
+          - generic [ref=e92]: Seguinos en nuestro instagram
+    - link [ref=e95] [cursor=pointer]:
+      - /url: https://campusvirtual.unc.edu.ar/el-campus-virtual/
+  - button "Volver arriba" [ref=e96] [cursor=pointer]:
+    - img [ref=e98]
+  - generic [ref=e100]: desktop
+  - status [ref=e101]

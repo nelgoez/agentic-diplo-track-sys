@@ -1,0 +1,60 @@
+[     317ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:21606
+[     405ms] [WARNING] react-i18next:: useTranslation: You will need to pass in an i18next instance by using initReactI18next {code: NO_I18NEXT_INSTANCE} @ http://localhost:5173/node_modules/.vite/deps/react-i18next.js?v=67166fbc:110
+[     406ms] TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at LanguageSwitcher (http://localhost:5173/src/components/LanguageSwitcher.tsx:49:25)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:11594:26)
+    at mountIndeterminateComponent (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:14972:21)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:15960:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:3678:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:3703:24)
+    at invokeGuardedCallback (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:3737:39)
+    at beginWork$1 (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19816:15)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19249:20)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19188:13)
+[     412ms] TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at LanguageSwitcher (http://localhost:5173/src/components/LanguageSwitcher.tsx:49:25)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:11594:26)
+    at mountIndeterminateComponent (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:14972:21)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:15960:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:3678:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:3703:24)
+    at invokeGuardedCallback (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:3737:39)
+    at beginWork$1 (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19816:15)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19249:20)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19188:13)
+[     415ms] [ERROR] The above error occurred in the <LanguageSwitcher> component:
+
+    at LanguageSwitcher (http://localhost:5173/src/components/LanguageSwitcher.tsx:24:23)
+    at App
+    at DefaultPropsProvider (http://localhost:5173/node_modules/.vite/deps/chunk-FZ3JFJRY.js?v=67166fbc:6205:3)
+    at RtlProvider (http://localhost:5173/node_modules/.vite/deps/chunk-FZ3JFJRY.js?v=67166fbc:6181:3)
+    at ThemeProvider2 (http://localhost:5173/node_modules/.vite/deps/chunk-FZ3JFJRY.js?v=67166fbc:6137:5)
+    at ThemeProvider3 (http://localhost:5173/node_modules/.vite/deps/chunk-FZ3JFJRY.js?v=67166fbc:6357:5)
+    at ThemeProviderNoVars (http://localhost:5173/node_modules/.vite/deps/chunk-QE42YFVG.js?v=67166fbc:275:10)
+    at ThemeProvider (http://localhost:5173/node_modules/.vite/deps/chunk-QE42YFVG.js?v=67166fbc:424:3)
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=67166fbc:7234:13)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=67166fbc:10538:3)
+    at QueryClientProvider (http://localhost:5173/node_modules/.vite/deps/@tanstack_react-query.js?v=67166fbc:3233:3)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:14077
+[     414ms] TypeError: Cannot read properties of undefined (reading 'toUpperCase')
+    at LanguageSwitcher (http://localhost:5173/src/components/LanguageSwitcher.tsx:49:25)
+    at renderWithHooks (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:11594:26)
+    at mountIndeterminateComponent (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:14972:21)
+    at beginWork (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:15960:22)
+    at beginWork$1 (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19804:22)
+    at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19249:20)
+    at workLoopSync (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19188:13)
+    at renderRootSync (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:19167:15)
+    at recoverFromConcurrentError (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:18784:28)
+    at performConcurrentWorkOnRoot (http://localhost:5173/node_modules/.vite/deps/chunk-3LMCJA3B.js?v=67166fbc:18732:30)
+[     426ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/favicon.ico:0
+[   25813ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:5173/login:0
+[ 5344235ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5173/src/pages/DashboardPage.tsx?t=1780100102942:0
+[ 5344236ms] [ERROR] [vite] Failed to reload /src/pages/DashboardPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:5173/@vite/client:881
+[12862527ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SXRIVT2P.js?v=916db5fc:21608
+[12862857ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:5173/login:0
+[13356346ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SXRIVT2P.js?v=916db5fc:21608
+[13356836ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SXRIVT2P.js?v=916db5fc:21608
+[13357084ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:5173/login:0

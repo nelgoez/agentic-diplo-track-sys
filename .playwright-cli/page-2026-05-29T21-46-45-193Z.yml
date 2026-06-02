@@ -1,0 +1,48 @@
+- generic [ref=e1]:
+  - heading "Acceder" [level=1] [ref=e2]
+  - generic [ref=e3]:
+    - link "Funciona con WordPress" [ref=e4] [cursor=pointer]:
+      - /url: https://es.wordpress.org/
+    - paragraph [ref=e6]:
+      - strong [ref=e7]: ERROR
+      - text: ": el nombre de usuario o la contraseña que ingresaste son incorrectos."
+      - link "¿Perdiste tu contraseña" [ref=e8] [cursor=pointer]:
+        - /url: https://campusvirtual.unc.edu.ar/wp-login.php?action=lostpassword
+      - text: "?"
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - paragraph:
+          - link " Sign in with cuenta UNC" [ref=e11] [cursor=pointer]:
+            - /url: https://campusvirtual.unc.edu.ar/wp-login.php?external=cas
+            - generic [ref=e12]: 
+            - text: Sign in with cuenta UNC
+        - heading "— or —" [level=3] [ref=e13]
+      - paragraph [ref=e14]:
+        - generic [ref=e15]: Nombre de usuario o correo electrónico
+        - textbox "Nombre de usuario o correo electrónico" [ref=e16]: nahuelgomez.cti@gmail.com
+      - generic [ref=e17]:
+        - generic [ref=e18]: Contraseña
+        - generic [ref=e19]:
+          - textbox "Contraseña" [active] [ref=e20]
+          - button "Mostrar la contraseña" [ref=e21] [cursor=pointer]:
+            - generic [ref=e22]: 
+      - paragraph [ref=e23]:
+        - checkbox "Recuérdame" [ref=e24] [cursor=pointer]
+        - generic [ref=e25]: Recuérdame
+      - paragraph:
+        - button "Acceder" [ref=e26] [cursor=pointer]
+    - paragraph [ref=e27]:
+      - link "¿Has olvidado tu contraseña?" [ref=e28] [cursor=pointer]:
+        - /url: https://campusvirtual.unc.edu.ar/wp-login.php?action=lostpassword
+    - paragraph [ref=e29]:
+      - link "← Ir a Campus Virtual UNC" [ref=e30] [cursor=pointer]:
+        - /url: https://campusvirtual.unc.edu.ar/
+  - generic [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]: 
+      - generic [ref=e35]: Idioma
+    - combobox "Idioma" [ref=e36] [cursor=pointer]:
+      - option "English (United States)"
+      - option "Español de Argentina"
+      - option "Español" [selected]
+    - button "Cambiar" [ref=e37] [cursor=pointer]

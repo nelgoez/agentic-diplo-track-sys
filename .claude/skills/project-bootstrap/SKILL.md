@@ -38,6 +38,8 @@ Requires `agentic-dev-core`. Loads on demand:
 - `agentic-dev-core/references/briefing-template.md` — used when dispatching parallel scaffolding subagents (e.g. backend + frontend in parallel).
 - `agentic-dev-core/references/dispatch-patterns.md` — picks Single / Sequential / Parallel for each phase below.
 - `agentic-dev-core/references/skill-composition-strategy.md` — composition contract consumed by the step below.
+- `agentic-dev-core/references/orchestration-doctrine.md` — mandatory subagent dispatch (main thread is command center).
+- `agentic-dev-core/references/session-management.md` — Phase 0 resume contract, plan-first persistence at `.session/project-bootstrap/`, archive on completion.
 
 ---
 
@@ -88,9 +90,54 @@ The infrastructure choices below flow from the SRS architecture decisions made d
 
 ---
 
+## Inputs — read these first, in this order
+
+Canonical reading order for any AI starting cold on a project-bootstrap workflow. Read in order; stop earlier when the workflow is small enough that later inputs add no signal.
+
+1. `.context/PRD/` — outputs from `/project-foundation`. Feature inventory + MVP scope drive what to scaffold.
+2. `.context/SRS/` — outputs from `/project-foundation`. Infrastructure decisions (DB, hosting, auth provider, runtime).
+3. `DESIGN.md` (repo root) — design system + tokens. Required input for the frontend scaffold; must exist before Phase 2.
+4. `.agents/project.yaml` — project identity, env URLs, stack vars (`{{BACKEND_STACK}}`, `{{FRONTEND_STACK}}`, `{{DB_TYPE}}`, `{{API_URL}}`, `{{WEB_URL}}`).
+5. Existing scaffolding under `app/`, `lib/`, `db/` (if present) — detect prior state and UPSERT surgically; do NOT clobber.
+
+---
+
+## Session & Dispatch
+
+> **Orchestration & Session contracts**: this skill follows `./orchestration-doctrine.md` (mandatory subagent dispatch — main thread is command center) AND `./session-management.md` (Phase 0 resume check, plan-first persistence at `.session/<skill-slug>/<scope>/`, archive on completion). Phase 0 (resume check) and Phase 1 (plan write) are NOT optional.
+
+This skill is **project-scope**: no `<scope>` segment. Session state lives directly at `.session/project-bootstrap/{plan.md, progress.md}` per `agentic-dev-core/references/session-management.md` §3 + §9.
+
+## Phase 0 — Resume check (MANDATORY, inline)
+
+Before any subagent dispatch and before invoking any phase below, run the resume contract from `agentic-dev-core/references/session-management.md` §4:
+
+1. Check whether `.session/project-bootstrap/progress.md` exists.
+2. If it does NOT exist → proceed to Phase 0.5 (write `plan.md`).
+3. If it DOES exist:
+   1. Read `.session/project-bootstrap/plan.md` in full.
+   2. Read the tail of `.session/project-bootstrap/progress.md` (last ~3 phase entries).
+   3. Surface to the user: plan Goal (one sentence), last completed phase + timestamp, next planned phase, any blocking notes.
+   4. Offer three options and WAIT for input: **resume** (jump to the next planned phase) / **restart** (archive current dir to `.session/.archive/<YYYY-MM-DD>-project-bootstrap-project-aborted/`, then proceed to Phase 0.5 fresh) / **abort** (leave directory untouched, stop).
+
+Phase 0 is inline — no subagent dispatch. Runs even on first invocation so resume-vs-fresh is deterministic.
+
+## Phase 0.5 — Write `plan.md`
+
+After Phase 0 confirms no prior session exists, write `.session/project-bootstrap/plan.md` per the schema in `agentic-dev-core/references/session-management.md` §6. The plan must list which incremental features the user wants on top of the base backend + frontend:
+
+- Frontmatter: `topic_key: session/project-bootstrap/project/plan`, `skill: project-bootstrap`, `scope: project`, `status: draft`, `capture_prompt: true`.
+- Body sections (fixed H2 order): `## Goal` · `## Inputs` (SRS architecture path, stack vars, DESIGN.md path) · `## Approach` · `## Phase breakdown` (Phase 1 Backend + Phase 2 Frontend run as Parallel subagents; Phase 3 lists chosen incremental features from `openapi-setup` / `api-routes-setup` / `bearer-token-support` / `env-url-setup` / `supabase-types-setup`, with dispatch pattern per row) · `## Risks & open questions` · `## Verification checklist` · `## Cross-references`.
+
+Dispatch: inline drafting by the orchestrator is normal — inputs (SRS + `.agents/project.yaml` + DESIGN.md) are small. A Single planner subagent is only warranted when the SRS is unusually large.
+
+After `plan.md` is written and the user approves the chosen incremental features, transition `status: draft → approved` in the frontmatter and proceed to Phase 1.
+
 ## Phase walkthrough
 
 Bootstrap is split into a base layer (backend + frontend, usually run in parallel) and an incremental layer (composable features, run on demand).
+
+> **Progress checkpoint**: Phases 1 (Backend) and 2 (Frontend) are dispatched as a Parallel pair; the orchestrator writes ONE `progress.md` entry after BOTH subagents return. Each incremental feature in Phase 3 gets its own checkpoint entry on completion. All checkpoints follow `agentic-dev-core/references/session-management.md` §7.
 
 ### 1. Backend setup
 
@@ -110,7 +157,7 @@ Read `references/frontend-setup.md` for the full procedure: brand-aware design s
 
 Each of the following layers in a single capability on top of the base backend + frontend. They are independent — pick the ones the project needs, skip the rest, run them in any order after the base is in place.
 
-- **OpenAPI integration** → `references/openapi-setup.md`. Schema generation, Swagger / Scalar UI, contract publication.
+- **OpenAPI integration** → `references/openapi-setup.md`. Schema generation (Zod → OpenAPI), Scalar UI at `/api/docs` (route handler), contract publication.
 - **API routes + middleware** → `references/api-routes-setup.md`. Route conventions, error responses, request logging, auth middleware wiring.
 - **Bearer-token auth** → `references/bearer-token-support.md`. JWT issuance, refresh tokens, protected-route middleware, session handling.
 - **Env vars + URL builders** → `references/env-url-setup.md`. Typed `.env` schema, environment-aware URL helpers, validation at boot.
@@ -171,6 +218,21 @@ After running any phase, confirm:
 - Generated artefacts (OpenAPI schema, Supabase types) are committed.
 
 If any check fails, surface the failure in the report rather than papering over it. Do not invent fixes for unfamiliar stacks — ask the user.
+
+On successful completion (Verification checklist from `plan.md` passes), the orchestrator runs Archive per `agentic-dev-core/references/session-management.md` §8 — moves `.session/project-bootstrap/` to `.session/.archive/<YYYY-MM-DD>-project-bootstrap-project/` and calls `mem_session_summary` with the archive path included so future `mem_search` calls can navigate back.
+
+---
+
+## Anti-patterns — NEVER do these
+
+- **B1.** NEVER collapse the scaffold architecture layers (`api/` / `schemas/` / `db/` boundaries in backend, design-system structure in frontend). That structure is framework architecture, not speculative abstraction — CLAUDE.md §2 SIMPLICITY FIRST exempts it.
+- **B2.** NEVER skip env-var validation (Zod or equivalent schema check at boot). Silent missing env vars cause cryptic prod failures far from the root cause.
+- **B3.** NEVER clobber existing scaffolding. Detect prior state under `app/`, `lib/`, `db/` and apply UPSERT semantics — patch surgically, preserve user edits.
+- **B4.** NEVER hardcode credentials, URLs, or env-specific values in scaffolded code. They belong in `.env` (secrets) + `.agents/project.yaml` (non-secret config).
+- **B5.** NEVER scaffold the frontend before `DESIGN.md` exists at repo root. Design tokens are the input contract for Phase 2 — run `/design-system` first.
+- **B6.** NEVER skip Supabase types generation when scaffolding the DB layer. Runtime TypeScript types must match the live schema; drift is a silent bug factory.
+- **B7.** NEVER ship bearer-token auth without rate-limiting + secret-rotation guidance in the same scaffold. Auth without those two is a half-finished feature.
+- **B8.** NEVER scaffold OpenAPI without the Scalar UI route at `/api/docs` (the `@scalar/nextjs-api-reference` route handler). The contract surface must be browsable from day one or downstream consumers won't trust it. Do NOT ship Redoc/Swagger instead — Scalar is the standard for this stack.
 
 ---
 

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte de Testing Exploratorio — Moodle Campus Virtual UNC</title>
+<style>
+  @page { size: A4; margin: 2cm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 11pt; line-height: 1.6; color: #1a1a2e; max-width: 1000px; margin: 0 auto; padding: 20px; }
+  .cover { text-align: center; padding: 40px 0; border-bottom: 3px solid #7b1fa2; margin-bottom: 30px; }
+  .cover h1 { font-size: 20pt; color: #7b1fa2; margin-bottom: 8px; }
+  .cover h2 { font-size: 13pt; font-weight: 400; color: #555; }
+  .cover .meta { font-size: 9pt; color: #888; margin-top: 8px; }
+  h2 { font-size: 14pt; color: #7b1fa2; border-bottom: 2px solid #7b1fa2; padding-bottom: 4px; margin-top: 28px; margin-bottom: 14px; }
+  h3 { font-size: 12pt; color: #6a1b9a; margin-top: 18px; margin-bottom: 8px; }
+  p, li { margin-bottom: 6px; }
+  ul, ol { padding-left: 20px; margin-bottom: 10px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10pt; }
+  th { background: #7b1fa2; color: #fff; padding: 7px 10px; text-align: left; font-weight: 600; }
+  td { padding: 6px 10px; border-bottom: 1px solid #e0e0e0; }
+  tr:nth-child(even) td { background: #f3e5f5; }
+  .critical { color: #b71c1c; font-weight: bold; }
+  .high { color: #e65100; font-weight: bold; }
+  .medium { color: #f9a825; font-weight: bold; }
+  .low { color: #558b2f; font-weight: bold; }
+  .ok { color: #2e7d32; font-weight: bold; }
+  .bug-card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 14px 18px; margin: 14px 0; background: #fafafa; }
+  .bug-card h3 { margin-top: 0; }
+  .bug-card .sev { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 9pt; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .sev-critical { background: #c62828; }
+  .sev-high { background: #e65100; }
+  .sev-medium { background: #f9a825; color: #333; }
+  .sev-low { background: #2e7d32; }
+  .box { padding: 12px 16px; margin: 12px 0; border-radius: 6px; }
+  .box-red { background: #ffebee; border-left: 4px solid #c62828; }
+  .box-orange { background: #fff3e0; border-left: 4px solid #e65100; }
+  .box-green { background: #e8f5e9; border-left: 4px solid #2e7d32; }
+  .box-purple { background: #f3e5f5; border-left: 4px solid #7b1fa2; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 9.5pt; font-family: 'Consolas', monospace; }
+  pre { background: #1a1a2e; color: #e0e0e0; padding: 10px 14px; border-radius: 6px; font-size: 9pt; overflow-x: auto; margin: 8px 0; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ccc; font-size: 9pt; color: #888; text-align: center; }
+  .summary-table td:first-child { font-weight: 600; width: 220px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Reporte de Testing Exploratorio</h1>
+  <h2>Moodle Campus Virtual UNC — Sistema de Completitud de Cursos</h2>
+  <p class="meta">Sesión: 2026-05-29 · QA Engineer: Nahuel / Agente · Charter: Progreso de cursos Python e IA<br>
+  Usuario: nelthor (ID 154814) · Plataforma: campus.aulavirtual.unc.edu.ar · Moodle 4.5.8+</p>
+</div>
+
+<h2>1. Resumen Ejecutivo</h2>
+
+<div class="box-red">
+  <strong>3 bugs encontrados con severidad Alta o Crítica.</strong> El sistema de completitud de cursos en el Campus Virtual UNC presenta fallas estructurales que impiden a los estudiantes progresar y obtener certificados. Los hallazgos impactan directamente la integración con el DTS.
+</div>
+
+<table class="summary-table">
+  <tr><td>Total de bugs</td><td>3</td></tr>
+  <tr><td>Críticos</td><td>1 — <span class="critical">los cursos no tienen criterios de completitud configurados</span></td></tr>
+  <tr><td>Alta</td><td>2 — <span class="high">completion tracking no registra; checkmarks falsos en UI</span></td></tr>
+  <tr><td>Impacto en DTS</td><td><span class="critical">Crítico</span> — sin completion tracking, la API no puede detectar cursos completados → motor de reglas DTS no puede validar equivalencias → estudiantes nunca quedan habilitados para el examen final</td></tr>
+</table>
+
+<h2>2. Bugs Encontrados</h2>
+
+<div class="bug-card">
+  <h3>🐛 BUG-001: Cursos sin criterios de completitud (Course Completion Criteria Not Set)</h3>
+  <span class="sev sev-critical">CRÍTICA</span>
+  <p><strong>Ubicación:</strong> Curso 276 (Python Certificación 2) · Curso 159 (Inteligencia Artificial)</p>
+  <p><strong>Evidencia API:</strong></p>
+  <pre>GET /webservice/rest/server.php?wsfunction=core_completion_get_course_completion_status
+     &userid=154814&courseid=276
+
+→ {"errorcode":"nocriteriaset","message":"No completion criteria set for this course"}</pre>
+  <pre>→ Course 159: MISMO ERROR "nocriteriaset"</pre>
+  <p><strong>Descripción:</strong> Ambos cursos en los que el usuario nelthor está inscripto (Python Certificación 2 e Inteligencia Artificial) no tienen configurado ningún criterio de completitud a nivel de curso. Esto significa que Moodle nunca podrá marcar estos cursos como "completados", sin importar cuántas actividades realice el estudiante. El sistema de certificados (<code>mod_customcert</code>) depende de la completitud del curso para emitir certificados automáticamente.</p>
+  <p><strong>Repro Steps:</strong></p>
+  <ol>
+    <li>Autenticar con token <code>e7fe62...</code></li>
+    <li>Llamar <code>core_completion_get_course_completion_status</code> para courseid=276</li>
+    <li>El API retorna <code>nocriteriaset</code></li>
+  </ol>
+  <p><strong>Acción requerida:</strong> Admin Moodle debe configurar <em>Course completion</em> en: <code>Site administration → Courses → Course default settings → Enable completion tracking</code> y luego en cada curso: <code>Course administration → Course completion</code>.</p>
+</div>
+
+<div class="bug-card">
+  <h3>🐛 BUG-002: Actividades con completion tracking automático no registran visualización</h3>
+  <span class="sev sev-high">ALTA</span>
+  <p><strong>Ubicación:</strong> Curso 276 (Python) · Todas las actividades con <code>completionview</code></p>
+  <p><strong>Evidencia API:</strong></p>
+  <pre>GET core_completion_get_activities_completion_status?courseid=276&userid=154814
+
+Solo 5 actividades tienen completion tracking (todas en Bienvenida):
+  cmid:6929 "Sobre los docentes"        → state:0, requires: completionview
+  cmid:6930 "Sobre los objetivos"       → state:0, requires: completionview
+  cmid:6935 "Actividad grupal"          → state:0, requires: view + make 1 entry
+  cmid:6980 "Cuestionario diagnóstico"  → state:0, requires: view + 1 attempt + grade
+  cmid:7008 "Recurso Introductorio"     → state:0, tracking:1 (MANUAL!)</pre>
+
+  <p><strong>Actividades sin tracking (NO aparecen en la API):</strong></p>
+  <ul>
+    <li>30+ notebooks de Módulo 1-3 (Lógica Booleana, Bucles, NumPy, Matplotlib, etc.)</li>
+    <li>Actividad "Proyecto Integrador" en la sección Cierre</li>
+  </ul>
+  <p><strong>Descripción:</strong> Las actividades de los módulos principales (notebooks, resources) no tienen completion tracking habilitado. Solo 5 actividades en la sección de Bienvenida tienen tracking, y todas muestran <code>state:0</code> (no completadas). Las actividades con <code>completionview</code> deberían auto-completarse al ser visualizadas, pero no lo hacen. La actividad 7008 usa tracking MANUAL (<code>tracking:1</code>), que requiere que el usuario haga clic explícito en "Marcar como completada" — un paso que no está indicado en la UI.</p>
+  <p><strong>Repro Steps:</strong></p>
+  <ol>
+    <li>Navegar a curso 276 como nelthor</li>
+    <li>Abrir "Sobre los docentes" (cmid:6929)</li>
+    <li>Verificar via API: state sigue siendo 0</li>
+  </ol>
+</div>
+
+<div class="bug-card">
+  <h3>🐛 BUG-003: Checkmarks falsos en UI — indicadores de progreso engañosos</h3>
+  <span class="sev sev-high">ALTA</span>
+  <p><strong>Ubicación:</strong> Curso 276 (Python) · Sección Bienvenida · Bloque de "checklist"</p>
+  <p><strong>Evidencia:</strong></p>
+  <pre>UI muestra:    ✓ Revisar la información general del curso.
+                ✓ Conocer a tus docentes y los objetivos del curso.
+                ✓ Completar el cuestionario de diagnóstico.
+                ✓ Participar en la actividad grupal de bienvenida.
+
+API real:      state:0 para TODAS las actividades (cmid 6929, 6930, 6935, 6980)</pre>
+
+  <p><strong>Descripción:</strong> El contenido del curso incluye checkmarks verdes (✓) como texto estático embebido en HTML — no como datos dinámicos de completion tracking. El estudiante ve ✓ y cree que completó todo, pero el sistema registra <code>state:0</code>. Esto crea una falsa sensación de progreso. El estudiante no puede avanzar porque el sistema no reconoce las actividades como completadas, y no hay indicación visual de qué falta realmente.</p>
+</div>
+
+<h2>3. Análisis de Completitud por Curso</h2>
+
+<table>
+  <tr><th>Curso</th><th>ID</th><th>¿Completion tracking a nivel curso?</th><th>Actividades con tracking</th><th>Estado para nelthor</th><th>Certificados emitidos</th></tr>
+  <tr>
+    <td>Python - Certificación 2</td>
+    <td>276</td>
+    <td><span class="critical">❌ nocriteriaset</span></td>
+    <td>5 de 35+ recursos</td>
+    <td>Todas state:0</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>Inteligencia Artificial</td>
+    <td>159</td>
+    <td><span class="critical">❌ nocriteriaset</span></td>
+    <td>Solo books</td>
+    <td>Todas state:0</td>
+    <td>0*</td>
+  </tr>
+  <tr>
+    <td>IA y automatización</td>
+    <td>?</td>
+    <td>Desconocido (curso anterior)</td>
+    <td>—</td>
+    <td>—</td>
+    <td><span class="ok">✅ 2 certificados</span></td>
+  </tr>
+</table>
+<p><em>* Nota: El curso IA y automatización (donde nelthor tiene 2 certificados) es un curso distinto, ya finalizado.</em></p>
+
+<h2>4. Impacto en el Diploma Tracking System (DTS)</h2>
+
+<div class="box-red">
+  <strong>Impacto crítico en la integración DTS:</strong>
+  <ul>
+    <li>DTS usa <code>core_completion_get_course_completion_status</code> como proxy para detectar certificados</li>
+    <li>Ambos cursos activos de nelthor retornan <code>nocriteriaset</code></li>
+    <li>→ DTS nunca podrá detectar que estos cursos están completados</li>
+    <li>→ Motor de reglas DTS nunca habilitará al estudiante para el examen integrador</li>
+    <li>→ El flujo completo (cursos → certificados → elegibilidad → examen → diploma) está roto en el eslabón inicial</li>
+  </ul>
+</div>
+
+<div class="box-purple">
+  <strong>Recomendación técnica para DTS:</strong> Como fallback cuando <code>core_completion_get_course_completion_status</code> retorna <code>nocriteriaset</code>, DTS debería intentar <code>core_completion_get_activities_completion_status</code> — si todas las actividades tracked están en <code>state:1</code>, inferir el curso como completado. Si no hay actividades con tracking, DTS no puede determinar el estado y debe marcarlo como "indeterminado".
+</div>
+
+<h2>5. Acciones Requeridas</h2>
+
+<table>
+  <tr><th>#</th><th>Acción</th><th>Responsable</th><th>Urgencia</th></tr>
+  <tr><td>1</td><td><strong>Configurar Course Completion en los cursos de diplomaturas</strong><br><em>Course administration → Course completion → agregar condiciones (ej: TODAS las actividades completadas)</em></td><td>Admin Moodle UNC</td><td><span class="critical">CRÍTICA</span></td></tr>
+  <tr><td>2</td><td><strong>Habilitar Completion Tracking en TODOS los recursos de Módulos 1-3</strong><br><em>Actualmente solo 5 de 35+ actividades tienen tracking. Los notebooks, resources y el proyecto integrador deben marcarse con "Completion tracking: Show activity as complete when conditions are met" → "Student must view this activity to complete it"</em></td><td>Docentes / Admin Moodle</td><td><span class="high">ALTA</span></td></tr>
+  <tr><td>3</td><td><strong>Reemplazar checkmarks estáticos (✓) por indicadores dinámicos de Moodle</strong><br><em>El contenido HTML con ✓ fijos debe reemplazarse por el bloque "Course completion status" nativo de Moodle, que muestra el progreso real del estudiante</em></td><td>Docentes</td><td><span class="high">ALTA</span></td></tr>
+  <tr><td>4</td><td><strong>Agregar fallback en DTS para cursos sin completion criteria</strong><br><em>Cuando la API retorna nocriteriaset, intentar activities_completion como fallback</em></td><td>Dev DTS</td><td><span class="medium">MEDIA</span></td></tr>
+</table>
+
+<h2>6. Métricas de la Sesión</h2>
+
+<table>
+  <tr><td>Duración</td><td>~15 min</td></tr>
+  <tr><td>Cursos explorados</td><td>2 (Python Cert 2, IA)</td></tr>
+  <tr><td>APIs probadas</td><td>4 funciones (completion_status × 2, activities_status × 2, mark_self_completed)</td></tr>
+  <tr><td>Bugs encontrados</td><td>3 (1 crítico, 2 alta)</td></tr>
+  <tr><td>Capa UI</td><td>1 bug (checkmarks falsos)</td></tr>
+  <tr><td>Capa API</td><td>2 bugs (nocriteriaset × 2 cursos, tracking no registra)</td></tr>
+  <tr><td>Capa DB</td><td>No explorada (sin acceso admin a Moodle DB)</td></tr>
+</table>
+
+<div class="footer">
+  <p>Reporte generado el 29 de mayo de 2026 · Testing Exploratorio · Moodle Campus Virtual UNC</p>
+  <p>Herramienta: Playwright CLI + Moodle REST API · Confidencial</p>
+</div>
+
+</body>
+</html>

@@ -32,7 +32,12 @@ import { readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 
-import * as tui from './lib/tui.ts';
+import { DEPRECATED_VARS, varsFor } from './lib/variables-manifest.ts';
+
+// `tui` pulls third-party deps (boxen/cli-table3/figures/picocolors). It is
+// imported lazily inside main() so `--preflight` loads only node built-ins and
+// runs safely on a fresh clone before `bun install`.
+let tui!: typeof import('./lib/tui.ts');
 
 // ----------------------------------------------------------------------------
 // Constants
@@ -55,32 +60,57 @@ const MIN_BUN: readonly [number, number, number] = [1, 0, 0];
 // docs/mcp/ for the templates to enable it manually. No JIRA_* credential
 // overrides; the JIRA_* prefix is reserved for operational params (project
 // key, output dir, custom field IDs).
-const REQUIRED_VARS = [
+// Env vars surfaced by doctor.
+//
+// Split into two tiers:
+//   - DAY_ZERO_VARS — collectable on a fresh clone. Installer also prompts.
+//   - PROJECT_BOUND_VARS — require an existing Supabase project / n8n
+//     instance / Postgres connection. Deferred by the installer; doctor
+//     reports them as pending.
+//
+// Legacy Supabase keys (SUPABASE_ANON_KEY / SUPABASE_SERVICE_ROLE_KEY) are
+// intentionally NOT listed — `.mcp.json` / `opencode.jsonc` map the new-style
+// SUPABASE_PUBLISHABLE_KEY / SUPABASE_SECRET_KEY into the legacy names the
+// Supabase MCP server reads internally.
+const DAY_ZERO_VARS = [
   'TAVILY_API_KEY',
+  'RESEND_API_KEY',
   'ATLASSIAN_URL',
   'ATLASSIAN_EMAIL',
   'ATLASSIAN_API_TOKEN',
   'SUPABASE_ACCESS_TOKEN',
-  'SUPABASE_URL',
-  'SUPABASE_ANON_KEY',
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'N8N_API_URL',
-  'N8N_API_KEY',
 ] as const;
 
+// Project-bound vars are derived from the canonical VAR_MANIFEST (single source
+// of truth — kills the prior install/doctor drift where doctor knew 13 vars and
+// the installer 5). They are the manifest's NON-critical vars (Supabase /
+// Postgres / app-runtime / n8n). The CRITICAL tool credentials (TAVILY_API_KEY,
+// ATLASSIAN_*, RESEND_API_KEY) also live in the manifest now but are day-zero
+// (prompted at install), so they are excluded here to avoid double-listing with
+// DAY_ZERO_VARS. SUPABASE_ACCESS_TOKEN stays day-zero (not in the manifest).
+const PROJECT_BOUND_VARS: readonly string[] = varsFor('local')
+  .filter(spec => !spec.critical)
+  .map(spec => spec.name);
+
+const REQUIRED_VARS: readonly string[] = [...DAY_ZERO_VARS, ...PROJECT_BOUND_VARS];
+
 // Legacy credential keys some users may still have in `.env` from before the
-// DRY rename. Detected so doctor can emit a migration hint — they're harmless
-// (nothing reads them anymore) but signal a stale .env.
-const LEGACY_JIRA_CRED_KEYS = [
-  'JIRA_URL',
-  'JIRA_USERNAME',
-  'JIRA_API_TOKEN',
-] as const;
+// DRY rename or before the legacy-Supabase-keys removal. Detected so doctor
+// can emit a migration hint — they're harmless (nothing reads them anymore)
+// but signal a stale .env.
+// Derived from the canonical DEPRECATED_VARS registry (same source of truth as
+// the installer + updater migration hints). Covers the legacy JIRA_* credential
+// family (pre-DRY rename) + legacy Supabase keys (anon / service_role).
+const LEGACY_JIRA_CRED_KEYS: readonly string[] = DEPRECATED_VARS.map(d => d.name);
 
 const VAR_HINTS: Record<string, { hint: string, where: string }> = {
   TAVILY_API_KEY: {
     hint: 'Tavily web-search MCP API key',
     where: 'https://app.tavily.com/  →  account  →  API keys',
+  },
+  RESEND_API_KEY: {
+    hint: 'Resend API key (transactional email + resend CLI auth)',
+    where: 'https://resend.com/api-keys  (docs: https://resend.com/docs/api-reference/introduction)',
   },
   ATLASSIAN_URL: {
     hint: 'Atlassian credentials (canonical) — see .env.example',
@@ -98,20 +128,56 @@ const VAR_HINTS: Record<string, { hint: string, where: string }> = {
     hint: 'Supabase personal access token (PAT) for the Supabase MCP server',
     where: 'https://supabase.com/dashboard/account/tokens',
   },
-  SUPABASE_URL: {
-    hint: 'Supabase project URL',
+  NEXT_PUBLIC_SUPABASE_URL: {
+    hint: 'Supabase project URL (project-bound — Vercel integration generates only this var, no server-only counterpart)',
     where: 'Supabase dashboard → Project Settings → API',
   },
-  SUPABASE_ANON_KEY: {
-    hint: 'Supabase anon (public) API key',
+  SUPABASE_PUBLISHABLE_KEY: {
+    hint: 'Supabase new-style publishable key (browser-safe, replaces anon key)',
     where: 'Supabase dashboard → Project Settings → API',
   },
-  SUPABASE_SERVICE_ROLE_KEY: {
-    hint: 'Supabase service-role key (server-side, full DB access)',
+  SUPABASE_SECRET_KEY: {
+    hint: 'Supabase new-style secret key (server only, replaces service_role)',
     where: 'Supabase dashboard → Project Settings → API',
+  },
+  SUPABASE_JWT_SECRET: {
+    hint: 'Secret used to sign / verify custom JWTs',
+    where: 'Supabase dashboard → Project Settings → API → JWT Settings',
+  },
+  POSTGRES_HOST: {
+    hint: 'Direct Postgres host for the Supabase project',
+    where: 'db.<project-ref>.supabase.co',
+  },
+  POSTGRES_USER: {
+    hint: 'Postgres user (default: postgres)',
+    where: 'Supabase dashboard → Project Settings → Database',
+  },
+  POSTGRES_PASSWORD: {
+    hint: 'Postgres password for the project',
+    where: 'Supabase dashboard → Project Settings → Database',
+  },
+  POSTGRES_DATABASE: {
+    hint: 'Postgres database name (default: postgres)',
+    where: 'Supabase dashboard → Project Settings → Database',
+  },
+  POSTGRES_URL: {
+    hint: 'Pooled Postgres connection string (port 6543)',
+    where: 'Supabase dashboard → Project Settings → Database → Connection string (Pooler)',
+  },
+  POSTGRES_URL_NON_POOLING: {
+    hint: 'Direct Postgres connection string (port 5432)',
+    where: 'Supabase dashboard → Project Settings → Database → Connection string',
+  },
+  POSTGRES_PRISMA_URL: {
+    hint: 'Pooled connection with pgbouncer=true (for Prisma ORM)',
+    where: 'Same as POSTGRES_URL with &pgbouncer=true',
+  },
+  NEXT_PUBLIC_APP_URL: {
+    hint: 'Base URL for auth redirects, OAuth callbacks, and email links',
+    where: 'e.g. http://localhost:3000 (local) or your deployed Vercel URL',
   },
   N8N_API_URL: {
-    hint: 'n8n instance API URL for the n8n MCP server',
+    hint: 'n8n instance API URL for the n8n MCP server (project-bound)',
     where: 'e.g. https://n8n.yourapp.com/api/v1',
   },
   N8N_API_KEY: {
@@ -181,7 +247,7 @@ function parseEnvFile(content: string): Record<string, string> {
     if (line.length === 0 || line.startsWith('#')) { continue; }
     const eq = line.indexOf('=');
     if (eq <= 0) { continue; }
-    const key = line.slice(0, eq).trim();
+    const key = line.slice(0, eq).trim().replace(/^export\s+/, '');
     let value = line.slice(eq + 1).trim();
     if (
       (value.startsWith('"') && value.endsWith('"'))
@@ -199,7 +265,10 @@ async function detectDirenv(): Promise<DirenvState> {
   if (!version.ok) { return { installed: false }; }
 
   const status = tryRun('direnv', ['status']);
-  const envrcAllowed = /Found RC allowed true/.test(status.stdout);
+  // Modern direnv prints `Found RC allowed 0` (0 = Allow); older variants used
+  // `true`. Match the numeric enum and treat 0 (or legacy true) as allowed.
+  const allowMatch = status.stdout.match(/Found RC allowed (\d+|true)/);
+  const envrcAllowed = allowMatch !== null && (allowMatch[1] === '0' || allowMatch[1] === 'true');
 
   const candidates = ['.bashrc', '.zshrc', '.bash_profile', '.profile'];
   let hookInRc = false;
@@ -246,6 +315,14 @@ function shellHookLine(): { line: string, rc: string } {
   }
   if (shell.endsWith('fish')) {
     return { line: 'direnv hook fish | source', rc: '~/.config/fish/config.fish' };
+  }
+  if (shell.endsWith('bash')) {
+    return { line: 'eval "$(direnv hook bash)"', rc: '~/.bashrc' };
+  }
+  // No POSIX $SHELL (typical on native Windows PowerShell) — advise the pwsh hook
+  // instead of mis-instructing the user to edit ~/.bashrc.
+  if (process.platform === 'win32') {
+    return { line: 'Invoke-Expression "$(direnv hook pwsh)"', rc: '$PROFILE' };
   }
   return { line: 'eval "$(direnv hook bash)"', rc: '~/.bashrc' };
 }
@@ -470,14 +547,15 @@ function printHuman(report: DoctorReport): void {
 // ----------------------------------------------------------------------------
 
 function preflightFail(msg: string, fix: string): never {
-  tui.log.error(`Preflight failed: ${msg}`);
-  tui.log.warn(`Fix: ${fix}`);
+  // Dependency-free output — preflight may run before `bun install`, so no TUI.
+  process.stderr.write(`Preflight failed: ${msg}\n`);
+  process.stderr.write(`  Fix: ${fix}\n`);
   process.exit(1);
 }
 
 function runPreflight(): never {
-  // Print a minimal header for preflight — no full logo, just the section banner
-  tui.section('Preflight check');
+  // Dependency-free header — preflight loads no TUI (third-party) modules.
+  process.stdout.write('\nPreflight check\n');
 
   const bunVersion = process.versions.bun;
   if (!bunVersion) {
@@ -499,7 +577,7 @@ function runPreflight(): never {
       'Run `bun install` first, then re-run `bun run setup`.',
     );
   }
-  tui.log.success(`Preflight OK (Bun ${bunVersion}, deps installed)`);
+  process.stdout.write(`Preflight OK (Bun ${bunVersion}, deps installed)\n`);
   process.exit(0);
 }
 
@@ -507,21 +585,40 @@ function runPreflight(): never {
 // Entry
 // ----------------------------------------------------------------------------
 
-if (process.argv.includes('--preflight')) {
-  runPreflight();
+async function main(): Promise<void> {
+  if (process.argv.includes('--preflight')) {
+    runPreflight(); // never returns
+    return;
+  }
+
+  // Full mode needs the TUI (boxen/cli-table3/figures/picocolors). Load it lazily
+  // here — NOT at module top — so `--preflight` stays dependency-free and runs on
+  // a fresh clone before `bun install`.
+  tui = await import('./lib/tui.ts');
+
+  const asJson = process.argv.includes('--json');
+  try {
+    const report = await runDoctor();
+    if (asJson) {
+      process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+    }
+    else {
+      printHuman(report);
+    }
+    process.exit(report.status === 'ok' ? 0 : 1);
+  }
+  catch (err) {
+    const msg = (err as Error).message ?? String(err);
+    // Exit 2 = doctor internal error (distinct from 1 = needs-action). In --json
+    // mode emit a JSON envelope so agent consumers don't choke on a bare string.
+    if (asJson) {
+      process.stdout.write(`${JSON.stringify({ status: 'error', error: msg }, null, 2)}\n`);
+    }
+    else {
+      process.stderr.write(`Doctor failed: ${msg}\n`);
+    }
+    process.exit(2);
+  }
 }
 
-const asJson = process.argv.includes('--json');
-
-runDoctor().then((report) => {
-  if (asJson) {
-    process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
-  }
-  else {
-    printHuman(report);
-  }
-  process.exit(report.status === 'ok' ? 0 : 1);
-}).catch((err) => {
-  process.stderr.write(`Doctor failed: ${(err as Error).message ?? String(err)}\n`);
-  process.exit(2);
-});
+void main();

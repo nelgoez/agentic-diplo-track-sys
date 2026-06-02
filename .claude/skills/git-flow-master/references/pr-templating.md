@@ -13,7 +13,7 @@ Without an issue key: `{type}: {description}`.
 Examples:
 
 - `feat(UPEX-123): add bulk-assign action`
-- `fix(OB-45): handle empty response in reservation list`
+- `fix({{PROJECT_KEY}}-45): handle empty response in reservation list`
 - `docs: clarify branch prefix vocabulary`
 - `chore(deps): bump zod to v4`
 
@@ -66,7 +66,7 @@ Render this verbatim, substituting the placeholders:
 | `{branch}`      | Current branch name (computed by the skill).                                                                                                                                                                               |
 | `{base}`        | PR base branch (resolved from the strategy — see table below).                                                                                                                                                             |
 | `{strategy}`    | Active strategy slug (`solo-main`, `main-integration`, etc.). Helps reviewers understand the merge target.                                                                                                                 |
-| `<<EVIDENCE>>`  | Pointer to `.context/PBI/{module}/{TICKET-ID}-{name}/evidence/` when applicable (screenshots, traces, logs). For backend/CLI PRs without visual evidence, leave the placeholder so the author can fill it in or delete it. |
+| `<<EVIDENCE>>`  | Pointer to `.context/PBI/epics/EPIC-<KEY>-<slug>/stories/STORY-<KEY>-<slug>/evidence/` when applicable (screenshots, traces, logs). For backend/CLI PRs without visual evidence, leave the placeholder so the author can fill it in or delete it. |
 | `<<RISK>>`      | Short risk assessment: blast radius, affected modules, rollback plan. One paragraph.                                                                                                                                       |
 
 Do not pad sections. Empty sections invite skim-reads.
@@ -205,7 +205,7 @@ model with unit tests; UI uses the existing table-action slot.
 
 ## Evidence
 
-See `.context/PBI/users/UPEX-123-bulk-assign/evidence/` for the design
+See `.context/PBI/epics/EPIC-UPEX-100-<epic-slug>/stories/STORY-UPEX-123-bulk-assign/evidence/` for the design
 walkthrough screenshots.
 
 ## Risk

@@ -1,0 +1,3 @@
+[    1189ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app/favicon.ico:0
+[    1239ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app/favicon.ico:0
+[    1258ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app/login:0

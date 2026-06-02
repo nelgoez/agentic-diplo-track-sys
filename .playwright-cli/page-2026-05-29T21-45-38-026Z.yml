@@ -1,0 +1,114 @@
+- generic [active] [ref=e1]:
+  - status
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#maincontent"
+    - navigation "Site navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "CAMPUS VIRTUAL" [ref=e6] [cursor=pointer]:
+          - /url: https://campus.aulavirtual.unc.edu.ar/
+          - img "CAMPUS VIRTUAL" [ref=e7]
+        - navigation [ref=e9]:
+          - menubar [ref=e10]:
+            - menuitem "Home" [ref=e11] [cursor=pointer]
+            - menuitem "Dashboard" [ref=e12] [cursor=pointer]
+            - menuitem "My courses" [ref=e13] [cursor=pointer]
+            - text: 
+        - list
+        - generic [ref=e14]:
+          - button "Show notification window with no new notifications" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 
+          - button "Toggle messaging drawer" [ref=e19] [cursor=pointer]:
+            - generic [ref=e20]: 
+          - generic [ref=e24]:
+            - button "User menu" [ref=e25] [cursor=pointer]: 
+            - text:  
+    - generic [ref=e29]:
+      - button "Close block drawer" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: 
+      - complementary "Blocks" [ref=e35]:
+        - heading "Blocks" [level=2] [ref=e36]
+        - link "Skip Mesa de ayuda" [ref=e37] [cursor=pointer]:
+          - /url: "#sb-1"
+        - region "Mesa de ayuda" [ref=e38]:
+          - generic [ref=e39]:
+            - heading "Mesa de ayuda" [level=3] [ref=e40]
+            - blockquote [ref=e43]:
+              - generic [ref=e44]: Si tenés dificultades técnicas o administrativas, enviá un mail a
+              - link "consulta@campusvirtual.unc.edu.ar" [ref=e45] [cursor=pointer]:
+                - /url: mailto:consulta@campusvirtual.unc.edu.ar
+                - text: consulta@campusvirtual.unc.
+                - text: edu.ar
+              - text: .
+              - text: ¡Estamos para ayudarte!
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic:  
+        - banner [ref=e48]:
+          - generic [ref=e49]:
+            - navigation "Breadcrumb" [ref=e52]:
+              - list [ref=e53]:
+                - listitem [ref=e54]:
+                  - link "Profile" [ref=e55] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=154814
+                - listitem [ref=e56]: / My certificates
+            - generic [ref=e60]:
+              - link "Nahuel Leonardo Elias Gomez" [ref=e62] [cursor=pointer]:
+                - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=154814
+                - img "Nahuel Leonardo Elias Gomez" [ref=e63]
+              - heading "Nahuel Leonardo Elias Gomez" [level=1] [ref=e65]
+              - button "Message" [ref=e67] [cursor=pointer]:
+                - generic [ref=e68]: 
+                - text: Message
+        - main [ref=e73]:
+          - heading "My certificates" [level=2] [ref=e75]
+          - generic [ref=e76]: These are the certificates you have been issued by either email or downloading manually.
+          - generic [ref=e78]:
+            - generic [ref=e79]: Download table data as
+            - combobox "Download table data as" [ref=e80]:
+              - option "Comma separated values (.csv)" [selected]
+              - option "Microsoft Excel (.xlsx)"
+              - option "HTML table"
+              - option "Javascript Object Notation (.json)"
+              - option "OpenDocument (.ods)"
+              - option "Portable Document Format (.pdf)"
+            - button "Download" [ref=e81] [cursor=pointer]
+          - table [ref=e83]:
+            - rowgroup [ref=e84]:
+              - row "Name Sort by Name Ascending Course Sort by Course Ascending Awarded on Sort by Awarded on Ascending Code File" [ref=e85]:
+                - columnheader "Name Sort by Name Ascending" [ref=e86]:
+                  - button "Name Sort by Name Ascending" [ref=e87] [cursor=pointer]:
+                    - text: Name
+                    - generic [ref=e88]: Sort by Name Ascending
+                - columnheader "Course Sort by Course Ascending" [ref=e89]:
+                  - button "Course Sort by Course Ascending" [ref=e90] [cursor=pointer]:
+                    - text: Course
+                    - generic [ref=e91]: Sort by Course Ascending
+                - columnheader "Awarded on Sort by Awarded on Ascending" [ref=e92]:
+                  - button "Awarded on Sort by Awarded on Ascending" [ref=e93] [cursor=pointer]:
+                    - text: Awarded on
+                    - generic [ref=e94]: Sort by Awarded on Ascending
+                - columnheader "Code" [ref=e95]: Code
+                - columnheader "File" [ref=e96]: File
+            - rowgroup [ref=e97]:
+              - 'row "Certificado de Asistencia IA y automatización de flujos de trabajo: aprende a automatizar de forma eficaz y eficiente Tuesday, 27 January 2026, 8:51 PM 0B2ucYIk3p Download" [ref=e98]':
+                - cell "Certificado de Asistencia" [ref=e99]
+                - 'cell "IA y automatización de flujos de trabajo: aprende a automatizar de forma eficaz y eficiente" [ref=e100]'
+                - cell "Tuesday, 27 January 2026, 8:51 PM" [ref=e101]
+                - cell "0B2ucYIk3p" [ref=e102]
+                - cell "Download" [ref=e103]:
+                  - link "Download" [ref=e104] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/mod/customcert/my_certificates.php?userid=154814&certificateid=434&downloadcert=1
+                    - img "Download" [ref=e105]: 
+              - 'row "Certificado de Aprobación IA y automatización de flujos de trabajo: aprende a automatizar de forma eficaz y eficiente Tuesday, 27 January 2026, 8:50 PM YRtctId1Px Download" [ref=e106]':
+                - cell "Certificado de Aprobación" [ref=e107]
+                - 'cell "IA y automatización de flujos de trabajo: aprende a automatizar de forma eficaz y eficiente" [ref=e108]'
+                - cell "Tuesday, 27 January 2026, 8:50 PM" [ref=e109]
+                - cell "YRtctId1Px" [ref=e110]
+                - cell "Download" [ref=e111]:
+                  - link "Download" [ref=e112] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/mod/customcert/my_certificates.php?userid=154814&certificateid=423&downloadcert=1
+                    - img "Download" [ref=e113]: 
+      - contentinfo:
+        - button "Show footer" [ref=e114] [cursor=pointer]:
+          - generic [ref=e115]: "?"

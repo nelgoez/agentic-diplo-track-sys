@@ -1,0 +1,1850 @@
+- generic [active] [ref=e1]:
+  - status
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#maincontent"
+    - navigation "Site navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "CAMPUS VIRTUAL" [ref=e6] [cursor=pointer]:
+          - /url: https://campus.aulavirtual.unc.edu.ar/
+          - img "CAMPUS VIRTUAL" [ref=e7]
+        - navigation [ref=e9]:
+          - menubar [ref=e10]:
+            - menuitem "Home" [ref=e11] [cursor=pointer]
+            - menuitem "Dashboard" [ref=e12] [cursor=pointer]
+            - menuitem "My courses" [ref=e13] [cursor=pointer]
+            - text: 
+        - list
+        - generic [ref=e14]:
+          - button "Show notification window with no new notifications" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 
+          - button "Toggle messaging drawer" [ref=e19] [cursor=pointer]:
+            - generic [ref=e20]: 
+          - generic [ref=e24]:
+            - button "User menu" [ref=e25] [cursor=pointer]: 
+            - text:  
+    - generic [ref=e29]:
+      - button "Close block drawer" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: 
+      - complementary "Blocks" [ref=e35]:
+        - heading "Blocks" [level=2] [ref=e36]
+        - link "Skip Mesa de ayuda" [ref=e37] [cursor=pointer]:
+          - /url: "#sb-1"
+        - region "Mesa de ayuda" [ref=e38]:
+          - generic [ref=e39]:
+            - heading "Mesa de ayuda" [level=3] [ref=e40]
+            - blockquote [ref=e43]:
+              - generic [ref=e44]: Si tenés dificultades técnicas o administrativas, enviá un mail a
+              - link "consulta@campusvirtual.unc.edu.ar" [ref=e45] [cursor=pointer]:
+                - /url: mailto:consulta@campusvirtual.unc.edu.ar
+                - text: consulta@campusvirtual.unc.
+                - text: edu.ar
+              - text: .
+              - text: ¡Estamos para ayudarte!
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic:  
+        - banner [ref=e48]:
+          - generic [ref=e51]:
+            - heading "Campus Virtual UNC" [level=1] [ref=e55]
+            - generic [ref=e57]: Hi, Nahuel Leonardo Elias! 👋
+        - main [ref=e61]:
+          - list [ref=e65]:
+            - listitem [ref=e66]:
+              - list [ref=e69]:
+                - listitem [ref=e70]:
+                  - heading "¡Te damos la Bienvenida al Campus Virtual!" [level=2] [ref=e76]:
+                    - strong [ref=e77]: ¡Te damos la Bienvenida al Campus Virtual!
+                - listitem [ref=e78]:
+                  - paragraph [ref=e84]
+                - listitem [ref=e85]:
+                  - link "Encontrá nuestra oferta de cursos aquí" [ref=e92] [cursor=pointer]:
+                    - /url: https://campusvirtual.unc.edu.ar/
+                    - button "Encontrá nuestra oferta de cursos aquí" [ref=e93]
+                - listitem [ref=e94]:
+                  - generic [ref=e99]:
+                    - heading "Actualización de datos personales" [level=3] [ref=e100]
+                    - paragraph [ref=e101]:
+                      - text: Con el objetivo de mantener nuestros registros actualizados, hemos incorporado un nuevo campo en el perfil de usuario para la
+                      - strong [ref=e102]: "\"Fecha de nacimiento\""
+                      - text: . Para completarlo, debes ingresar al apartado de "
+                      - link "Perfil" [ref=e103] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php
+                        - strong [ref=e104]: Perfil
+                      - text: "\", hacer clic en \""
+                      - strong [ref=e105]: Editar perfil
+                      - text: "\" y desplazarte hasta la sección \""
+                      - strong [ref=e106]: Otros campos
+                      - text: "\"."
+                - listitem [ref=e107]:
+                  - generic [ref=e112]:
+                    - heading "Cambio de contraseña" [level=3] [ref=e113]
+                    - paragraph [ref=e114]:
+                      - text: Si desea actualizar su clave de acceso debe ingresar al apartado de "
+                      - link "Preferencias" [ref=e115] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/preferences.php
+                        - strong [ref=e116]: Preferencias
+                      - text: "\" y en el recuadro \""
+                      - strong [ref=e117]: Cuentas de usuario
+                      - text: "\" seleccionar la opción \""
+                      - link "Cambiar contraseña" [ref=e118] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/login/change_password.php?id=1
+                        - strong [ref=e119]: Cambiar contraseña
+                      - text: "\""
+                - listitem [ref=e120]:
+                  - generic [ref=e125]:
+                    - heading "Descarga de certificados" [level=3] [ref=e126]
+                    - paragraph [ref=e127]:
+                      - text: Para descargar sus certificados de finalización, debe ingresar al apartado de su "
+                      - link "Perfil" [ref=e128] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php
+                        - strong [ref=e129]: Perfil
+                      - text: "\" y hacer clic en el botón \""
+                      - link "Mis certificados" [ref=e130] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/customcert/my_certificates.php
+                        - strong [ref=e131]: Mis certificados
+                      - text: "\". Allí encontrará disponible los certificados correspondientes a los cursos realizados."
+                - listitem [ref=e132]:
+                  - generic [ref=e137]:
+                    - heading "Soporte y Consultas" [level=3] [ref=e138]
+                    - paragraph [ref=e139]: "Si tenés alguna duda o inconveniente técnico, podés comunicarte con nuestro equipo de soporte a través del correo:"
+                    - paragraph [ref=e140]:
+                      - strong [ref=e141]:
+                        - link "consulta@campusvirtual.unc.edu.ar" [ref=e142] [cursor=pointer]:
+                          - /url: mailto:consulta@campusvirtual.unc.edu.ar
+                    - paragraph [ref=e143]: Estamos para ayudarte.
+                - listitem [ref=e144]:
+                  - iframe [ref=e152]:
+                    - main [ref=f1e4]:
+                      - generic [ref=f1e7]: Your browser does not support the video tag.
+                      - generic:
+                        - generic: Prueba Genially, es gratis
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - img
+                      - generic:
+                        - generic: Comenzar ahora
+          - generic [ref=e156]:
+            - generic [ref=e157]: Search courses
+            - textbox "Search courses" [ref=e158]
+            - button "Search courses" [ref=e160] [cursor=pointer]:
+              - generic [ref=e161]: 
+              - generic [ref=e162]: Search courses
+          - link "Skip course categories" [ref=e163] [cursor=pointer]:
+            - /url: "#skipcategories"
+          - generic [ref=e164]:
+            - heading "Course categories" [level=2] [ref=e165]
+            - generic [ref=e166]:
+              - link "Expand all" [ref=e168] [cursor=pointer]:
+                - /url: "#"
+              - generic [ref=e170]:
+                - heading "Arte y Cultura (9)" [level=3] [ref=e173]:
+                  - link "Arte y Cultura" [ref=e174] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=27
+                  - text: (9)
+                - heading "Bienestar y Salud (3)" [level=3] [ref=e177]:
+                  - link "Bienestar y Salud" [ref=e178] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=22
+                  - text: (3)
+                - heading "Género y Derechos Humanos (9)" [level=3] [ref=e181]:
+                  - link "Género y Derechos Humanos" [ref=e182] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=17
+                  - text: (9)
+                - heading "Docencia y Educación (2)" [level=3] [ref=e185]:
+                  - link "Docencia y Educación" [ref=e186] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=25
+                  - text: (2)
+                - heading "Oficios (4)" [level=3] [ref=e189]:
+                  - link "Oficios" [ref=e190] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=30
+                  - text: (4)
+                - heading "Cursos de verano 2024 (18)" [level=3] [ref=e193]:
+                  - link "Cursos de verano 2024" [ref=e194] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=21
+                  - text: (18)
+                - heading "Desarrollo Personal y Bienestar (14)" [level=3] [ref=e197]:
+                  - link "Desarrollo Personal y Bienestar" [ref=e198] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=41
+                  - text: (14)
+                - heading "Tecnología e Informática (10)" [level=3] [ref=e201]:
+                  - link "Tecnología e Informática" [ref=e202] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=42
+                  - text: (10)
+                - heading "Arquitectura y Diseño (6)" [level=3] [ref=e205]:
+                  - link "Arquitectura y Diseño" [ref=e206] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=43
+                  - text: (6)
+                - heading "Educación y Formación Docente (11)" [level=3] [ref=e209]:
+                  - link "Educación y Formación Docente" [ref=e210] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=44
+                  - text: (11)
+                - heading "Recreación, Deporte y Movimiento (7)" [level=3] [ref=e213]:
+                  - link "Recreación, Deporte y Movimiento" [ref=e214] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=45
+                  - text: (7)
+                - heading "Jardinería, Vida Verde y Medio Ambiente (8)" [level=3] [ref=e217]:
+                  - link "Jardinería, Vida Verde y Medio Ambiente" [ref=e218] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=46
+                  - text: (8)
+                - heading "Oficios y Técnicas Manuales (15)" [level=3] [ref=e221]:
+                  - link "Oficios y Técnicas Manuales" [ref=e222] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=47
+                  - text: (15)
+                - heading "Emprendedurismo y Negocios (18)" [level=3] [ref=e225]:
+                  - link "Emprendedurismo y Negocios" [ref=e226] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=48
+                  - text: (18)
+                - heading "Gastronomía (3)" [level=3] [ref=e229]:
+                  - link "Gastronomía" [ref=e230] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=49
+                  - text: (3)
+          - link "Skip available courses" [ref=e232] [cursor=pointer]:
+            - /url: "#skipavailablecourses"
+          - generic [ref=e233]:
+            - heading "Available courses" [level=2] [ref=e234]
+            - generic [ref=e235]:
+              - generic [ref=e236]:
+                - heading "Introducción a la transformación digital sociourbana" [level=3] [ref=e238]:
+                  - link "Introducción a la transformación digital sociourbana" [ref=e239] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=311
+                - generic [ref=e244]: "Duración del curso: 20 Horas"
+              - generic [ref=e245]:
+                - heading "Copia - Organización de eventos" [level=3] [ref=e247]:
+                  - link "Copia - Organización de eventos" [ref=e248] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=308
+                - generic [ref=e252]:
+                  - generic [ref=e254]:
+                    - paragraph [ref=e255]:
+                      - text: ¿Alguna vez sentiste que organizar un evento es un caos de imprevistos?
+                      - generic [ref=e256]:
+                        - generic [ref=e257]:
+                          - text: Es hora de dejar la improvisación atrás y convertirte en un
+                          - strong [ref=e258]: estratega de experiencias
+                        - strong
+                    - paragraph [ref=e259]:
+                      - strong [ref=e260]: ¿Qué vas a lograr?
+                      - generic [ref=e261]:
+                        - generic [ref=e262]:
+                          - text: A través de nuestro método de
+                          - strong [ref=e263]: andamiaje
+                          - text: a
+                        - text: "prenderás a dominar las tres columnas del éxito:"
+                    - list [ref=e264]:
+                      - listitem [ref=e265]:
+                        - strong [ref=e266]:
+                          - generic [ref=e267]: "Planificación Profesional:"
+                        - text: Creación de presupuestos precisos y cronogramas que funcionan como relojes.
+                      - listitem [ref=e268]:
+                        - strong [ref=e269]:
+                          - generic [ref=e270]: "Gestión Impecable:"
+                        - generic [ref=e271]:
+                          - text: Liderazgo de equipos y el uso del
+                          - strong [ref=e272]: Guion Operativo
+                          - text: para dominar imprevistos en vivo
+                        - text: .
+                      - listitem [ref=e273]:
+                        - strong [ref=e274]:
+                          - generic [ref=e275]: "Evaluación de Impacto:"
+                        - text: Medición de resultados cuantitativos y cualitativos para asegurar la mejora continua.
+                    - paragraph [ref=e276]:
+                      - generic [ref=e277]:
+                        - strong [ref=e278]: ¿A quién está destinado?
+                        - text: A emprendedores, estudiantes de comunicación, profesionales del sector y a cualquier persona que desee profesionalizar su capacidad de gestión con herramientas digitales de vanguardia.
+                    - paragraph [ref=e279]:
+                      - generic [ref=e280]: ¡El mundo de los eventos te espera! Sumate hoy y empezá a planificar con la seguridad de un experto.
+                  - generic [ref=e282]: "Duración del curso: 10 Horas"
+              - generic [ref=e283]:
+                - generic [ref=e284]:
+                  - heading "Fantasmas del Fin del Mundo en las Series de TV" [level=3] [ref=e285]:
+                    - link "Fantasmas del Fin del Mundo en las Series de TV" [ref=e286] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=118
+                  - img "Self enrolment" [ref=e288]: 
+                - generic [ref=e294]: "Duración del curso: 45 Horas"
+              - generic [ref=e295]:
+                - generic [ref=e296]:
+                  - heading "Síntomas Sociales en las Series de Televisión del Siglo XXI" [level=3] [ref=e297]:
+                    - link "Síntomas Sociales en las Series de Televisión del Siglo XXI" [ref=e298] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=27
+                  - img "Self enrolment" [ref=e300]: 
+                - generic [ref=e306]: "Duración del curso: 60 Horas"
+              - generic [ref=e307]:
+                - generic [ref=e308]:
+                  - 'heading "Taller Artes Visuales: \"Cómo atrapar una casa en un dibujo\"" [level=3] [ref=e309]':
+                    - 'link "Taller Artes Visuales: \"Cómo atrapar una casa en un dibujo\"" [ref=e310] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=47
+                  - img "Self enrolment" [ref=e312]: 
+                - generic [ref=e318]: "Duración del curso: 30 Horas"
+              - generic [ref=e319]:
+                - generic [ref=e320]:
+                  - 'heading "Taller Audiovisual: A.B.C. de Cine" [level=3] [ref=e321]':
+                    - 'link "Taller Audiovisual: A.B.C. de Cine" [ref=e322] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=54
+                  - img "Self enrolment" [ref=e324]: 
+                - generic [ref=e330]: "Duración del curso: 30 Horas"
+              - generic [ref=e331]:
+                - generic [ref=e332]:
+                  - 'heading "Taller de Teatro: Historias para jugar" [level=3] [ref=e333]':
+                    - 'link "Taller de Teatro: Historias para jugar" [ref=e334] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=46
+                  - img "Self enrolment" [ref=e336]: 
+                - generic [ref=e341]: "Duración del curso: 30 Horas"
+              - generic [ref=e342]:
+                - generic [ref=e343]:
+                  - heading "Introducción a la fotografía callejera" [level=3] [ref=e344]:
+                    - link "Introducción a la fotografía callejera" [ref=e345] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=217
+                  - img "Self enrolment" [ref=e347]: 
+                - generic [ref=e351]:
+                  - paragraph [ref=e354]
+                  - generic [ref=e356]: "Duración del curso: 20 Horas"
+              - generic [ref=e357]:
+                - generic [ref=e358]:
+                  - 'heading "UNC FLOW: Una introducción al Hip Hop" [level=3] [ref=e359]':
+                    - 'link "UNC FLOW: Una introducción al Hip Hop" [ref=e360] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=198
+                  - img "Self enrolment" [ref=e362]: 
+                - generic [ref=e368]: "Duración del curso: 25 Horas"
+              - generic [ref=e369]:
+                - generic [ref=e370]:
+                  - heading "Introducción a la Fotografía" [level=3] [ref=e371]:
+                    - link "Introducción a la Fotografía" [ref=e372] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=135
+                  - img "Self enrolment" [ref=e374]: 
+                - generic [ref=e380]: "Duración del curso: 30 Horas"
+              - generic [ref=e381]:
+                - generic [ref=e382]:
+                  - 'heading "Gestión eficiente del calor: cuidados personales en verano" [level=3] [ref=e383]':
+                    - 'link "Gestión eficiente del calor: cuidados personales en verano" [ref=e384] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=127
+                  - img "Self enrolment" [ref=e386]: 
+                - generic [ref=e391]: "Duración del curso: 20 Horas"
+              - generic [ref=e392]:
+                - generic [ref=e393]:
+                  - heading "Bienestar Animal" [level=3] [ref=e394]:
+                    - link "Bienestar Animal" [ref=e395] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=194
+                  - img "Self enrolment" [ref=e397]: 
+                - generic [ref=e402]: "Duración del curso: 20 Horas"
+              - generic [ref=e403]:
+                - generic [ref=e404]:
+                  - heading "Comunicación asertiva en parejas" [level=3] [ref=e405]:
+                    - link "Comunicación asertiva en parejas" [ref=e406] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=264
+                  - img "Self enrolment" [ref=e408]: 
+                - generic [ref=e412]:
+                  - generic [ref=e414]:
+                    - paragraph [ref=e415]:
+                      - strong [ref=e417]: ¿Tu relación se enreda en malentendidos? ¿Sientes que no logran ponerse de acuerdo?
+                    - paragraph [ref=e418]: Este curso autogestivo es para vos si querés transformar la forma en que te comunicás con tu pareja. A través de 5 capítulos interactivos con casos reales, aprenderás a construir acuerdos genuinos que respeten a ambos; comunicarte con claridad y escucha efectiva; gestionar conflictos de manera constructiva; reconstruir la conexión después de las peleas; y mantener viva la chispa con rituales y seducción consciente.
+                    - paragraph [ref=e419]: Vas a descubrir que el "felices para siempre" no existe... ¡y eso es lo mejor! Porque una pareja sana se construye día a día, con diálogo honesto, límites claros y acuerdos que evolucionan con ustedes.
+                    - paragraph [ref=e420]: ¿Listo para dejar de discutir y empezar a dialogar?
+                  - generic [ref=e422]: "Duración del curso: 20 Horas"
+              - generic [ref=e423]:
+                - generic [ref=e424]:
+                  - 'heading "Violencias Digitales: herramientas para la prevención" [level=3] [ref=e425]':
+                    - 'link "Violencias Digitales: herramientas para la prevención" [ref=e426] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=304
+                  - img "Self enrolment" [ref=e428]: 
+                - generic [ref=e431]:
+                  - generic [ref=e433]:
+                    - paragraph [ref=e434]:
+                      - generic [ref=e435]:
+                        - text: El curso
+                        - strong [ref=e436]: "\"Violencias Digitales: herramientas para la prevención\""
+                        - text: es una formación autogestiva de la
+                        - strong [ref=e437]: Universidad Nacional de Córdoba
+                      - generic:
+                        - superscript
+                        - superscript
+                        - superscript
+                        - superscript
+                      - text: .
+                      - generic [ref=e438]:
+                        - text: Se enmarca en el cumplimiento de la
+                        - strong [ref=e439]: Ley Micaela
+                        - text: (Ley N° 27.499), política que desde 2024 integra obligatoriamente al claustro estudiantil para promover la formación en género y diversidad
+                      - generic:
+                        - superscript
+                      - text: .
+                    - paragraph [ref=e440]:
+                      - generic [ref=e441]:
+                        - text: El objetivo es brindar herramientas conceptuales y normativas para que las y los estudiantes logren posicionarse críticamente ante la violencia de género en entornos digitales
+                        - generic:
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                        - text: .
+                        - generic [ref=e442]:
+                          - text: El programa aborda desde la cultura patriarcal hasta problemáticas específicas como
+                          - generic [ref=e443]: grooming
+                          - text: ","
+                          - generic [ref=e444]: sexting
+                          - text: "y"
+                          - generic [ref=e445]: deepfakes
+                          - text: ", bajo el marco de la"
+                          - strong [ref=e446]: Ley Olimpia
+                        - generic:
+                          - superscript
+                        - text: .
+                    - paragraph [ref=e447]:
+                      - generic [ref=e449]:
+                        - text: "La metodología se basa en la acción: cada estudiante analiza situaciones audiovisuales de la vida universitaria, toma decisiones y accede a recursos dinámicos como podcasts e infografías"
+                        - generic:
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                        - text: . La acreditación requiere completar los cuestionarios de cada módulo para obtener el certificado correspondiente
+                        - generic:
+                          - superscript
+                          - superscript
+                          - superscript
+                          - superscript
+                        - text: .
+                  - generic [ref=e451]: "Duración del curso: 30 Horas"
+              - generic [ref=e452]:
+                - generic [ref=e453]:
+                  - heading "Curso Introductorio a los Derechos Sexuales y (NO) Reproductivos desde una perspectiva de género" [level=3] [ref=e454]:
+                    - link "Curso Introductorio a los Derechos Sexuales y (NO) Reproductivos desde una perspectiva de género" [ref=e455] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=83
+                  - img "Self enrolment" [ref=e457]: 
+                - generic [ref=e463]: "Duración del curso: 50 Horas"
+              - generic [ref=e464]:
+                - generic [ref=e465]:
+                  - heading "Encuentros sobre Derechos Humanos" [level=3] [ref=e466]:
+                    - link "Encuentros sobre Derechos Humanos" [ref=e467] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=28
+                  - img "Self enrolment" [ref=e469]: 
+                - generic [ref=e475]: "Duración del curso: 60 Horas"
+              - generic [ref=e476]:
+                - generic [ref=e477]:
+                  - heading "Formación Docente en Género y Abordaje de Violencias UNC - “Ley Micaela”" [level=3] [ref=e478]:
+                    - link "Formación Docente en Género y Abordaje de Violencias UNC - “Ley Micaela”" [ref=e479] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=25
+                  - img "Self enrolment" [ref=e481]: 
+                - generic [ref=e486]: "Duración del curso: 60 Horas"
+              - generic [ref=e487]:
+                - generic [ref=e488]:
+                  - heading "Formación en género y abordaje de violencias de género para Estudiantes de la UNC" [level=3] [ref=e489]:
+                    - link "Formación en género y abordaje de violencias de género para Estudiantes de la UNC" [ref=e490] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=24
+                  - img "Self enrolment" [ref=e492]: 
+                - generic [ref=e498]: "Duración del curso: 60 Horas"
+              - generic [ref=e499]:
+                - generic [ref=e500]:
+                  - heading "Formación Nodocente en Género y Abordaje de Violencias-UNC-“Ley Micaela”" [level=3] [ref=e501]:
+                    - link "Formación Nodocente en Género y Abordaje de Violencias-UNC-“Ley Micaela”" [ref=e502] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=123
+                  - img "Self enrolment" [ref=e504]: 
+                - generic [ref=e510]: "Duración del curso: 60 Horas"
+              - generic [ref=e511]:
+                - generic [ref=e512]:
+                  - heading "Formación para Todo Público en Género y Abordaje de Violencias" [level=3] [ref=e513]:
+                    - link "Formación para Todo Público en Género y Abordaje de Violencias" [ref=e514] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=33
+                  - img "Self enrolment" [ref=e516]: 
+                - generic [ref=e522]: "Duración del curso: 45 Horas"
+              - generic [ref=e523]:
+                - generic [ref=e524]:
+                  - heading "Inclusión financiera" [level=3] [ref=e525]:
+                    - link "Inclusión financiera" [ref=e526] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=212
+                  - img "Self enrolment" [ref=e528]: 
+                - generic [ref=e532]:
+                  - generic [ref=e534]:
+                    - paragraph
+                    - paragraph [ref=e535]: Este curso está diseñado para proporcionar, a personas que puedan necesitar para su vida cotidiana, las herramientas y conocimientos necesarios para progresar en su independencia y seguridad financiera. A través de conceptos básicos de finanzas, créditos, inversiones y elaboración de presupuestos, los/as participantes podrán tomar decisiones con mayor información y construir un futuro económico más estable.
+                    - paragraph
+                  - generic [ref=e537]: "Duración del curso: 35 Horas"
+              - generic [ref=e538]:
+                - generic [ref=e539]:
+                  - 'heading "Mujeres Emprendedoras: Herramientas para emprender con perspectiva de género" [level=3] [ref=e540]':
+                    - 'link "Mujeres Emprendedoras: Herramientas para emprender con perspectiva de género" [ref=e541] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=3
+                  - img "Self enrolment" [ref=e543]: 
+                - generic [ref=e549]: "Duración del curso: 60 Horas"
+              - generic [ref=e550]:
+                - heading "Ceremonial para Ceremonialistas - Nivel Universitario I" [level=3] [ref=e552]:
+                  - link "Ceremonial para Ceremonialistas - Nivel Universitario I" [ref=e553] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=208
+                - generic [ref=e559]: "Duración del curso: 40 Horas"
+              - generic [ref=e560]:
+                - generic [ref=e561]:
+                  - heading "Lectocomprensión en inglés para carreras de nivel pregrado" [level=3] [ref=e562]:
+                    - link "Lectocomprensión en inglés para carreras de nivel pregrado" [ref=e563] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=124
+                  - img "Self enrolment" [ref=e565]: 
+                - generic [ref=e569]:
+                  - list [ref=e570]:
+                    - listitem [ref=e571]:
+                      - text: "Teacher:"
+                      - link "Carina Accinelli" [ref=e572] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=62
+                  - generic [ref=e574]: "Duración del curso: 20 Horas"
+              - generic [ref=e575]:
+                - heading "Capacitación en Turismo Alternativo" [level=3] [ref=e577]:
+                  - link "Capacitación en Turismo Alternativo" [ref=e578] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=174
+                - generic [ref=e582]:
+                  - list [ref=e583]:
+                    - listitem [ref=e584]:
+                      - text: "Teacher:"
+                      - link "Elisa Lucía Berzal" [ref=e585] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=48826
+                  - generic [ref=e587]: "Duración del curso: 40 Horas"
+              - generic [ref=e588]:
+                - generic [ref=e589]:
+                  - heading "Comidas Típicas de Colonia Caroya" [level=3] [ref=e590]:
+                    - link "Comidas Típicas de Colonia Caroya" [ref=e591] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=191
+                  - img "Self enrolment" [ref=e593]: 
+                - generic [ref=e599]: "Duración del curso: 15 Horas"
+              - generic [ref=e600]:
+                - generic [ref=e601]:
+                  - heading "Operario Certificado de Limpieza Institucional" [level=3] [ref=e602]:
+                    - link "Operario Certificado de Limpieza Institucional" [ref=e603] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=113
+                  - img "Self enrolment" [ref=e605]: 
+                - generic [ref=e609]:
+                  - generic [ref=e611]:
+                    - paragraph
+                    - paragraph [ref=e612]:
+                      - strong [ref=e613]: Curso de Operario Certificado en Limpieza Institucional – Capacitación Virtual
+                    - paragraph [ref=e614]: ¡Prepárate para abrir nuevas oportunidades laborales en el sector de limpieza institucional! Este curso virtual está diseñado para brindarte las herramientas necesarias para desempeñarte de manera eficiente en establecimientos educativos, de salud y comunidades aisladas de la provincia de Córdoba, garantizando un trabajo seguro y de calidad.
+                    - paragraph [ref=e615]: A lo largo del programa, abordarás conocimientos técnicos específicos de limpieza y aprenderán a trabajar de forma segura, cumpliendo con normas de higiene, seguridad y legislación laboral. Además, adquirirás nociones de atención al cliente, interpretación de recibos de sueldo, gestión de conflictos y prevención de violencia laboral y de género.
+                    - paragraph [ref=e616]: El curso combina clases virtuales con autoevaluaciones en cada módulo. Al completar todas las evaluaciones con éxito, los participantes recibirán un certificado que valida su formación y los prepara para insertarse profesionalmente en el sector de limpieza institucional.
+                    - paragraph [ref=e617]:
+                      - strong [ref=e618]: "Contenidos principales:"
+                    - list [ref=e619]:
+                      - listitem [ref=e620]:
+                        - paragraph [ref=e621]: Manejo de productos químicos y cuidado del medio ambiente.
+                      - listitem [ref=e622]:
+                        - paragraph [ref=e623]: Técnicas de limpieza de superficies, pisos, baños, cocinas y grandes áreas.
+                      - listitem [ref=e624]:
+                        - paragraph [ref=e625]: Trabajo en equipo, comunicación asertiva y resolución de conflictos.
+                      - listitem [ref=e626]:
+                        - paragraph [ref=e627]: "Primeros auxilios: RCP, desobstrucción de vías respiratorias y tratamiento de quemaduras."
+                    - paragraph [ref=e628]: Sumate a esta capacitación y adquiere los conocimientos y competencias que te abrirán las puertas a un empleo formal y seguro en la provincia de Córdoba.
+                    - paragraph
+                  - generic [ref=e630]: "Duración del curso: 30 Horas"
+              - generic [ref=e631]:
+                - heading "Presupuesto Participativo Municipal" [level=3] [ref=e633]:
+                  - link "Presupuesto Participativo Municipal" [ref=e634] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=169
+                - generic [ref=e640]: "Duración del curso: 35 Horas"
+              - generic [ref=e641]:
+                - heading "De Peones a Reyes - Ajedrez 2.0 en la UNC - (Verano 2024)" [level=3] [ref=e643]:
+                  - link "De Peones a Reyes - Ajedrez 2.0 en la UNC - (Verano 2024)" [ref=e644] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=34
+                - generic [ref=e648]:
+                  - generic [ref=e650]:
+                    - paragraph [ref=e651]: En esta nueva edición del curso de Ajedrez en la UNC, podrás conocer como se juega, las piezas o trebejos, aperturas y defensas, jugadas memorables que realizaron grandes maestros, historias y anécdotas de este juego milenario, con material inédito realizado por los especialistas explicando jugadas más complejas que hicieron historia.
+                    - paragraph [ref=e652]
+                    - paragraph [ref=e653]:
+                      - generic [ref=e654]: "Docentes:"
+                    - paragraph [ref=e655]: Guillermo Zoppe, Juan Carlos Carranza.
+                    - paragraph [ref=e656]
+                    - paragraph [ref=e657]:
+                      - generic [ref=e658]: "Duración:"
+                      - text: 30 hs.
+                  - generic [ref=e660]: "Duración del curso: 30 Horas"
+              - generic [ref=e661]:
+                - heading "De Peones a Reyes - Ajedrez Avanzado en la UNC - (Verano 2024)" [level=3] [ref=e663]:
+                  - link "De Peones a Reyes - Ajedrez Avanzado en la UNC - (Verano 2024)" [ref=e664] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=36
+                - generic [ref=e668]:
+                  - generic [ref=e670]:
+                    - paragraph [ref=e671]: La UNC implementa el ajedrez social como herramienta pedagógica transformadora, a través de este juego milenario.Quienes hayan completado el primer curso “De Peones a Reyes- Curso Inicial” podrán ahora aprender nociones de estrategia, táctica y finales. Ideal para avanzar en la comprensión del juego.
+                    - paragraph [ref=e672]
+                    - paragraph [ref=e673]:
+                      - generic [ref=e674]: "Docentes:"
+                    - paragraph [ref=e675]: Guillermo Zoppe, Juan Carlos Carranza y Guillermo Llanos.
+                    - paragraph [ref=e676]
+                    - paragraph [ref=e677]:
+                      - generic [ref=e678]: "Temario:"
+                    - paragraph [ref=e679]: "Capítulo 1: La aventura del desarrollo."
+                    - paragraph [ref=e680]: "Capítulo 2: Mates simples y complejos."
+                    - paragraph [ref=e681]: "Capítulo 3: Coronación de peones."
+                    - paragraph [ref=e682]: "Capítulo 4: Medio juego. Generales de la batalla."
+                    - paragraph [ref=e683]: "Capítulo 5: Final de partida. La consumación de la victoria."
+                    - paragraph [ref=e684]: "Capítulo 6: Ejemplos. Las manos maestras."
+                    - paragraph [ref=e685]
+                    - paragraph [ref=e686]:
+                      - generic [ref=e687]: "Duración:"
+                      - text: 30 hs.
+                  - generic [ref=e689]: "Duración del curso: 5 Horas"
+              - generic [ref=e690]:
+                - heading "Curso de Chi Kung para la Salud Baduanjin - (Verano 2024)" [level=3] [ref=e692]:
+                  - link "Curso de Chi Kung para la Salud Baduanjin - (Verano 2024)" [ref=e693] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=35
+                - generic [ref=e697]:
+                  - generic [ref=e699]:
+                    - paragraph [ref=e700]: En este curso podrás ver conjuntos de ejercicios físicos especialmente indicados para conseguir y mantener un buen estado físico general de salud a través del trabajo de la Energía en el tiempo, las 8 piezas de Brocado.
+                    - paragraph [ref=e701]
+                    - paragraph [ref=e702]:
+                      - generic [ref=e703]: "Docentes:"
+                    - paragraph [ref=e704]: Gabriel A. Kfouri, Rosana Franchino.
+                    - paragraph [ref=e705]
+                    - paragraph [ref=e707]:
+                      - generic [ref=e708]: "Temario:"
+                    - paragraph [ref=e709]:
+                      - text: "CLASE I: Presentación, movilidad articular y muscular, desarrollo de los ejercicios 1 y 2."
+                      - text: Estiramiento.
+                      - text: "CLASE II: Movilidad articular y muscular, desarrollo de los ejercicios 3 y 4."
+                      - text: Estiramiento.
+                      - text: "CLASE III: Movilidad articular y muscular, desarrollo de los ejercicios 5 y 6."
+                      - text: Estiramiento.
+                      - text: "CLASE IV: Movilidad articular y muscular, desarrollo de los ejercicios 7 y 8."
+                      - text: Estiramiento.
+                    - paragraph [ref=e710]:
+                      - generic [ref=e711]: "Duración:"
+                      - text: 30 hs.
+                  - generic [ref=e713]: "Duración del curso: 30 Horas"
+              - generic [ref=e714]:
+                - heading "Confección, arreglos y reciclado de indumentaria - (Verano 2024)" [level=3] [ref=e716]:
+                  - link "Confección, arreglos y reciclado de indumentaria - (Verano 2024)" [ref=e717] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=21
+                - generic [ref=e721]:
+                  - generic [ref=e723]:
+                    - paragraph [ref=e724]:
+                      - text: En este curso, te damos la clave y te lo explicaremos de manera simple y transparente. Podrás dar gusto a los niños con las prendas que puedan desear. Tendrás la oportunidad de diseñar ropa para jóvenes y damas. Con estas pocas orientaciones podrás innovar de manera exitosa en la materia. ¡Todo lo necesario para emprend
+                      - link "https://edx.campus" [ref=e725] [cursor=pointer]:
+                        - /url: https://edx.campus
+                      - text: virtual.unc.edu.ar/er un camino en la confección, arreglo y reciclado de prendas!
+                    - paragraph [ref=e726]
+                    - paragraph [ref=e728]:
+                      - generic [ref=e729]: "Duración:"
+                      - text: 45 hs.
+                  - generic [ref=e731]: "Duración del curso: 45 Horas"
+              - generic [ref=e732]:
+                - heading "Entrenamiento en Casa - (Verano 2024)" [level=3] [ref=e734]:
+                  - link "Entrenamiento en Casa - (Verano 2024)" [ref=e735] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=39
+                - generic [ref=e739]:
+                  - generic [ref=e741]:
+                    - paragraph [ref=e742]: El ejercicio ayuda a mejorar el estado de ánimo y a liberar la tensión. Durante estos días en casa por la cuarentena, tanto psicólogos como nutricionistas acentúan que es fundamental hacer ejercicio a diario para obtener todos sus beneficios físicos y mentales. Estas rutinas de ejercicios están diseñadas para que puedas divertirte y sentirte bien.
+                    - paragraph [ref=e743]
+                    - paragraph [ref=e744]:
+                      - generic [ref=e745]: "Docentes:"
+                    - heading [level=3]
+                    - heading "Angelo Fabián Pollastrini" [level=3] [ref=e746]
+                    - paragraph [ref=e747]:
+                      - generic [ref=e748]: "Duración:"
+                      - text: 30 hs.
+                  - generic [ref=e750]: "Duración del curso: 30 Horas"
+              - generic [ref=e751]:
+                - 'heading "Gestión eficiente del calor: cuidados personales en verano - (Verano 2024)" [level=3] [ref=e753]':
+                  - 'link "Gestión eficiente del calor: cuidados personales en verano - (Verano 2024)" [ref=e754] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=125
+                - generic [ref=e757]:
+                  - paragraph [ref=e760]:
+                    - generic [ref=e761]: En este curso aprenderás a cuidarte y a cuidar de personas durante las altas temperaturas del verano y conocerás un poco más sobre las llamadas “olas de calor”. Evitarás enfermedades relacionadas con el calor. y conocerás los riesgos asociados a las altas temperaturas, aprenderás a identificar los signos de agotamiento por calor y golpe de calor y adquirirás conocimientos prácticos para mantener a las personas hidratadas y frescas.
+                  - generic [ref=e763]: "Duración del curso: 5 Horas"
+              - generic [ref=e764]:
+                - heading "Gestión emocional para vivir mejor - (Verano 2024)" [level=3] [ref=e766]:
+                  - link "Gestión emocional para vivir mejor - (Verano 2024)" [ref=e767] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=82
+                - generic [ref=e771]:
+                  - generic [ref=e773]:
+                    - paragraph [ref=e774]: El curso propone un recorrido teórico-práctico sobre el mundo de las emociones, con el objetivo de aprender a identificar, entender y gestionar las mismas.
+                    - paragraph [ref=e775]
+                    - paragraph [ref=e776]: "DOCENTE: Lic. Rodrigo Ezequiel Jaldo"
+                    - paragraph [ref=e777]: "TEMARIO:"
+                    - paragraph [ref=e778]: "Módulo 1: El mundo de las emociones"
+                    - paragraph [ref=e779]: Qué son las emociones. Definición completa del concepto.
+                    - paragraph [ref=e780]: Análisis de cada elemento de la definición, con ejemplos cotidianos. Validación emocional. Componentes de las emociones (fisiología, pensamientos, comportamientos y factor social). Diferencia entre emociones y sentimientos. Episodios emocionales. Ejemplos de episodios emocionales (secuencial y en paralelo). Estado del ánimo. Como influyen entre sí las emociones y el estado del ánimo.
+                    - paragraph [ref=e781]: "Módulo 2: Aprendiendo a gestionar nuestras emociones"
+                    - paragraph [ref=e782]: "Gestión emocional: Definición y análisis de cada elemento del concepto. Consecuencias funcionales y disfuncionales. Gestión intra e interpersonal, con ejemplos cotidianos. Competencias Emocionales. Ingredientes emocionales. Emociones primarias y su significado: tristeza, alegría, enojo, sorpresa, aceptación, asco, anticipación, miedo. Paso a paso para gestionar nuestras emociones."
+                    - paragraph [ref=e783]: "Módulo 3: Gestión interna de las emociones"
+                    - paragraph [ref=e784]: "Las emociones en nuestro cuerpo. Componente fisiológico de las emociones. Malestar emocional. Neurotransmisores y hormonas que influyen en las emociones. Pautas generales para cualquier emoción. Gestión detallada de la ansiedad (qué es la ansiedad; fisiología de la ansiedad; técnicas de respiración y relajación). Componente cognitivo de las emociones. Sesgos cognitivos: pensamiento dicotómico; catastrofismo; inferencias arbitrarias; filtro negativo; adivinación; personalismos. Los pensamientos son interpretaciones. Interpretaciones alternativas. Reformulación. Reevaluación."
+                    - paragraph [ref=e785]: "Módulo 4: Gestión de las conductas emocionales"
+                    - paragraph [ref=e786]: Componente comportamental de las emociones. Impulsos emocionales. Conductas de evitación. Gestión de las conductas emocionales. Conductas alternativas. Componente social de las emociones. Mandatos sociales. Culpa. Vergüenza. Autonomía emocional. Límites sanos. Desahogo emocional. Comunicación asertiva. Resolución de conflictos con otras personas.
+                    - paragraph [ref=e787]: "DURACIÓN: 20 hs"
+                  - generic [ref=e789]: "Duración del curso: 20 Horas"
+              - generic [ref=e790]:
+                - 'heading "Inteligencia Artificial: Empezar a Pensar(la) - (Verano 2024)" [level=3] [ref=e792]':
+                  - 'link "Inteligencia Artificial: Empezar a Pensar(la) - (Verano 2024)" [ref=e793] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=13
+                - generic [ref=e796]:
+                  - paragraph [ref=e799]: "Inteligencia Artificial: Empezar a Pensar(la)"
+                  - generic [ref=e801]: "Duración del curso: 5 Horas"
+              - generic [ref=e802]:
+                - heading "Introducción a la Fotografía - (Verano 2024)" [level=3] [ref=e804]:
+                  - link "Introducción a la Fotografía - (Verano 2024)" [ref=e805] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=53
+                - generic [ref=e809]:
+                  - generic [ref=e811]:
+                    - paragraph [ref=e812]:
+                      - generic [ref=e813]: "Temario:"
+                    - paragraph [ref=e814]
+                    - paragraph [ref=e815]:
+                      - link "Módulo 1" [ref=e816] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=638
+                      - text: ": Introducción. Origen de la palabra fotografía. Principio básico de funcionamiento de una cámara de fotos. Partes de la cámara."
+                    - paragraph [ref=e817]:
+                      - link "Módulo 2" [ref=e818] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=641
+                      - text: ": Diafragma. Velocidad de obturación. Herramienta ISO. Exposición."
+                    - paragraph [ref=e819]:
+                      - link "Módulo 3" [ref=e820] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=644
+                      - text: ": Balance de Blancos. Profundidad de Campo."
+                    - paragraph [ref=e821]:
+                      - link "Módulo 4" [ref=e822] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=647
+                      - text: ": Planos Fotográficos."
+                    - paragraph [ref=e823]
+                    - paragraph [ref=e824]:
+                      - generic [ref=e825]: "Docentes:"
+                      - text: Sebastián Cáceres, Santino Viarengo
+                  - generic [ref=e827]: "Duración del curso: 6 Horas"
+              - generic [ref=e828]:
+                - heading "Jardinería Vertical y Cuadros Vivos - (Verano 2024)" [level=3] [ref=e830]:
+                  - link "Jardinería Vertical y Cuadros Vivos - (Verano 2024)" [ref=e831] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=18
+                - generic [ref=e835]:
+                  - generic [ref=e837]:
+                    - paragraph [ref=e838]: En este curso queremos que te inicies en el amplio mundo los CUADROS VIVOS son una excelente solución para llenar de vida espacios vacíos de un ambiente. Y lo mejor de todo es que son beneficiosos para la armonía del hogar y la salud, ya que, generan oxígeno y a su vez absorben dióxido de carbono. También retienen los gases contaminantes que vienen del exterior por lo cual son ideales para departamentos y casas con poco espacio.
+                    - paragraph [ref=e839]:
+                      - generic [ref=e840]: "Temario:"
+                    - paragraph [ref=e841]:
+                      - link "Módulo 1" [ref=e842] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=412
+                      - text: ": Introducción al mundo de la jardinería vertical"
+                    - paragraph [ref=e843]:
+                      - link "Módulo 2" [ref=e844] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=425
+                      - text: ": Cuadro vivo para interior"
+                    - paragraph [ref=e845]:
+                      - link "Módulo 3" [ref=e846] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=490
+                      - text: ": cuadro vivo para exterior"
+                    - paragraph [ref=e847]:
+                      - link "Módulo 4" [ref=e848] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=497
+                      - text: ": huerta vertical de aromáticas"
+                    - paragraph [ref=e849]
+                    - paragraph [ref=e850]:
+                      - generic [ref=e851]: "Duración:"
+                      - text: 30 hs.
+                  - generic [ref=e853]: "Duración del curso: 30 Horas"
+              - generic [ref=e854]:
+                - heading "Mecánica Básica del Automotor - (Verano 2024)" [level=3] [ref=e856]:
+                  - link "Mecánica Básica del Automotor - (Verano 2024)" [ref=e857] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=16
+                - generic [ref=e861]:
+                  - generic [ref=e863]:
+                    - paragraph [ref=e864]: Este curso tiene como propósito que aprendas acerca de mecánica básica.
+                    - paragraph [ref=e865]
+                    - paragraph [ref=e866]: "Temario:"
+                    - paragraph [ref=e867]:
+                      - link "Módulo 1" [ref=e868] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=354
+                      - text: ": Limpieza y orden del área de trabajo"
+                    - paragraph [ref=e869]: "Modulo 2: Componentes del Vehículo"
+                    - paragraph [ref=e870]:
+                      - link "Módulo 3" [ref=e871] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=383
+                      - text: ": Diagnóstico general e indicadores"
+                    - paragraph [ref=e872]:
+                      - link "Módulo 4" [ref=e873] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=422
+                      - text: Cambio de neumáticos
+                    - paragraph [ref=e874]:
+                      - link "Módulo 5" [ref=e875] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=429
+                      - text: ": cambio de lámparas"
+                    - paragraph [ref=e876]:
+                      - link "Módulo 6" [ref=e877] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=433
+                      - text: ": A tener en cuenta"
+                    - paragraph [ref=e878]
+                    - paragraph [ref=e879]:
+                      - generic [ref=e880]: "Duración estimada:"
+                      - text: 30 hs.
+                  - generic [ref=e882]: "Duración del curso: 30 Horas"
+              - generic [ref=e883]:
+                - heading "Mi Propia Huerta - (Verano 2024)" [level=3] [ref=e885]:
+                  - link "Mi Propia Huerta - (Verano 2024)" [ref=e886] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=52
+                - generic [ref=e890]:
+                  - generic [ref=e892]:
+                    - paragraph [ref=e893]: En el curso Mi propia huerta aprenderemos a aprovechar mejor el agua, evitar inundaciones, amortiguar el impacto de las altas temperaturas y construir un refugio natural para la flora y fauna autóctonas.
+                    - paragraph [ref=e894]
+                    - paragraph [ref=e896]:
+                      - generic [ref=e897]: "Docentes:"
+                      - text: Dra. Patricia Gil, Dra.Ing. Agr. Paola Campitelli, Ing. Agr. Laura Vargas, Ing. Agr. Leandro Carbelo
+                    - paragraph [ref=e898]
+                    - paragraph [ref=e899]:
+                      - generic [ref=e900]: "Temario:"
+                    - paragraph [ref=e901]: En el curso Mi propia huerta aprenderemos a aprovechar mejor el agua, evitar inundaciones, amortiguar el impacto de las altas temperaturas y construir un refugio natural para la flora y fauna autóctonas.
+                    - paragraph [ref=e902]
+                    - paragraph [ref=e904]:
+                      - generic [ref=e905]: "Duración:"
+                      - text: 45 hs
+                  - generic [ref=e907]: "Duración del curso: 45 Horas"
+              - generic [ref=e908]:
+                - heading "Mi Propio Jardín - (Verano 2024)" [level=3] [ref=e910]:
+                  - link "Mi Propio Jardín - (Verano 2024)" [ref=e911] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=22
+                - generic [ref=e915]:
+                  - generic [ref=e917]:
+                    - paragraph [ref=e918]: Este curso está destinado a emprendedores y amantes de la naturaleza. ¿Quieres tener una vida más sana, en armonía con el ambiente? Un jardín es un espacio en el que podemos darnos un momento con nosotros mismos, disfrutar de un ambiente puro en el que liberamos nuestra mente y espíritu, donde podemos regalarnos unos minutos de calma, ser creativos y compartir con nuestros seres queridos.
+                    - paragraph [ref=e919]
+                    - paragraph [ref=e920]:
+                      - generic [ref=e921]: "Docentes:"
+                    - heading "Patricia Gil, Paola Campitelli, Laura Vargas, Melisa Marinsaldi, Carlos Kubach, María Elena Reyna, Ariel Ortiz, Magalí Carnelutti." [level=3] [ref=e922]
+                    - paragraph [ref=e923]:
+                      - generic [ref=e924]: "Duración:"
+                      - text: 45 hs.
+                  - generic [ref=e926]: "Duración del curso: 45 Horas"
+              - generic [ref=e927]:
+                - heading "Moldería y Confección de Prendas - (Verano 2024)" [level=3] [ref=e929]:
+                  - link "Moldería y Confección de Prendas - (Verano 2024)" [ref=e930] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=58
+                - generic [ref=e934]:
+                  - generic [ref=e936]:
+                    - paragraph [ref=e937]: Este curso de confección de prendas, está enfocado a conocer en profundidad el proceso y la transformación de prendas como Pantalón, Camperas, Ropa íntima, traje de baño, buzo deportivo, faldas, entre otras.
+                    - paragraph [ref=e938]: Comprenderás cada paso y avanzarás progresivamente para obtener prendas a tu medida.
+                    - paragraph [ref=e939]: El proceso se desarrolla desde toma de medidas, realización del molde, corte de telas, hasta la costura y las terminaciones de cada prenda para que puedas
+                    - paragraph [ref=e940]
+                    - paragraph [ref=e941]:
+                      - generic [ref=e942]: "Docentes:"
+                      - text: Equipo Interdisciplinario
+                    - paragraph [ref=e943]: Campus Virtual
+                    - paragraph [ref=e944]: Universidad Nacional de Córdoba
+                    - paragraph [ref=e945]
+                    - paragraph [ref=e946]
+                    - paragraph [ref=e948]:
+                      - generic [ref=e949]: "Temario:"
+                    - paragraph [ref=e950]:
+                      - link "Módulo 1" [ref=e951] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=775
+                      - text: ": Medidas y moldes"
+                    - paragraph [ref=e952]:
+                      - link "Módulo 2" [ref=e953] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=783
+                      - text: ": Confección de remera y vestido"
+                    - paragraph [ref=e954]:
+                      - link "Módulo 3" [ref=e955] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=787
+                      - text: ": Confección de bikini, ropa íntima y traje de baño"
+                    - paragraph [ref=e956]:
+                      - link "Módulo 4" [ref=e957] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=791
+                      - text: ": Confección de buzo y campera rompevientos."
+                    - paragraph [ref=e958]:
+                      - link "Módulo 5" [ref=e959] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=795
+                      - text: ": Confección de pantalón y bolsillos"
+                    - paragraph [ref=e960]:
+                      - link "Módulo 6" [ref=e961] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=799
+                      - text: ": Confección de faldas y tips de costuras"
+                    - paragraph [ref=e962]
+                    - paragraph [ref=e963]:
+                      - generic [ref=e964]: "Duración:"
+                      - text: 15hs
+                  - generic [ref=e966]: "Duración del curso: 5 Horas"
+              - generic [ref=e967]:
+                - heading "Producción de Alimentos Tradicionales de Colonia Caroya - (Verano 2024)" [level=3] [ref=e969]:
+                  - link "Producción de Alimentos Tradicionales de Colonia Caroya - (Verano 2024)" [ref=e970] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=63
+                - generic [ref=e974]:
+                  - generic [ref=e976]:
+                    - paragraph [ref=e977]: En este curso aprenderás conocimientos referidos a la composición, transformación y conservación de alimentos frutihortícolas incluyendo la práctica de procesos tecnológicos utilizados en la elaboración de productos artesanales.
+                    - paragraph [ref=e978]
+                    - paragraph [ref=e979]:
+                      - generic [ref=e980]: "Docentes:"
+                    - heading "Gabriel Manera, Ana Judith Lambir Jacobo." [level=3] [ref=e981]
+                    - paragraph [ref=e982]:
+                      - generic [ref=e983]: "Duración:"
+                      - text: 45 hs.
+                  - generic [ref=e985]: "Duración del curso: 15 Horas"
+              - generic [ref=e986]:
+                - 'heading "Producción de Alimentos Artesanales: Conservas, Confituras y Productos Lácteos - (Verano 2024)" [level=3] [ref=e988]':
+                  - 'link "Producción de Alimentos Artesanales: Conservas, Confituras y Productos Lácteos - (Verano 2024)" [ref=e989] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=30
+                - generic [ref=e993]:
+                  - generic [ref=e995]:
+                    - paragraph [ref=e996]: En este curso aprenderás conocimientos referidos a la composición, transformación y conservación de alimentos frutihortícolas incluyendo la práctica de procesos tecnológicos utilizados en la elaboración de productos artesanales.
+                    - paragraph [ref=e997]
+                    - paragraph [ref=e998]:
+                      - generic [ref=e999]: "Docentes:"
+                    - heading "Gabriel Manera, Ana Judith Lambir Jacobo." [level=3] [ref=e1000]
+                    - paragraph [ref=e1001]:
+                      - generic [ref=e1002]: "Duración:"
+                      - text: 45 hs.
+                  - generic [ref=e1004]: "Duración del curso: 45 Horas"
+              - generic [ref=e1005]:
+                - heading "Soldadura Eléctrica - (Verano 2024)" [level=3] [ref=e1007]:
+                  - link "Soldadura Eléctrica - (Verano 2024)" [ref=e1008] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=111
+                - generic [ref=e1012]:
+                  - generic [ref=e1014]:
+                    - paragraph [ref=e1015]: En este Curso de Soldadura Eléctrica, veremos desde una breve reseña histórica, concepto básico de la soldadura, las ventajas y desventajas de la soldadura eléctrica
+                    - paragraph [ref=e1016]
+                    - paragraph [ref=e1018]:
+                      - generic [ref=e1019]: "Docentes:"
+                      - text: Diego Bustos
+                    - paragraph [ref=e1020]
+                    - paragraph [ref=e1022]:
+                      - generic [ref=e1023]: "Temario:"
+                    - paragraph [ref=e1024]:
+                      - link "MÓDULO 1" [ref=e1025] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=815
+                      - text: ": INTRODUCCIÓN"
+                    - paragraph [ref=e1026]:
+                      - link "MÓDULO 2" [ref=e1027] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=869
+                      - text: ": EL EQUIPO DE SOLDADURA"
+                    - paragraph [ref=e1028]:
+                      - link "MÓDULO 3" [ref=e1029] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=873
+                      - text: ": TIPOS Y TÉCNICAS DE SOLDADURA"
+                    - paragraph [ref=e1030]:
+                      - link "MÓDULO 4" [ref=e1031] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=865
+                      - text: ": HERRAMIENTAS Y MATERIALES"
+                    - paragraph [ref=e1032]:
+                      - link "MÓDULO 5" [ref=e1033] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/mod/book/view.php?id=857
+                      - text: ": COMENZANDO A SOLDAR: TRABAJO PRÁCTICO"
+                    - paragraph [ref=e1034]
+                    - paragraph [ref=e1035]:
+                      - generic [ref=e1036]: "Duración:"
+                      - text: 45 hs
+                  - generic [ref=e1038]: "Duración del curso: 45 Horas"
+              - generic [ref=e1039]:
+                - heading "Curso de Tai Chi Chuan para la Salud - (Verano 2024)" [level=3] [ref=e1041]:
+                  - link "Curso de Tai Chi Chuan para la Salud - (Verano 2024)" [ref=e1042] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=40
+                - generic [ref=e1046]:
+                  - generic [ref=e1048]:
+                    - paragraph [ref=e1049]:
+                      - strong [ref=e1050]: "Esfuerzo estimado: 30 h"
+                    - paragraph [ref=e1051]: El Tai chi chuan es el arte marcial más popular, esto se debe a los beneficios que aporta a la salud. El primer efecto será una sensación de bienestar en todo el cuerpo.
+                    - paragraph [ref=e1052]: "El Tai chi se relaciona con la existencia de los 5 elementos: tierra, agua, fuego, metal y madera, los cuales, en un ciclo continuo, interactúan e influyen en todos los aspectos de la vida, alimentación, sueño, personalidad y también en la salud."
+                    - paragraph [ref=e1053]: Este curso es virtual, gratuito y con certificación incluida. Podés cursarlo a tu propio ritmo y completarlo según tu conveniencia.
+                  - generic [ref=e1055]: "Duración del curso: 20 Horas"
+              - generic [ref=e1056]:
+                - heading "Computación Cuantica desde cero" [level=3] [ref=e1058]:
+                  - link "Computación Cuantica desde cero" [ref=e1059] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=310
+                - generic [ref=e1064]: "Duración del curso: 20 Horas"
+              - generic [ref=e1065]:
+                - heading "IDEA FERNANDO" [level=3] [ref=e1067]:
+                  - link "IDEA FERNANDO" [ref=e1068] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=309
+                - generic [ref=e1073]: "Duración del curso: 20 Horas"
+              - generic [ref=e1074]:
+                - heading "Pruebas Vero" [level=3] [ref=e1076]:
+                  - link "Pruebas Vero" [ref=e1077] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=247
+                - generic [ref=e1080]:
+                  - list [ref=e1081]:
+                    - listitem [ref=e1082]:
+                      - text: "Teacher:"
+                      - link "Verónica Andrea Gonzalez Marquez" [ref=e1083] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=47018
+                  - generic [ref=e1085]: "Duración del curso: 20 Horas"
+              - generic [ref=e1086]:
+                - generic [ref=e1087]:
+                  - heading "Prevención de estafas virtuales" [level=3] [ref=e1088]:
+                    - link "Prevención de estafas virtuales" [ref=e1089] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=241
+                  - img "Self enrolment" [ref=e1091]: 
+                - generic [ref=e1094]:
+                  - generic [ref=e1096]:
+                    - paragraph [ref=e1097]: En este curso desarrollarás las habilidades para reconocer las principales modalidades de estafas virtuales y los factores tecnológicos, sociales y comportamentales que las posibilitan y adoptar conductas preventivas que disminuyan la vulnerabilidad ante fraudes digitales.
+                    - paragraph
+                    - paragraph
+                    - paragraph
+                  - generic [ref=e1099]: "Duración del curso: 20 Horas"
+              - generic [ref=e1100]:
+                - heading "App-timizando tus proyectos" [level=3] [ref=e1102]:
+                  - link "App-timizando tus proyectos" [ref=e1103] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=158
+                - generic [ref=e1106]:
+                  - list [ref=e1107]:
+                    - listitem [ref=e1108]:
+                      - text: "Teacher:"
+                      - link "Carina Accinelli" [ref=e1109] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=62
+                  - generic [ref=e1111]: "Duración del curso: 5 Horas"
+              - generic [ref=e1112]:
+                - generic [ref=e1113]:
+                  - heading "Trayecto Electivo - Diplomatura Universitaria de Formación Continua en Creación y Gestión de Emprendimientos" [level=3] [ref=e1114]:
+                    - link "Trayecto Electivo - Diplomatura Universitaria de Formación Continua en Creación y Gestión de Emprendimientos" [ref=e1115] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=259
+                  - img "Self enrolment" [ref=e1117]: 
+                - generic [ref=e1120]:
+                  - list [ref=e1121]:
+                    - listitem [ref=e1122]:
+                      - text: "Teacher:"
+                      - link "Verónica Andrea Gonzalez Marquez" [ref=e1123] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=47018
+                  - generic [ref=e1125]: "Duración del curso: -"
+              - generic [ref=e1126]:
+                - heading "Trayecto final de evaluación" [level=3] [ref=e1128]:
+                  - link "Trayecto final de evaluación" [ref=e1129] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=301
+                - generic [ref=e1134]: "Duración del curso: 20 Horas"
+              - generic [ref=e1135]:
+                - generic [ref=e1136]:
+                  - heading "Técnicas para un cabello saludable" [level=3] [ref=e1137]:
+                    - link "Técnicas para un cabello saludable" [ref=e1138] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=224
+                  - img "Self enrolment" [ref=e1140]: 
+                - generic [ref=e1146]: "Duración del curso: 20 Horas"
+              - generic [ref=e1147]:
+                - heading "Manejo del estrés laboral" [level=3] [ref=e1149]:
+                  - link "Manejo del estrés laboral" [ref=e1150] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=195
+                - generic [ref=e1156]: "Duración del curso: 25 Horas"
+              - generic [ref=e1157]:
+                - generic [ref=e1158]:
+                  - heading "Yoga y Mindfulness para la vida cotidiana" [level=3] [ref=e1159]:
+                    - link "Yoga y Mindfulness para la vida cotidiana" [ref=e1160] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=265
+                  - img "Self enrolment" [ref=e1162]: 
+                - generic [ref=e1166]:
+                  - generic [ref=e1168]:
+                    - paragraph:
+                      - strong
+                    - paragraph
+                    - paragraph [ref=e1169]:
+                      - text: Este curso autogestivo te propone un
+                      - strong [ref=e1170]: espacio de pausa, conexión y bienestar
+                      - text: en medio del ritmo acelerado de la vida cotidiana. A través de un recorrido sereno y accesible, vas a incorporar los fundamentos del
+                      - strong [ref=e1171]: yoga y el mindfulness
+                      - text: como herramientas concretas para regular las emociones, reducir el estrés y cultivar una mayor presencia en tu día a día.
+                    - paragraph [ref=e1172]:
+                      - text: A lo largo de tres módulos, combinarás conceptos claros con
+                      - strong [ref=e1173]: prácticas simples de movimiento, respiración y atención plena
+                      - text: ", guiadas por una docente especialista. No necesitás experiencia previa ni condiciones físicas especiales: el curso está pensado para que avances a tu propio ritmo, escuchando tu cuerpo y desarrollando una mirada más consciente sobre tus hábitos y estados internos."
+                    - paragraph [ref=e1174]: Mediante videos, materiales complementarios y actividades de autoevaluación, vas a integrar pequeños gestos de calma aplicables a lo cotidiano. Al finalizar, contarás con recursos prácticos para vivir con mayor equilibrio, claridad y bienestar integral.
+                    - paragraph
+                  - generic [ref=e1176]: "Duración del curso: 10 Horas"
+              - generic [ref=e1177]:
+                - generic [ref=e1178]:
+                  - heading "Cómo transitar el duelo por la pérdida de una mascota" [level=3] [ref=e1179]:
+                    - link "Cómo transitar el duelo por la pérdida de una mascota" [ref=e1180] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=190
+                  - img "Self enrolment" [ref=e1182]: 
+                - generic [ref=e1188]: "Duración del curso: 20 Horas"
+              - generic [ref=e1189]:
+                - generic [ref=e1190]:
+                  - heading "Ergonomía para el Autocuidado en el proceso de enseñanza aprendizaje" [level=3] [ref=e1191]:
+                    - link "Ergonomía para el Autocuidado en el proceso de enseñanza aprendizaje" [ref=e1192] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=115
+                  - img "Self enrolment" [ref=e1194]: 
+                - generic [ref=e1200]: "Duración del curso: 45 Horas"
+              - generic [ref=e1201]:
+                - generic [ref=e1202]:
+                  - 'heading "El viaje de la adopción: Curso esencial para nuevas familias de perros." [level=3] [ref=e1203]':
+                    - 'link "El viaje de la adopción: Curso esencial para nuevas familias de perros." [ref=e1204] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=189
+                  - img "Self enrolment" [ref=e1206]: 
+                - generic [ref=e1212]: "Duración del curso: 20 Horas"
+              - generic [ref=e1213]:
+                - generic [ref=e1214]:
+                  - heading "¿Cómo afrontar la ansiedad?" [level=3] [ref=e1215]:
+                    - link "¿Cómo afrontar la ansiedad?" [ref=e1216] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=188
+                  - img "Self enrolment" [ref=e1218]: 
+                - generic [ref=e1224]: "Duración del curso: 20 Horas"
+              - generic [ref=e1225]:
+                - generic [ref=e1226]:
+                  - heading "Manejo de la incertidumbre en tiempos actuales" [level=3] [ref=e1227]:
+                    - link "Manejo de la incertidumbre en tiempos actuales" [ref=e1228] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=187
+                  - img "Self enrolment" [ref=e1230]: 
+                - generic [ref=e1236]: "Duración del curso: 20 Horas"
+              - generic [ref=e1237]:
+                - generic [ref=e1238]:
+                  - 'heading "Dependencia emocional. Vínculos sexoafectivos: \"Amar en tiempos actuales\"" [level=3] [ref=e1239]':
+                    - 'link "Dependencia emocional. Vínculos sexoafectivos: \"Amar en tiempos actuales\"" [ref=e1240] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=184
+                  - img "Self enrolment" [ref=e1242]: 
+                - generic [ref=e1248]: "Duración del curso: 15 Horas"
+              - generic [ref=e1249]:
+                - generic [ref=e1250]:
+                  - heading "Gestión emocional para vivir mejor" [level=3] [ref=e1251]:
+                    - link "Gestión emocional para vivir mejor" [ref=e1252] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=151
+                  - img "Self enrolment" [ref=e1254]: 
+                - generic [ref=e1260]: "Duración del curso: 20 Horas"
+              - generic [ref=e1261]:
+                - generic [ref=e1262]:
+                  - heading "Ergonomía y Autocuidado en actividades de la vida cotidiana" [level=3] [ref=e1263]:
+                    - link "Ergonomía y Autocuidado en actividades de la vida cotidiana" [ref=e1264] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=114
+                  - img "Self enrolment" [ref=e1266]: 
+                - generic [ref=e1272]: "Duración del curso: 30 Horas"
+              - generic [ref=e1273]:
+                - generic [ref=e1274]:
+                  - heading "Seguridad Vial" [level=3] [ref=e1275]:
+                    - link "Seguridad Vial" [ref=e1276] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=23
+                  - img "Self enrolment" [ref=e1278]: 
+                - generic [ref=e1284]: "Duración del curso: 30 Horas"
+              - generic [ref=e1285]:
+                - generic [ref=e1286]:
+                  - heading "Seguridad en el trabajo de Carpintería-Reciclamos Pallets" [level=3] [ref=e1287]:
+                    - link "Seguridad en el trabajo de Carpintería-Reciclamos Pallets" [ref=e1288] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=15
+                  - img "Self enrolment" [ref=e1290]: 
+                - generic [ref=e1296]: "Duración del curso: 45 Horas"
+              - generic [ref=e1297]:
+                - generic [ref=e1298]:
+                  - heading "Manejo eficaz del tiempo para el aumento de la productividad" [level=3] [ref=e1299]:
+                    - link "Manejo eficaz del tiempo para el aumento de la productividad" [ref=e1300] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=219
+                  - img "Self enrolment" [ref=e1302]: 
+                - generic [ref=e1308]: "Duración del curso: 20 Horas"
+              - generic [ref=e1309]:
+                - 'heading "Inteligencia Artificial: Empezar a Pensar(la)" [level=3] [ref=e1311]':
+                  - 'link "Inteligencia Artificial: Empezar a Pensar(la)" [ref=e1312] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=159
+                - generic [ref=e1318]: "Duración del curso: 40 Horas"
+              - generic [ref=e1319]:
+                - heading "Aprendiendo a caminar en Python - Certificación 2" [level=3] [ref=e1321]:
+                  - link "Aprendiendo a caminar en Python - Certificación 2" [ref=e1322] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276
+                - generic [ref=e1326]:
+                  - generic [ref=e1328]:
+                    - paragraph:
+                      - strong
+                    - paragraph [ref=e1329]: ¡Dale un impulso definitivo a tu carrera profesional!
+                    - paragraph [ref=e1330]: "¿Ya conoces la sintaxis básica? Es hora de dejar de escribir código suelto y empezar a construir soluciones reales. La Certificación 2: Aprendiendo a caminar en Python es tu entrada directa al mundo del Análisis de Datos, una de las habilidades más demandadas del mercado."
+                    - paragraph [ref=e1331]: "No solo aprenderás a programar; entrenarás tu mente para pensar con lógica avanzada. Dominarás el \"stack\" tecnológico que usan los expertos: NumPy para procesar grandes volúmenes de información y Matplotlib para convertir números fríos en visualizaciones de alto impacto."
+                    - paragraph [ref=e1332]: Con una modalidad 100% flexible y enfocada en la práctica, cerrarás el curso con un Proyecto Integrador listo para mostrar en tu portafolio.
+                    - paragraph [ref=e1333]: Deja de aprender teoría y empieza a transformar datos en decisiones. ¡Inscríbete ahora y lleva tu perfil al siguiente nivel!
+                    - paragraph
+                  - generic [ref=e1335]: "Duración del curso: 15 Horas"
+              - generic [ref=e1336]:
+                - generic [ref=e1337]:
+                  - heading "El arte de investigar y las competencias digitales" [level=3] [ref=e1338]:
+                    - link "El arte de investigar y las competencias digitales" [ref=e1339] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=120
+                  - img "Self enrolment" [ref=e1341]: 
+                - generic [ref=e1346]: "Duración del curso: 36 Horas"
+              - generic [ref=e1347]:
+                - generic [ref=e1348]:
+                  - heading "Trabajo Integrado de Google Drive" [level=3] [ref=e1349]:
+                    - link "Trabajo Integrado de Google Drive" [ref=e1350] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=56
+                  - img "Self enrolment" [ref=e1352]: 
+                - generic [ref=e1358]: "Duración del curso: 45 Horas"
+              - generic [ref=e1359]:
+                - heading "Aprendiendo a caminar en Python - Certificación 1" [level=3] [ref=e1361]:
+                  - link "Aprendiendo a caminar en Python - Certificación 1" [ref=e1362] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269
+                - generic [ref=e1366]:
+                  - generic [ref=e1368]:
+                    - paragraph:
+                      - strong
+                    - paragraph [ref=e1369]: ¡Potenciá tu perfil profesional con la Certificación 1 de "Aprendiendo a caminar en Python"!
+                    - paragraph [ref=e1370]: "Este curso autogestivo es la puerta de entrada ideal para quienes no tienen experiencia previa y buscan transformar su relación con la tecnología, pasando de ser usuarios pasivos a productores activos. A través de cinco módulos dinámicos, dominarás los fundamentos esenciales: desde la instalación de tu entorno de trabajo en Jupyter Notebook hasta la creación de algoritmos utilizando funciones, lógica booleana y estructuras de datos como diccionarios y listas."
+                    - paragraph [ref=e1371]: "Lo que realmente distingue a esta certificación es su enfoque práctico. Como broche de oro, accederás a exclusivos \"Bonus Tracks\" donde aplicarás lo aprendido en proyectos reales:"
+                    - paragraph [ref=e1372]: "• Automatización: Extraé texto de archivos PDF de forma masiva."
+                    - paragraph [ref=e1373]: "• Alcance Global: Creá un traductor automático que soporta múltiples idiomas, incluido el guaraní."
+                    - paragraph [ref=e1374]: "• Innovación: Desarrollá una \"inteligencia artificial de juguete\" capaz de generar textos coherentes mediante modelos probabilísticos."
+                    - paragraph [ref=e1375]: No se trata solo de escribir código, sino de desarrollar un pensamiento computacional que te permita resolver problemas cotidianos con soluciones digitales avanzadas. ¡Es el momento de dejar de observar la tecnología y empezar a crearla!
+                    - paragraph
+                  - generic [ref=e1377]: "Duración del curso: 20 Horas"
+              - generic [ref=e1378]:
+                - 'heading "IA y automatización de flujos de trabajo: aprende a automatizar de forma eficaz y eficiente" [level=3] [ref=e1380]':
+                  - 'link "IA y automatización de flujos de trabajo: aprende a automatizar de forma eficaz y eficiente" [ref=e1381] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=267
+                - generic [ref=e1385]:
+                  - generic [ref=e1387]:
+                    - paragraph
+                    - paragraph [ref=e1388]:
+                      - text: Este curso autogestivo te propone dar un paso concreto hacia el
+                      - strong [ref=e1389]: mundo de la automatización y la inteligencia artificial aplicada
+                      - text: ", incorporando herramientas clave que hoy demandan las organizaciones. A lo largo del recorrido aprenderás a"
+                      - strong [ref=e1390]: diseñar y ejecutar flujos de trabajo automatizados
+                      - text: utilizando herramientas No-Code y Low-Code, con foco en N8N, sin necesidad de programación avanzada.
+                    - paragraph [ref=e1391]:
+                      - text: Desde los conceptos fundamentales de automatización, workflows e IA, hasta la integración real de aplicaciones y servicios, el curso avanza de forma progresiva y práctica. Trabajarás sobre un
+                      - strong [ref=e1392]: caso contextualizado en una empresa
+                      - text: ", resolviendo problemáticas reales mediante desafíos, actividades guiadas y retroalimentación automática."
+                    - paragraph [ref=e1393]:
+                      - text: "El objetivo final es claro: que construyas un"
+                      - strong [ref=e1394]: workflow funcional
+                      - text: ", documentado en un"
+                      - strong [ref=e1395]: portafolio personal
+                      - text: ", que demuestre tus competencias técnicas y tu capacidad para aplicar automatización e IA en contextos laborales reales. Una propuesta ideal para potenciar tu perfil IT y dar valor concreto a tus conocimientos."
+                    - paragraph
+                  - generic [ref=e1397]: "Duración del curso: 20 Horas"
+              - generic [ref=e1398]:
+                - generic [ref=e1399]:
+                  - heading "Procesador de Textos de Google Drive" [level=3] [ref=e1400]:
+                    - link "Procesador de Textos de Google Drive" [ref=e1401] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=48
+                  - img "Self enrolment" [ref=e1403]: 
+                - generic [ref=e1409]: "Duración del curso: 30 Horas"
+              - generic [ref=e1410]:
+                - generic [ref=e1411]:
+                  - heading "Presentaciones de Google Drive" [level=3] [ref=e1412]:
+                    - link "Presentaciones de Google Drive" [ref=e1413] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=41
+                  - img "Self enrolment" [ref=e1415]: 
+                - generic [ref=e1421]: "Duración del curso: 45 Horas"
+              - generic [ref=e1422]:
+                - generic [ref=e1423]:
+                  - heading "Hoja de Cálculo de Google Drive" [level=3] [ref=e1424]:
+                    - link "Hoja de Cálculo de Google Drive" [ref=e1425] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=32
+                  - img "Self enrolment" [ref=e1427]: 
+                - generic [ref=e1433]: "Duración del curso: 60 Horas"
+              - generic [ref=e1434]:
+                - generic [ref=e1435]:
+                  - heading "Prevención de estafas virtuales" [level=3] [ref=e1436]:
+                    - link "Prevención de estafas virtuales" [ref=e1437] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=215
+                  - img "Self enrolment" [ref=e1439]: 
+                - generic [ref=e1445]: "Duración del curso: 35 Horas"
+              - generic [ref=e1446]:
+                - generic [ref=e1447]:
+                  - heading "Soy FAUD" [level=3] [ref=e1448]:
+                    - link "Soy FAUD" [ref=e1449] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=229
+                  - img "Self enrolment" [ref=e1451]: 
+                - generic [ref=e1455]:
+                  - paragraph [ref=e1458]
+                  - generic [ref=e1460]: "Duración del curso: 25 Horas"
+              - generic [ref=e1461]:
+                - heading "Bitácora Urbana" [level=3] [ref=e1463]:
+                  - link "Bitácora Urbana" [ref=e1464] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=119
+                - generic [ref=e1470]: "Duración del curso: 65 Horas"
+              - generic [ref=e1471]:
+                - heading "Los Mitos Estructurales" [level=3] [ref=e1473]:
+                  - link "Los Mitos Estructurales" [ref=e1474] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=116
+                - generic [ref=e1478]:
+                  - generic [ref=e1480]:
+                    - paragraph [ref=e1481]:
+                      - strong [ref=e1482]: "Formulario de Inscripción:"
+                    - paragraph [ref=e1483]:
+                      - link "¡Inscribite acá!" [ref=e1484] [cursor=pointer]:
+                        - /url: https://docs.google.com/forms/d/e/1FAIpQLSdZBUJ-YzmO4ta02GmrufFSxFqrnxmvPDRMSADH6vOr2utI9g/viewform
+                  - generic [ref=e1486]: "Duración del curso: 30 Horas"
+              - generic [ref=e1487]:
+                - heading "Ciudades en letras, música y cine" [level=3] [ref=e1489]:
+                  - link "Ciudades en letras, música y cine" [ref=e1490] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=68
+                - generic [ref=e1494]:
+                  - generic [ref=e1496]:
+                    - paragraph [ref=e1497]:
+                      - strong [ref=e1498]: "Formulario de Inscripción:"
+                    - paragraph [ref=e1499]:
+                      - link "¡Inscribite acá!" [ref=e1501] [cursor=pointer]:
+                        - /url: https://docs.google.com/forms/d/e/1FAIpQLSep7oxX_pTKTOCcmHQ7IUSewSc8TrfPaMlIq3WGRtwOSVaUJA/viewform
+                  - generic [ref=e1503]: "Duración del curso: 60 Horas"
+              - generic [ref=e1504]:
+                - generic [ref=e1505]:
+                  - heading "Matemática elemental para futuros Arquitectos y Diseñadores" [level=3] [ref=e1506]:
+                    - link "Matemática elemental para futuros Arquitectos y Diseñadores" [ref=e1507] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=51
+                  - img "Self enrolment" [ref=e1509]: 
+                - generic [ref=e1515]: "Duración del curso: 60 Horas"
+              - generic [ref=e1516]:
+                - generic [ref=e1517]:
+                  - heading "Física elemental para futuros Arquitectos y Diseñadores" [level=3] [ref=e1518]:
+                    - link "Física elemental para futuros Arquitectos y Diseñadores" [ref=e1519] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=50
+                  - img "Self enrolment" [ref=e1521]: 
+                - generic [ref=e1527]: "Duración del curso: 60 Horas"
+              - generic [ref=e1528]:
+                - generic [ref=e1529]:
+                  - heading "Herramientas de inteligencia artificial para docentes 2" [level=3] [ref=e1530]:
+                    - link "Herramientas de inteligencia artificial para docentes 2" [ref=e1531] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=220
+                  - img "Self enrolment" [ref=e1533]: 
+                - generic [ref=e1539]: "Duración del curso: 20 Horas"
+              - generic [ref=e1540]:
+                - generic [ref=e1541]:
+                  - heading "Herramientas de inteligencia artificial para docentes 1" [level=3] [ref=e1542]:
+                    - link "Herramientas de inteligencia artificial para docentes 1" [ref=e1543] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=207
+                  - img "Self enrolment" [ref=e1545]: 
+                - generic [ref=e1551]: "Duración del curso: 20 Horas"
+              - generic [ref=e1552]:
+                - generic [ref=e1553]:
+                  - heading "Iniciación a la Docencia Universitaria en la UNC" [level=3] [ref=e1554]:
+                    - link "Iniciación a la Docencia Universitaria en la UNC" [ref=e1555] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=64
+                  - img "Self enrolment" [ref=e1557]: 
+                - generic [ref=e1563]: "Duración del curso: 15 Horas"
+              - generic [ref=e1564]:
+                - generic [ref=e1565]:
+                  - heading "Matriz de Marco Lógico" [level=3] [ref=e1566]:
+                    - link "Matriz de Marco Lógico" [ref=e1567] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=60
+                  - img "Self enrolment" [ref=e1569]: 
+                - generic [ref=e1575]: "Duración del curso: 30 Horas"
+              - generic [ref=e1576]:
+                - generic [ref=e1577]:
+                  - heading "Diversidades en el aula universitaria" [level=3] [ref=e1578]:
+                    - link "Diversidades en el aula universitaria" [ref=e1579] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=55
+                  - img "Self enrolment" [ref=e1581]: 
+                - generic [ref=e1587]: "Duración del curso: 30 Horas"
+              - generic [ref=e1588]:
+                - generic [ref=e1589]:
+                  - heading "Herramientas didácticas situadas" [level=3] [ref=e1590]:
+                    - link "Herramientas didácticas situadas" [ref=e1591] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=49
+                  - img "Self enrolment" [ref=e1593]: 
+                - generic [ref=e1599]: "Duración del curso: 30 Horas"
+              - generic [ref=e1600]:
+                - generic [ref=e1601]:
+                  - heading "Vínculos y aprendizajes en las experiencias universitarias" [level=3] [ref=e1602]:
+                    - link "Vínculos y aprendizajes en las experiencias universitarias" [ref=e1603] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=44
+                  - img "Self enrolment" [ref=e1605]: 
+                - generic [ref=e1611]: "Duración del curso: 30 Horas"
+              - generic [ref=e1612]:
+                - generic [ref=e1613]:
+                  - heading "Gestión Documental Electrónica (GDE) para Docentes y ATP" [level=3] [ref=e1614]:
+                    - link "Gestión Documental Electrónica (GDE) para Docentes y ATP" [ref=e1615] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=43
+                  - img "Self enrolment" [ref=e1617]: 
+                - generic [ref=e1623]: "Duración del curso: 30 Horas"
+              - generic [ref=e1624]:
+                - generic [ref=e1625]:
+                  - heading "Gestión Documental Electrónica (GDE) para Personal Nodocente-UNC" [level=3] [ref=e1626]:
+                    - link "Gestión Documental Electrónica (GDE) para Personal Nodocente-UNC" [ref=e1627] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=42
+                  - img "Self enrolment" [ref=e1629]: 
+                - generic [ref=e1635]: "Duración del curso: 30 Horas"
+              - generic [ref=e1636]:
+                - generic [ref=e1637]:
+                  - heading "Habilidades comunicativas para el aula universitaria" [level=3] [ref=e1638]:
+                    - link "Habilidades comunicativas para el aula universitaria" [ref=e1639] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=38
+                  - img "Self enrolment" [ref=e1641]: 
+                - generic [ref=e1647]: "Duración del curso: 45 Horas"
+              - generic [ref=e1648]:
+                - generic [ref=e1649]:
+                  - heading "Enseñar en la Virtualidad" [level=3] [ref=e1650]:
+                    - link "Enseñar en la Virtualidad" [ref=e1651] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=37
+                  - img "Self enrolment" [ref=e1653]: 
+                - generic [ref=e1659]: "Duración del curso: 30 Horas"
+              - generic [ref=e1660]:
+                - generic [ref=e1661]:
+                  - heading "Bases para un entrenamiento Eficiente" [level=3] [ref=e1662]:
+                    - link "Bases para un entrenamiento Eficiente" [ref=e1663] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=192
+                  - img "Self enrolment" [ref=e1665]: 
+                - generic [ref=e1670]: "Duración del curso: 30 Horas"
+              - generic [ref=e1671]:
+                - generic [ref=e1672]:
+                  - heading "Entrenamiento en Casa" [level=3] [ref=e1673]:
+                    - link "Entrenamiento en Casa" [ref=e1674] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=157
+                  - img "Self enrolment" [ref=e1676]: 
+                - generic [ref=e1682]: "Duración del curso: 30 Horas"
+              - generic [ref=e1683]:
+                - generic [ref=e1684]:
+                  - heading "De Peones a Reyes - Ajedrez Avanzado en la UNC" [level=3] [ref=e1685]:
+                    - link "De Peones a Reyes - Ajedrez Avanzado en la UNC" [ref=e1686] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=156
+                  - img "Self enrolment" [ref=e1688]: 
+                - generic [ref=e1694]: "Duración del curso: 30 Horas"
+              - generic [ref=e1695]:
+                - generic [ref=e1696]:
+                  - heading "De Peones a Reyes - Ajedrez 2.0 en la UNC" [level=3] [ref=e1697]:
+                    - link "De Peones a Reyes - Ajedrez 2.0 en la UNC" [ref=e1698] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=154
+                  - img "Self enrolment" [ref=e1700]: 
+                - generic [ref=e1706]: "Duración del curso: 30 Horas"
+              - generic [ref=e1707]:
+                - generic [ref=e1708]:
+                  - heading "Curso de Chi Kung para la Salud Baduanjin" [level=3] [ref=e1709]:
+                    - link "Curso de Chi Kung para la Salud Baduanjin" [ref=e1710] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=155
+                  - img "Self enrolment" [ref=e1712]: 
+                - generic [ref=e1717]: "Duración del curso: 30 Horas"
+              - generic [ref=e1718]:
+                - generic [ref=e1719]:
+                  - heading "Curso de Tai Chi Chuan para la Salud Baduanjin" [level=3] [ref=e1720]:
+                    - link "Curso de Tai Chi Chuan para la Salud Baduanjin" [ref=e1721] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=152
+                  - img "Self enrolment" [ref=e1723]: 
+                - generic [ref=e1727]:
+                  - generic [ref=e1729]:
+                    - paragraph [ref=e1730]:
+                      - strong [ref=e1731]: "Esfuerzo estimado: 30 h"
+                    - paragraph [ref=e1732]: El Tai chi chuan es el arte marcial más popular, esto se debe a los beneficios que aporta a la salud. El primer efecto será una sensación de bienestar en todo el cuerpo.
+                    - paragraph [ref=e1733]: "El Tai chi se relaciona con la existencia de los 5 elementos: tierra, agua, fuego, metal y madera, los cuales, en un ciclo continuo, interactúan e influyen en todos los aspectos de la vida, alimentación, sueño, personalidad y también en la salud."
+                    - paragraph [ref=e1734]: Este curso es virtual, gratuito y con certificación incluida. Podés cursarlo a tu propio ritmo y completarlo según tu conveniencia.
+                  - generic [ref=e1736]: "Duración del curso: 20 Horas"
+              - generic [ref=e1737]:
+                - generic [ref=e1738]:
+                  - heading "UNC sobre Ruedas" [level=3] [ref=e1739]:
+                    - link "UNC sobre Ruedas" [ref=e1740] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=17
+                  - img "Self enrolment" [ref=e1742]: 
+                - generic [ref=e1748]: "Duración del curso: 30 Horas"
+              - generic [ref=e1749]:
+                - generic [ref=e1750]:
+                  - heading "Cultivar tomates en casa" [level=3] [ref=e1751]:
+                    - link "Cultivar tomates en casa" [ref=e1752] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=222
+                  - img "Self enrolment" [ref=e1754]: 
+                - generic [ref=e1760]: "Duración del curso: 20 Horas"
+              - generic [ref=e1761]:
+                - generic [ref=e1762]:
+                  - heading "Mi Propio Jardín" [level=3] [ref=e1763]:
+                    - link "Mi Propio Jardín" [ref=e1764] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=142
+                  - img "Self enrolment" [ref=e1766]: 
+                - generic [ref=e1772]: "Duración del curso: 45 Horas"
+              - generic [ref=e1773]:
+                - generic [ref=e1774]:
+                  - heading "Cultivo Hidropónico en Casa" [level=3] [ref=e1775]:
+                    - link "Cultivo Hidropónico en Casa" [ref=e1776] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=121
+                  - img "Self enrolment" [ref=e1778]: 
+                - generic [ref=e1784]: "Duración del curso: 60 Horas"
+              - generic [ref=e1785]:
+                - generic [ref=e1786]:
+                  - heading "Jardinería Vertical y Cuadros Vivos" [level=3] [ref=e1787]:
+                    - link "Jardinería Vertical y Cuadros Vivos" [ref=e1788] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=144
+                  - img "Self enrolment" [ref=e1790]: 
+                - generic [ref=e1796]: "Duración del curso: 20 Horas"
+              - generic [ref=e1797]:
+                - generic [ref=e1798]:
+                  - heading "Mi Propia Huerta" [level=3] [ref=e1799]:
+                    - link "Mi Propia Huerta" [ref=e1800] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=143
+                  - img "Self enrolment" [ref=e1802]: 
+                - generic [ref=e1808]: "Duración del curso: 45 Horas"
+              - generic [ref=e1809]:
+                - generic [ref=e1810]:
+                  - heading "Nuestras Propias Semillas" [level=3] [ref=e1811]:
+                    - link "Nuestras Propias Semillas" [ref=e1812] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=45
+                  - img "Self enrolment" [ref=e1814]: 
+                - generic [ref=e1820]: "Duración del curso: 15 Horas"
+              - generic [ref=e1821]:
+                - generic [ref=e1822]:
+                  - heading "Construcción de azudes para almacenamiento de agua de lluvia" [level=3] [ref=e1823]:
+                    - link "Construcción de azudes para almacenamiento de agua de lluvia" [ref=e1824] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=31
+                  - img "Self enrolment" [ref=e1826]: 
+                - generic [ref=e1832]: "Duración del curso: 45 Horas"
+              - generic [ref=e1833]:
+                - generic [ref=e1834]:
+                  - heading "Construcción de Termotanques Solares Sustentables" [level=3] [ref=e1835]:
+                    - link "Construcción de Termotanques Solares Sustentables" [ref=e1836] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=19
+                  - img "Self enrolment" [ref=e1838]: 
+                - generic [ref=e1844]: "Duración del curso: 30 Horas"
+              - generic [ref=e1845]:
+                - generic [ref=e1846]:
+                  - 'heading "Taller de bordado a mano: Intervención de prendas" [level=3] [ref=e1847]':
+                    - 'link "Taller de bordado a mano: Intervención de prendas" [ref=e1848] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=228
+                  - img "Self enrolment" [ref=e1850]: 
+                - generic [ref=e1856]: "Duración del curso: 20 Horas"
+              - generic [ref=e1857]:
+                - generic [ref=e1858]:
+                  - heading "Corte de cabello masculino" [level=3] [ref=e1859]:
+                    - link "Corte de cabello masculino" [ref=e1860] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=273
+                  - img "Self enrolment" [ref=e1862]: 
+                - generic [ref=e1866]:
+                  - generic [ref=e1868]:
+                    - paragraph:
+                      - strong
+                    - paragraph [ref=e1869]: Este recorrido está pensado para acercarte a un oficio con historia y técnica y pasión. A lo largo de tres módulos, vas a conocer cómo se ha desarrollado la peluquería a lo largo del tiempo, cuál es la misión de un peluquero profesional, cuáles son las bases técnicas para comprender la estructura del cráneo y cómo estas se aplican en el proceso de corte.
+                    - text: "El objetivo es que te animes a practicar con confianza, desarrollando un lenguaje técnico sólido y una mirada profesional. No necesitás experiencia previa: solo curiosidad, un peine, y ganas de aprender."
+                    - paragraph
+                  - generic [ref=e1871]: "Duración del curso: 10 Horas"
+              - generic [ref=e1872]:
+                - generic [ref=e1873]:
+                  - 'heading "Tatuaje Profesional: nociones técnicas, bioseguridad y ética para tatuadores" [level=3] [ref=e1874]':
+                    - 'link "Tatuaje Profesional: nociones técnicas, bioseguridad y ética para tatuadores" [ref=e1875] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=272
+                  - img "Self enrolment" [ref=e1877]: 
+                - generic [ref=e1881]:
+                  - generic [ref=e1883]:
+                    - paragraph [ref=e1884]: ¿Querés iniciarte en el mundo del tatuaje con una base profesional y responsable? Este curso es la puerta de entrada ideal para quienes buscan transformar su interés artístico en un oficio serio. En solo 12 horas de formación intensiva, vas a descubrir los pilares que separan a un aficionado de un profesional consciente.
+                    - paragraph [ref=e1885]: Aprenderás a interpretar el tatuaje como un lenguaje visual, comprendiendo la arquitectura del diseño y cómo este debe adaptarse a la tridimensionalidad del cuerpo humano. Exploraremos la ciencia de la piel para que entiendas dónde debe alojarse el pigmento y cómo funciona el proceso de cicatrización. También te daremos las herramientas para reconocer el equipamiento técnico, comprender los protocolos de bioseguridad necesarios para proteger a tus clientes y establecer un marco ético de trabajo.
+                    - paragraph [ref=e1886]: Es el primer paso fundamental para construir tu autoridad en el sector y empezar a trazar tu camino con responsabilidad y excelencia profesionalizar tu pasión.
+                  - generic [ref=e1888]: "Duración del curso: 12 Horas"
+              - generic [ref=e1889]:
+                - generic [ref=e1890]:
+                  - heading "Taller de bordado a mano - Nivel intermedio" [level=3] [ref=e1891]:
+                    - link "Taller de bordado a mano - Nivel intermedio" [ref=e1892] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=227
+                  - img "Self enrolment" [ref=e1894]: 
+                - generic [ref=e1900]: "Duración del curso: 20 Horas"
+              - generic [ref=e1901]:
+                - generic [ref=e1902]:
+                  - heading "Taller de bordado a mano - Nivel inicial" [level=3] [ref=e1903]:
+                    - link "Taller de bordado a mano - Nivel inicial" [ref=e1904] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=226
+                  - img "Self enrolment" [ref=e1906]: 
+                - generic [ref=e1911]: "Duración del curso: 20 Horas"
+              - generic [ref=e1912]:
+                - generic [ref=e1913]:
+                  - heading "Maquillaje nivel básico" [level=3] [ref=e1914]:
+                    - link "Maquillaje nivel básico" [ref=e1915] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=225
+                  - img "Self enrolment" [ref=e1917]: 
+                - generic [ref=e1923]: "Duración del curso: 20 Horas"
+              - generic [ref=e1924]:
+                - generic [ref=e1925]:
+                  - heading "Introducción al diseño de estampa textil" [level=3] [ref=e1926]:
+                    - link "Introducción al diseño de estampa textil" [ref=e1927] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=270
+                  - img "Self enrolment" [ref=e1929]: 
+                - generic [ref=e1933]:
+                  - generic [ref=e1935]:
+                    - paragraph
+                    - paragraph [ref=e1936]: "En esta propuesta recorrerás un camino que inicia con una pregunta simple: ¿cómo una imagen puede transformarse en parte de una prenda? Paso a paso, conocerás los lenguajes de las estampas, aprenderás a dar forma a tus propios patrones y descubrirás cómo llevarlos al mundo real. Desde los clásicos escoceses hasta las herramientas digitales más actuales, llegarás a construir un pequeño portfolio con tu sello personal."
+                    - paragraph [ref=e1937]: Este curso está diseñado para que avances a tu ritmo, revelando los contenidos poco a poco. Al final, habrás tejido no solo estampas, sino también un primer paso hacia una salida laboral concreta.
+                    - paragraph [ref=e1938]
+                    - paragraph
+                  - generic [ref=e1940]: "Duración del curso: 15 Horas"
+              - generic [ref=e1941]:
+                - generic [ref=e1942]:
+                  - heading "Peluquería y barbería masculina" [level=3] [ref=e1943]:
+                    - link "Peluquería y barbería masculina" [ref=e1944] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=221
+                  - img "Self enrolment" [ref=e1946]: 
+                - generic [ref=e1952]: "Duración del curso: 35 Horas"
+              - generic [ref=e1953]:
+                - generic [ref=e1954]:
+                  - heading "Introducción al Crochet" [level=3] [ref=e1955]:
+                    - link "Introducción al Crochet" [ref=e1956] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=213
+                  - img "Self enrolment" [ref=e1958]: 
+                - generic [ref=e1964]: "Duración del curso: 20 Horas"
+              - generic [ref=e1965]:
+                - generic [ref=e1966]:
+                  - heading "Soldadura Eléctrica" [level=3] [ref=e1967]:
+                    - link "Soldadura Eléctrica" [ref=e1968] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=160
+                  - img "Self enrolment" [ref=e1970]: 
+                - generic [ref=e1976]: "Duración del curso: 45 Horas"
+              - generic [ref=e1977]:
+                - generic [ref=e1978]:
+                  - heading "Moldería y Confección de Prendas" [level=3] [ref=e1979]:
+                    - link "Moldería y Confección de Prendas" [ref=e1980] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=149
+                  - img "Self enrolment" [ref=e1982]: 
+                - generic [ref=e1988]: "Duración del curso: 15 Horas"
+              - generic [ref=e1989]:
+                - generic [ref=e1990]:
+                  - heading "Confección, arreglos y reciclado de indumentaria" [level=3] [ref=e1991]:
+                    - link "Confección, arreglos y reciclado de indumentaria" [ref=e1992] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=147
+                  - img "Self enrolment" [ref=e1994]: 
+                - generic [ref=e2000]: "Duración del curso: 45 Horas"
+              - generic [ref=e2001]:
+                - generic [ref=e2002]:
+                  - heading "Mecánica Básica del Automotor" [level=3] [ref=e2003]:
+                    - link "Mecánica Básica del Automotor" [ref=e2004] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=145
+                  - img "Self enrolment" [ref=e2006]: 
+                - generic [ref=e2012]: "Duración del curso: 30 Horas"
+              - generic [ref=e2013]:
+                - generic [ref=e2014]:
+                  - heading "Gestión Operativa de Servicios de Alojamiento" [level=3] [ref=e2015]:
+                    - link "Gestión Operativa de Servicios de Alojamiento" [ref=e2016] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=29
+                  - img "Self enrolment" [ref=e2018]: 
+                - generic [ref=e2024]: "Duración del curso: 60 Horas"
+              - generic [ref=e2025]:
+                - generic [ref=e2026]:
+                  - heading "Servicios Turísticos" [level=3] [ref=e2027]:
+                    - link "Servicios Turísticos" [ref=e2028] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=20
+                  - img "Self enrolment" [ref=e2030]: 
+                - generic [ref=e2036]: "Duración del curso: 30 Horas"
+              - generic [ref=e2037]:
+                - generic [ref=e2038]:
+                  - 'heading "Creación de marca personal: Potenciá tu imagen" [level=3] [ref=e2039]':
+                    - 'link "Creación de marca personal: Potenciá tu imagen" [ref=e2040] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=223
+                  - img "Self enrolment" [ref=e2042]: 
+                - generic [ref=e2048]: "Duración del curso: 30 Horas"
+              - generic [ref=e2049]:
+                - generic [ref=e2050]:
+                  - heading "3 Claves para lanzar tu marca personal" [level=3] [ref=e2051]:
+                    - link "3 Claves para lanzar tu marca personal" [ref=e2052] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=112
+                  - img "Self enrolment" [ref=e2054]: 
+                - generic [ref=e2060]: "Duración del curso: 36 Horas"
+              - generic [ref=e2061]:
+                - generic [ref=e2062]:
+                  - 'heading "Organización de Eventos Profesional: planifica y gestiona desde cero" [level=3] [ref=e2063]':
+                    - 'link "Organización de Eventos Profesional: planifica y gestiona desde cero" [ref=e2064] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=271
+                  - img "Self enrolment" [ref=e2066]: 
+                - generic [ref=e2070]:
+                  - generic [ref=e2072]:
+                    - paragraph [ref=e2073]:
+                      - text: ¿Alguna vez sentiste que organizar un evento es un caos de imprevistos?
+                      - generic [ref=e2074]:
+                        - generic [ref=e2075]:
+                          - text: Es hora de dejar la improvisación atrás y convertirte en un
+                          - strong [ref=e2076]: estratega de experiencias
+                        - strong
+                    - paragraph [ref=e2077]:
+                      - strong [ref=e2078]: ¿Qué vas a lograr?
+                      - generic [ref=e2079]:
+                        - generic [ref=e2080]:
+                          - text: A través de nuestro método de
+                          - strong [ref=e2081]: andamiaje
+                          - text: a
+                        - text: "prenderás a dominar las tres columnas del éxito:"
+                    - list [ref=e2082]:
+                      - listitem [ref=e2083]:
+                        - strong [ref=e2084]:
+                          - generic [ref=e2085]: "Planificación Profesional:"
+                        - text: Creación de presupuestos precisos y cronogramas que funcionan como relojes.
+                      - listitem [ref=e2086]:
+                        - strong [ref=e2087]:
+                          - generic [ref=e2088]: "Gestión Impecable:"
+                        - generic [ref=e2089]:
+                          - text: Liderazgo de equipos y el uso del
+                          - strong [ref=e2090]: Guion Operativo
+                          - text: para dominar imprevistos en vivo
+                        - text: .
+                      - listitem [ref=e2091]:
+                        - strong [ref=e2092]:
+                          - generic [ref=e2093]: "Evaluación de Impacto:"
+                        - text: Medición de resultados cuantitativos y cualitativos para asegurar la mejora continua.
+                    - paragraph [ref=e2094]:
+                      - generic [ref=e2095]:
+                        - strong [ref=e2096]: ¿A quién está destinado?
+                        - text: A emprendedores, estudiantes de comunicación, profesionales del sector y a cualquier persona que desee profesionalizar su capacidad de gestión con herramientas digitales de vanguardia.
+                    - paragraph [ref=e2097]:
+                      - generic [ref=e2098]: ¡El mundo de los eventos te espera! Sumate hoy y empezá a planificar con la seguridad de un experto.
+                  - generic [ref=e2100]: "Duración del curso: 10 Horas"
+              - generic [ref=e2101]:
+                - generic [ref=e2102]:
+                  - heading "Cómo crear tu perfil profesional en redes sociales" [level=3] [ref=e2103]:
+                    - link "Cómo crear tu perfil profesional en redes sociales" [ref=e2104] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=263
+                  - img "Self enrolment" [ref=e2106]: 
+                - generic [ref=e2110]:
+                  - generic [ref=e2112]:
+                    - paragraph [ref=e2113]: Este curso te ayudará a construir tu perfil profesional en el mundo digital desde cero, combinando identidad personal con proyección laboral estratégica. Aprenderás a diferenciar el uso personal de las redes sociales del profesional, optimizando tu presencia en plataformas como LinkedIn, Instagram o TikTok según tu oficio o proyecto.
+                    - paragraph [ref=e2114]: A través de videos breves y ejercicios prácticos, explorarás conceptos clave como marca personal y propuesta de valor. Realizarás ejercicios de introspección para identificar tus fortalezas, crearás tu pitch de presentación y diseñarás un esquema inicial de contenidos digitales auténticos.
+                    - paragraph [ref=e2115]: El curso es autogestivo y está pensado para quienes usan redes sociales de manera básica pero quieren aprovecharlas profesionalmente. No necesitas conocimientos técnicos avanzados en comunicación digital. Al finalizar, habrás desarrollado las herramientas para mostrar lo que haces con claridad, autenticidad y visión estratégica, ampliando tus oportunidades de visibilidad en el ámbito laboral.
+                  - list [ref=e2116]:
+                    - listitem [ref=e2117]:
+                      - text: "Teacher:"
+                      - link "Guadalupe Limbrici Dagfal" [ref=e2118] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=132123
+                  - generic [ref=e2120]: "Duración del curso: 20 Horas"
+              - generic [ref=e2121]:
+                - generic [ref=e2122]:
+                  - 'heading "Captar audiencias y sumar clics: Videos profesionales para redes sociales (re-edición)" [level=3] [ref=e2123]':
+                    - 'link "Captar audiencias y sumar clics: Videos profesionales para redes sociales (re-edición)" [ref=e2124] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=238
+                  - img "Self enrolment" [ref=e2126]: 
+                - generic [ref=e2129]:
+                  - generic [ref=e2131]:
+                    - paragraph
+                    - paragraph [ref=e2132]:
+                      - strong [ref=e2133]: ¿Estás listo para dominar el arte de crear contenido que realmente conecte?
+                    - paragraph [ref=e2134]: "Este curso es tu oportunidad de convertirte en un creador de contenido estratégico, sin importar si recién empezás o ya tenés experiencia en redes sociales. Dirigido a emprendedores, comunicadores, estudiantes, profesionales de marketing y cualquier persona que quiera potenciar su presencia digital, este programa te desafía a pensar como un verdadero storyteller audiovisual. Aprenderás a dominar cada elemento que hace que un video sea irresistible: desde la selección del plano perfecto que captura la atención instantánea, hasta el diseño sonoro que genera conexión emocional y las técnicas de montaje que mantienen a tu audiencia pegada a la pantalla. El desafío es ambicioso: en seis módulos prácticos y autogestivos, no solo descubrirás los secretos detrás de los contenidos más exitosos de TikTok, Instagram y YouTube, sino que desarrollarás tu propia voz creativa aplicando narrativa visual profesional, estrategias de engagement y las tendencias más actuales del ecosistema digital."
+                    - paragraph [ref=e2135]:
+                      - strong [ref=e2136]: ¡Animate a transformar tus ideas en contenido que genere impacto real y construya la audiencia que siempre quisiste tener!
+                    - paragraph
+                  - generic [ref=e2138]: "Duración del curso: 25 Horas"
+              - generic [ref=e2139]:
+                - generic [ref=e2140]:
+                  - 'heading "Captar audiencias y sumar clics: Videos profesionales para redes sociales" [level=3] [ref=e2141]':
+                    - 'link "Captar audiencias y sumar clics: Videos profesionales para redes sociales" [ref=e2142] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=216
+                  - img "Self enrolment" [ref=e2144]: 
+                - generic [ref=e2150]: "Duración del curso: 20 Horas"
+              - generic [ref=e2151]:
+                - generic [ref=e2152]:
+                  - heading "Oratoria y presentaciones públicas efectivas" [level=3] [ref=e2153]:
+                    - link "Oratoria y presentaciones públicas efectivas" [ref=e2154] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=235
+                  - img "Self enrolment" [ref=e2156]: 
+                - generic [ref=e2160]:
+                  - generic [ref=e2162]:
+                    - paragraph:
+                      - strong
+                    - paragraph:
+                      - strong
+                    - generic [ref=e2163]: "Te damos la bienvenida al curso virtual de Oratoria y presentaciones Públicas Efectivas. A lo largo de esta capacitación gratuita, vas a incorporar herramientas clave para mejorar tu expresión oral y aprender a comunicarte con claridad, seguridad y persuasión en distintos contextos: académicos, laborales o personales."
+                    - generic [ref=e2164]:
+                      - text: "El curso está compuesto por módulos temáticos que se habilitan de forma progresiva a medida que completás las actividades propuestas. Incluye recursos concretos para que puedas fortalecer tu confianza al hablar en público: principios esenciales de la oratoria, ejercicios prácticos, materiales complementarios y desafíos que podés realizar a tu propio ritmo."
+                      - text: "Esta propuesta se destaca por su enfoque práctico, autogestivo y orientado a la acción: cada etapa está pensada para que desarrolles habilidades aplicables en situaciones reales de comunicación."
+                      - text: Te invitamos a sumarte a este recorrido formativo que te acerca a dominar el arte de hablar en público, desde una experiencia personalizada, flexible y accesible.
+                    - paragraph
+                  - generic [ref=e2166]: "Duración del curso: 20 Horas"
+              - generic [ref=e2167]:
+                - heading "Oratoria" [level=3] [ref=e2169]:
+                  - link "Oratoria" [ref=e2170] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=218
+                - generic [ref=e2174]:
+                  - paragraph [ref=e2177]
+                  - generic [ref=e2179]: "Duración del curso: 20 Horas"
+              - generic [ref=e2180]:
+                - generic [ref=e2181]:
+                  - heading "Propiedad Intelectual como herramienta estratégica para la innovación" [level=3] [ref=e2182]:
+                    - link "Propiedad Intelectual como herramienta estratégica para la innovación" [ref=e2183] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=239
+                  - img "Self enrolment" [ref=e2185]: 
+                - generic [ref=e2189]:
+                  - generic [ref=e2191]:
+                    - paragraph [ref=e2192]
+                    - paragraph
+                  - list [ref=e2193]:
+                    - listitem [ref=e2194]:
+                      - text: "Teacher:"
+                      - link "Maria Lorena Talbot Wright" [ref=e2195] [cursor=pointer]:
+                        - /url: https://campus.aulavirtual.unc.edu.ar/user/profile.php?id=99374
+                  - generic [ref=e2197]: "Duración del curso: 20 Horas"
+              - generic [ref=e2198]:
+                - generic [ref=e2199]:
+                  - heading "Metodologías ágiles para procesos de innovación abierta" [level=3] [ref=e2200]:
+                    - link "Metodologías ágiles para procesos de innovación abierta" [ref=e2201] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=66
+                  - img "Self enrolment" [ref=e2203]: 
+                - generic [ref=e2209]: "Duración del curso: 30 Horas"
+              - generic [ref=e2210]:
+                - generic [ref=e2211]:
+                  - heading "Armado de CV y carta de presentación" [level=3] [ref=e2212]:
+                    - link "Armado de CV y carta de presentación" [ref=e2213] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=262
+                  - img "Self enrolment" [ref=e2215]: 
+                - generic [ref=e2219]:
+                  - paragraph [ref=e2222]:
+                    - generic [ref=e2223]:
+                      - text: Este curso autogestivo de 20 horas está diseñado para ayudarte a destacarte en procesos de búsqueda laboral y comunicar tu perfil profesional de manera clara, estratégica y actualizada. A lo largo del recorrido vas a adquirir las herramientas necesarias para crear un Curriculum Vitae y una Carta de Presentación efectivos, adaptados a distintos contextos laborales, sectores y plataformas digitales.
+                      - text: Aprenderás a poner en valor tu experiencia, tus habilidades y tu potencial, alineando tu perfil con lo que hoy buscan las organizaciones y los equipos de selección. El curso te guía paso a paso para optimizar tus materiales según portales de empleo, entornos virtuales y sistemas de filtrado, incorporando criterios actuales de reclutamiento y lectura rápida.
+                      - text: Con actividades prácticas, ejemplos concretos y retroalimentación, podrás revisar, mejorar y profesionalizar tu presentación laboral. Al finalizar, contarás con recursos listos para usar y la seguridad de comunicar quién sos y qué podés aportar, aumentando tus oportunidades de inserción y crecimiento profesional.
+                  - generic [ref=e2225]: "Duración del curso: 20 Horas"
+              - generic [ref=e2226]:
+                - generic [ref=e2227]:
+                  - heading "Elaboración de Plan de Negocios" [level=3] [ref=e2228]:
+                    - link "Elaboración de Plan de Negocios" [ref=e2229] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=261
+                  - img "Self enrolment" [ref=e2231]: 
+                - generic [ref=e2235]:
+                  - generic [ref=e2237]:
+                    - paragraph
+                    - paragraph [ref=e2238]:
+                      - text: Este curso autogestivo de 20hs de dedicación, te invita a transformar tu idea en un
+                      - strong [ref=e2239]: plan de negocio claro, sólido y listo para comunicar
+                      - text: . A lo largo del recorrido vas a incorporar metodologías y herramientas prácticas para diseñar un plan adaptado a las necesidades reales de tu proyecto emprendedor o institucional, con una mirada estratégica y aplicada.
+                    - paragraph [ref=e2240]: En los distintos módulos aprenderás a estructurar cada componente clave del plan de negocio, desde la definición de la propuesta de valor, la misión y la visión, hasta el análisis del mercado y la competencia. Vas a identificar a tu cliente ideal, dimensionar oportunidades, detectar riesgos y tomar decisiones fundamentadas a partir de datos concretos.
+                    - paragraph [ref=e2241]:
+                      - text: También trabajarás en la definición de objetivos y estrategias comerciales, la organización operativa y la evaluación financiera básica de tu proyecto. Finalmente, desarrollarás un
+                      - strong [ref=e2242]: resumen ejecutivo y un pitch persuasivo
+                      - text: ", ideales para presentar tu idea ante aliados, instituciones o potenciales inversores. Al finalizar, contarás con un plan de negocio profesional que te permitirá avanzar con mayor claridad, foco y confianza."
+                    - paragraph
+                  - generic [ref=e2244]: "Duración del curso: 20 Horas"
+              - generic [ref=e2245]:
+                - generic [ref=e2246]:
+                  - heading "Innovación Abierta y Vinculación" [level=3] [ref=e2247]:
+                    - link "Innovación Abierta y Vinculación" [ref=e2248] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=65
+                  - img "Self enrolment" [ref=e2250]: 
+                - generic [ref=e2256]: "Duración del curso: 30 Horas"
+              - generic [ref=e2257]:
+                - generic [ref=e2258]:
+                  - heading "Metodologías y Herramientas de Gestión de Proyectos" [level=3] [ref=e2259]:
+                    - link "Metodologías y Herramientas de Gestión de Proyectos" [ref=e2260] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=61
+                  - img "Self enrolment" [ref=e2262]: 
+                - generic [ref=e2268]: "Duración del curso: 30 Horas"
+              - generic [ref=e2269]:
+                - generic [ref=e2270]:
+                  - heading "Dirección y Gestión de Proyectos" [level=3] [ref=e2271]:
+                    - link "Dirección y Gestión de Proyectos" [ref=e2272] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=59
+                  - img "Self enrolment" [ref=e2274]: 
+                - generic [ref=e2278]:
+                  - generic [ref=e2280]:
+                    - paragraph
+                    - paragraph [ref=e2281]: En este curso aprenderás herramientas claves para planificar y dirigir proyectos de manera efectiva. Conocerás los fundamentos de la gestión de proyectos, el rol de la dirección y la importancia de la triple restricción, optimizando recursos para garantizar el cumplimiento de los objetivos planteados.
+                    - paragraph [ref=e2282]: Está dirigido a cualquier persona interesada en la gestión de proyectos, sin necesidad de experiencia previa.
+                    - paragraph [ref=e2283]: Este curso es virtual, gratuito y con certificación incluida. Podés cursarlo a tu propio ritmo y completarlo según tu conveniencia.
+                    - paragraph [ref=e2284]
+                    - heading "Docente responsable del curso" [level=4] [ref=e2287]
+                    - paragraph [ref=e2296]:
+                      - emphasis [ref=e2297]:
+                        - strong [ref=e2298]: Mgter. Walter Javier Romano
+                      - text: Magíster en Dirección de Negocios Facultad de Ciencias Económicas. Licenciado en Economía. Profesor Cátedra Formulación y Evaluación de Proyectos de Inversión. Universidad Nacional de Córdoba
+                    - paragraph
+                  - generic [ref=e2300]: "Duración del curso: 30 Horas"
+              - generic [ref=e2301]:
+                - generic [ref=e2302]:
+                  - heading "Generación de emprendimientos de Base Tecnológica" [level=3] [ref=e2303]:
+                    - link "Generación de emprendimientos de Base Tecnológica" [ref=e2304] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=67
+                  - img "Self enrolment" [ref=e2306]: 
+                - generic [ref=e2312]: "Duración del curso: 30 Horas"
+              - generic [ref=e2313]:
+                - generic [ref=e2314]:
+                  - 'heading "Estrategias de marca para negocios sostenibles: herramientas para alinear identidad, comunicación y modelo de negocio" [level=3] [ref=e2315]':
+                    - 'link "Estrategias de marca para negocios sostenibles: herramientas para alinear identidad, comunicación y modelo de negocio" [ref=e2316] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=242
+                  - img "Self enrolment" [ref=e2318]: 
+                - generic [ref=e2321]:
+                  - generic [ref=e2323]:
+                    - paragraph [ref=e2324]: "A lo largo de esta capacitación gratuita, vas a acompañar el proceso de relanzamiento de Ay! Juana, una marca real que busca volver al mercado con una propuesta renovada y estratégica. Junto a Manuel Bomheker, un asesor especializado en branding, vas a conocer de cerca cada paso del proceso: desde los primeros diagnósticos hasta la definición final de una estrategia de comunicación sólida y con proyección."
+                    - paragraph [ref=e2325]: El curso está organizado en cinco módulos que combinan videos, materiales prácticos, recursos complementarios y consignas pensadas para que trabajes directamente sobre tu propio proyecto. A medida que avances, vas a poder aplicar herramientas concretas para diseñar tu propio modelo de negocios y construir una marca coherente, con sentido y alineada a tus objetivos personales o profesionales.
+                    - paragraph [ref=e2326]: "Esta propuesta no se enfoca exclusivamente en el uso de redes sociales. El objetivo es que desarrolles una mirada integral de tu marca: entendida como un sistema estratégico, capaz de crecer, adaptarse y diferenciarse en el tiempo. Al finalizar el curso, vas a contar con una hoja de ruta clara para tomar decisiones con mayor confianza y claridad."
+                    - paragraph [ref=e2327]: Te invitamos a sumarte a esta experiencia de aprendizaje pensada para acompañarte en la creación o fortalecimiento de tu marca, junto a una comunidad que comparte tus mismos desafíos.
+                  - generic [ref=e2329]: "Duración del curso: 40 Horas"
+              - generic [ref=e2330]:
+                - 'heading "Estrategias de marca para negocios sostenibles: herramientas para alinear identidad, comunicación y modelo de negocio" [level=3] [ref=e2332]':
+                  - 'link "Estrategias de marca para negocios sostenibles: herramientas para alinear identidad, comunicación y modelo de negocio" [ref=e2333] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=236
+                - generic [ref=e2336]:
+                  - paragraph [ref=e2339]
+                  - generic [ref=e2341]: "Duración del curso: 40 Horas"
+              - generic [ref=e2342]:
+                - generic [ref=e2343]:
+                  - heading "Producción de Alimentos Tradicionales de Colonia Caroya" [level=3] [ref=e2344]:
+                    - link "Producción de Alimentos Tradicionales de Colonia Caroya" [ref=e2345] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=150
+                  - img "Self enrolment" [ref=e2347]: 
+                - generic [ref=e2353]: "Duración del curso: 15 Horas"
+              - generic [ref=e2354]:
+                - generic [ref=e2355]:
+                  - 'heading "Producción de Alimentos Artesanales: Conservas, Confituras y Productos Lácteos" [level=3] [ref=e2356]':
+                    - 'link "Producción de Alimentos Artesanales: Conservas, Confituras y Productos Lácteos" [ref=e2357] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=148
+                  - img "Self enrolment" [ref=e2359]: 
+                - generic [ref=e2365]: "Duración del curso: 45 Horas"
+              - generic [ref=e2366]:
+                - generic [ref=e2367]:
+                  - heading "Repostería Tradicional Centroeuropea" [level=3] [ref=e2368]:
+                    - link "Repostería Tradicional Centroeuropea" [ref=e2369] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=57
+                  - img "Self enrolment" [ref=e2371]: 
+                - generic [ref=e2377]: "Duración del curso: 45 Horas"
+      - contentinfo:
+        - button "Show footer" [ref=e2379] [cursor=pointer]:
+          - generic [ref=e2380]: "?"
