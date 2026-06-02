@@ -24,4 +24,4 @@ jobs:
         run: bun install
 
       - name: Full repo check
-        run: bun run repo:check
+        run: bun run skills:registry && bun run repo:check
