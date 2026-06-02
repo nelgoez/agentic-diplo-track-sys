@@ -1,0 +1,27 @@
+name: Planning CI — Lint, TypeCheck, Registry
+
+on:
+  push:
+    branches: [staging]
+  pull_request:
+    branches: [main]
+
+jobs:
+  planning-check:
+    name: Format · Lint · TypeScript · Vars · Skills · Registry
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Full repo check
+        run: bun run skills:registry && bun run repo:check
