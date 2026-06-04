@@ -46,6 +46,9 @@ export default antfu({
     // MCP reference templates — syntax-sensitive opt-in configs. Linting them
     // (e.g. toml/array-bracket-newline) corrupts the layout users copy from.
     'docs/mcp/**',
+    // Demo-output scripts — standalone Bun entry points using top-level await by design.
+    // These are ran via `bun run scene.ts`, not part of the main application codebase.
+    'demo-output/**',
   ],
 
   // Custom rules

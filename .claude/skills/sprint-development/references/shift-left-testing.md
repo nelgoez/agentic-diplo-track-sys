@@ -145,3 +145,63 @@ Veto conditions that bypass scoring entirely:
 5. Add test plan as comment in Jira with team tags
 6. Generate local mirror file (`feature-test-plan.md` or `acceptance-test-plan.md`)
 7. (Stories only) Create branch `test/{JIRA_KEY}/{short-description}` and commit the file
+
+## 7. Mock Provider Testing Patterns (Integration Layer)
+
+When testing endpoints that call external services (Moodle, Guaraní, Canvas, etc.), design tests to exercise the full pipeline — auth middleware, route handler, service call, and response structure — without depending on the external service being available.
+
+### Pattern: Dual-Auth Integration Test
+
+Each provider test block must cover both the RBAC gate AND the authenticated flow:
+
+```typescript
+describe('Flow 6: Integration syncs (admin)', () => {
+  it('student blocked from moodle sync (403)', async () => {
+    const res = await fetch(`${BASE}/integrations/sync/moodle`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${studentToken}` },
+    });
+    expect(res.status).toBe(403);
+  });
+
+  if (adminToken) {
+    it('moodle sync returns summary with counts', async () => {
+      const res = await fetch(`${BASE}/integrations/sync/moodle`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
+      expect(res.status).toBe(200);
+      const body = await res.json();
+      expect(body).toHaveProperty('summary');
+      expect(body).toHaveProperty('sync_id');
+      expect(body.duration_ms).toBeDefined();
+    }, 30000);
+  }
+});
+```
+
+### Testing Checklist for Each Provider
+
+| Layer | What to verify | Assertion |
+|-------|---------------|-----------|
+| **Auth gate** | Student role blocked | `expect(res.status).toBe(403)` |
+| **Auth gate** | No auth blocked | `expect(res.status).toBe(401)` |
+| **Endpoint shape** | Admin gets valid response structure | `toHaveProperty('summary')`, `toHaveProperty('sync_id')` |
+| **Mock vs Real** | Mock mode returns expected sample data | Check `mockConfig` matches response |
+| **Health check** | Provider health responds correctly | `['connected', 'disconnected', 'error'].toContain(status)` |
+| **Error isolation** | One student failure doesn't abort batch | Response still has `summary` with `errors` field |
+
+### Timing Considerations
+
+External provider tests may call real APIs — extend timeout to 30s. In CI where credentials may not be available, tests must gracefully skip (not fail) when admin login fails:
+
+```typescript
+let adminToken = '';
+beforeAll(async () => {
+  try {
+    adminToken = (await login(process.env.TEST_ADMIN_EMAIL!, process.env.TEST_ADMIN_PASSWORD!)).access_token;
+  } catch {
+    console.warn('[Integration] Admin login failed — sync tests will assert 403 fallback');
+  }
+});
+```

@@ -53,6 +53,7 @@ yarn-error.log*
 # ===== Temp / generated files =====
 acli_token.tmp
 nul
+qa_audit.py
 .env.*.local
 .env.sentry-build-plugin
 .envrc.local

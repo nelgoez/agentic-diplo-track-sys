@@ -1,0 +1,89 @@
+{
+  "output": "demo-output/final-demo.mp4",
+  "dtsProjectRoot": "../diploma-tracking-sys",
+  "rawDir": "demo-output/raw",
+  "titlesDir": "demo-output/titles",
+  "sceneGapMs": 1000,
+  "obs": {
+    "host": "localhost",
+    "port": 4455,
+    "password": ""
+  },
+  "tools": {
+    "ahkExe": "AutoHotkey64.exe",
+    "ffmpeg": "ffmpeg",
+    "codeCmd": "code"
+  },
+  "recording": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "crf": 23,
+    "preset": "fast"
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "type": "image",
+      "durationSec": 4,
+      "speedMultiplier": 1,
+      "title": "DTS Diploma Tracking System",
+      "subtitle": "Agentic Full-Stack Development Demo",
+      "chapter": "INTRO"
+    },
+    {
+      "id": "vscode",
+      "type": "ahk",
+      "durationSec": 35,
+      "speedMultiplier": 3,
+      "title": "Code",
+      "subtitle": "TypeScript + Hono + Rule Engine Development",
+      "chapter": "DEVELOPMENT"
+    },
+    {
+      "id": "playwright",
+      "type": "script",
+      "durationSec": 45,
+      "speedMultiplier": 4,
+      "title": "Tests",
+      "subtitle": "Playwright E2E + Bun Unit Tests",
+      "chapter": "QUALITY"
+    },
+    {
+      "id": "vercel",
+      "type": "pw",
+      "durationSec": 25,
+      "speedMultiplier": 2,
+      "title": "Deploy",
+      "subtitle": "Vercel Preview & Production Deployments",
+      "chapter": "INFRA"
+    },
+    {
+      "id": "supabase",
+      "type": "pw",
+      "durationSec": 25,
+      "speedMultiplier": 2,
+      "title": "Database",
+      "subtitle": "Supabase PostgreSQL + RLS + Auth",
+      "chapter": "DATA"
+    },
+    {
+      "id": "gh-actions",
+      "type": "pw",
+      "durationSec": 30,
+      "speedMultiplier": 3,
+      "title": "CI/CD",
+      "subtitle": "GitHub Actions Pipeline",
+      "chapter": "AUTOMATION"
+    },
+    {
+      "id": "outro",
+      "type": "image",
+      "durationSec": 5,
+      "speedMultiplier": 1,
+      "title": "Built with agentic workflow",
+      "subtitle": "OpenCode + Playwright + Supabase + Vercel",
+      "chapter": "FIN"
+    }
+  ]
+}
