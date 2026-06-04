@@ -102,6 +102,43 @@ test.describe('Production Smoke Tests @smoke', () => {
 
 CI/CD trigger: `on: deployment_status` with `if: github.event.deployment_status.state == 'success'`.
 
+#### DTS-Specific Production Verification
+
+This project has a dedicated production smoke test suite at `diploma-tracking-sys/client/tests/e2e/prod-smoke.spec.ts` (7 tests: login, dashboard, nav, RBAC, 404 refresh, back button) with a Playwright config at `client/playwright.prod.config.ts`.
+
+**Run production smoke tests:**
+
+```bash
+# Headed (local dev): visible browser for manual inspection
+cd client && bun x playwright test --config=playwright.prod.config.ts --project=chromium --headed
+
+# Headless (CI): no browser UI
+cd client && bun x playwright test --config=playwright.prod.config.ts --project=chromium
+```
+
+**Run server integration tests against production API:**
+
+```bash
+# Use BASE env var to target production — no file mutation needed
+cd server
+bun test __tests__/smoke.test.ts __tests__/integration.test.ts --define:BASE=${DTS_API_URL}
+```
+
+**Production URLs:**
+- Client: `${DTS_WEB_URL}`
+- API: `${DTS_API_URL}`
+
+**Test credentials:** Load from `.env` — `TEST_ADMIN_EMAIL`, `TEST_ADMIN_PASSWORD`, `TEST_STUDENT_EMAIL`, `TEST_STUDENT_PASSWORD`. Do NOT hardcode creds in scripts or docs.
+
+**Full deploy verification workflow:**
+```bash
+SHA=$(git rev-parse HEAD)
+URL=$(vercel ls -m githubCommitSha="$SHA" --format json | jq -r '.deployments[0].url')
+vercel inspect "$URL" --wait --timeout=10m
+cd client && bun x playwright test --config=playwright.prod.config.ts --project=chromium --headed
+cd ../server && bun test __tests__/smoke.test.ts __tests__/integration.test.ts --define:BASE="${DTS_API_URL}"
+```
+
 ### Phase 3: Incident Response Playbook
 
 **P1 — Critical (Service Down):**

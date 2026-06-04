@@ -143,11 +143,12 @@ def main():
     parser.add_argument(
         "--batch", action="store_true", help="Generate all titles from DEMO-TITLES.json"
     )
+    parser.add_argument("--all", action="store_true", help="Alias for --batch")
     args = parser.parse_args()
 
     os.makedirs("demo-output", exist_ok=True)
 
-    if args.batch:
+    if args.batch or args.all:
         batch_generate()
     elif args.title:
         generate_title(
