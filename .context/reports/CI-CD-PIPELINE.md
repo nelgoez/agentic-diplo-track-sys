@@ -84,8 +84,8 @@ Sync pattern: `vercel env pull .env.local --environment=preview`
 
 | Environment | Client | API |
 |-------------|--------|-----|
-| Production | `https://diplomatrackingsystem.qzz.io` | `https://server-git-main-*.vercel.app/api/v1` |
-| Preview (staging) | `https://*-git-staging-*.vercel.app` | `https://server-git-staging-*.vercel.app/api/v1` |
+| Production | `https://diplomatrackingsystem.qzz.io` | `https://server-git-main-nelgoezs-projects.vercel.app/api/v1` |
+| Staging | `https://nelgoez-diploma-tracking-sys-git-staging-nelgoezs-projects.vercel.app` | `https://server-git-staging-nelgoezs-projects.vercel.app/api/v1` |
 | Local | `http://localhost:5173` | `http://localhost:3000/api/v1` |
 
 ---
