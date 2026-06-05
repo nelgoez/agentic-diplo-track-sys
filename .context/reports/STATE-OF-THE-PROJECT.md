@@ -182,36 +182,33 @@ Total MVP Must-Have: 108.5/116 SP = 94%
 
 ## Deployments
 
-| Resource | URL |
-|----------|-----|
-| Storefront | https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app |
-| API Base | https://server-git-main-nelgoezs-projects.vercel.app/api/v1 |
-| OpenAPI Spec | https://server-git-main-nelgoezs-projects.vercel.app/api/v1/api-spec |
-| Scalar Docs | https://server-git-main-nelgoezs-projects.vercel.app/api/v1/docs |
-| QA Guide | https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app/qa |
-| Jira Board | https://diplo-track-sys.atlassian.net/jira/software/projects/DTS/boards |
-| GitHub (code) | https://github.com/nelgoez/diploma-tracking-sys |
-| GitHub (planning) | https://github.com/nelgoez/agentic-diplo-track-sys |
-| Supabase | https://vbjhxlezqhkmhpuypkvf.supabase.co |
+| Resource | Production | Staging |
+|----------|-----------|---------|
+| Storefront | https://diplomatrackingsystem.qzz.io | https://nelgoez-diploma-tracking-sys-git-staging-nelgoezs-projects.vercel.app |
+| API Base | https://server-git-main-nelgoezs-projects.vercel.app/api/v1 | https://server-git-staging-nelgoezs-projects.vercel.app/api/v1 |
+| OpenAPI Spec | https://server-git-main-nelgoezs-projects.vercel.app/api/v1/api-spec | https://server-git-staging-nelgoezs-projects.vercel.app/api/v1/api-spec |
+| Scalar Docs | https://server-git-main-nelgoezs-projects.vercel.app/api/v1/docs | https://server-git-staging-nelgoezs-projects.vercel.app/api/v1/docs |
+| QA Guide | https://diplomatrackingsystem.qzz.io/qa | https://nelgoez-diploma-tracking-sys-git-staging-nelgoezs-projects.vercel.app/qa |
+| Jira Board | https://diplo-track-sys.atlassian.net/jira/software/projects/DTS/boards | — |
+| GitHub (code) | https://github.com/nelgoez/diploma-tracking-sys | — |
+| GitHub (planning) | https://github.com/nelgoez/agentic-diplo-track-sys | — |
+| Supabase | https://vbjhxlezqhkmhpuypkvf.supabase.co | — |
 
 ---
 
-## Remaining Work (Ordered by Priority)
+## Status
 
-### Sprint Next (Must-Have Closure)
+All 33 DTS tickets Done. MVP complete. Board closed.
 
-| # | Jira | Story | Effort | What's Left |
-|---|------|-------|:-----:|-------------|
-| 1 | DTS-22 | Grade Recording coordinator UI | 1 SP | Frontend grading form + 15 API tests + 4 E2E tests |
-| 2 | DTS-24 | Resilient Adapter (retry wrapper) | 3 SP | Standalone retry/backoff/timeout decorator + 14 unit tests |
-| 3 | DTS-23 | Post-sync eligibility + conflict guard | 2 SP | Re-evaluate eligibility after sync. Guard concurrent syncs. |
-| 4 | DTS-25 | Guaraní Student Sync | 5 SP | Real API implementation (same pattern as Moodle) |
+### Pipeline
 
-### Sprint After (Should-Have)
+```
+feature/DTS-XX → PR → staging (Vercel Preview Deploy) → PR → main (Vercel Production)
+```
 
-| # | Jira | Story | Effort |
-|---|------|-------|:-----:|
-| 5 | DTS-NOTIF-3 | Notification table + API | 3 SP |
+CI · UX Guard · Prod Validate run on every push to staging and main.
+
+### Doc: `.context/reports/CI-CD-PIPELINE.md`
 | 6 | DTS-OVERRIDE-1 | Override expiry scheduler | 2 SP |
 
 **Total remaining Must-Have**: ~11 SP (was estimated at 29 SP in stale reports — actual verified: 11 SP)
