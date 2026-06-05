@@ -1,17 +1,29 @@
 # DTS Environments
 
 > **Production**: `https://diplomatrackingsystem.qzz.io`  
-> **Staging**: Vercel auto-deploy per push  
-> **API**: `https://server-on8biu92m-nelgoezs-projects.vercel.app/api/v1`  
-> **Last updated**: 2026-06-04
+> **Staging**: Vercel Preview Deployments (push to `staging` branch)  
+> **API**: `https://server-git-main-nelgoezs-projects.vercel.app/api/v1`  
+> **CI/CD Pipeline**: `.context/reports/CI-CD-PIPELINE.md`
+> **Last updated**: 2026-06-05
 
 ## Environments
 
 | Environment    | Web URL                                | API URL                        | DB                              |
 | -------------- | -------------------------------------- | ------------------------------ | ------------------------------- |
 | **Production** | `https://diplomatrackingsystem.qzz.io` | Latest server prod deploy      | Supabase `vbjhxlezqhkmhpuypkvf` |
-| **Staging**    | Latest Vercel preview deploy per push  | Auto-linked                    | Same Supabase                   |
+| **Staging**    | Vercel Preview URL (per push)          | Vercel Preview URL (per push)  | Same Supabase                   |
 | **Local**      | `http://localhost:5173`                | `http://localhost:3000/api/v1` | Same Supabase                   |
+
+## Branch Strategy
+
+```
+feature/DTS-XX → staging (PR) → Preview Deploy → QA
+staging → main (PR) → Production Deploy
+```
+
+- **`main`**: Production. Vercel deploys on push. Production env vars.
+- **`staging`**: Preview. Vercel deploys on push. Preview env vars.
+- **`feature/*`**: No deploy. CI runs on PR only.
 
 ## Key Config
 
