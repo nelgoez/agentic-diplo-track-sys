@@ -8,11 +8,11 @@
 
 ## Environments
 
-| Environment    | Web URL                                | API URL                        | DB                              |
-| -------------- | -------------------------------------- | ------------------------------ | ------------------------------- |
-| **Production** | `https://diplomatrackingsystem.qzz.io` | Latest server prod deploy      | Supabase `vbjhxlezqhkmhpuypkvf` |
-| **Staging**    | Vercel Preview URL (per push)          | Vercel Preview URL (per push)  | Same Supabase                   |
-| **Local**      | `http://localhost:5173`                | `http://localhost:3000/api/v1` | Same Supabase                   |
+| Environment    | Web URL                                                                         | API URL                                                          | DB                              |
+| -------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------- |
+| **Production** | `https://diplomatrackingsystem.qzz.io`                                          | `https://server-git-main-nelgoezs-projects.vercel.app/api/v1`    | Supabase `vbjhxlezqhkmhpuypkvf` |
+| **Staging**    | `https://nelgoez-diploma-tracking-sys-git-staging-nelgoezs-projects.vercel.app` | `https://server-git-staging-nelgoezs-projects.vercel.app/api/v1` | Same Supabase                   |
+| **Local**      | `http://localhost:5173`                                                         | `http://localhost:3000/api/v1`                                   | Same Supabase                   |
 
 ## Branch Strategy
 
