@@ -273,7 +273,11 @@ const AUTO_NON_INTERACTIVE
   = !process.argv.includes('--non-interactive') && !process.stdin.isTTY;
 const SKIP_DIRENV = process.env.INSTALL_SKIP_DIRENV === '1';
 const FORCE_AGENTS_SETUP = process.env.INSTALL_FORCE_AGENTS_SETUP === '1';
-const FORCE_COMMUNITY_SKILLS = process.env.INSTALL_FORCE_COMMUNITY_SKILLS === '1';
+// --sync-skills: standalone repair mode — re-installs community skills targeting
+// the selected agent(s) so they land in each agent's own skills dir (e.g. Claude
+// Code's `.claude/skills/`). Implies a forced community re-run.
+const SYNC_SKILLS = process.argv.includes('--sync-skills');
+const FORCE_COMMUNITY_SKILLS = process.env.INSTALL_FORCE_COMMUNITY_SKILLS === '1' || SYNC_SKILLS;
 const FORCE_GITHUB_REMOTE = process.env.INSTALL_FORCE_GITHUB_REMOTE === '1';
 
 // ============================================================================
@@ -607,6 +611,7 @@ function describeSkill(item: CommunitySkill): string {
 }
 
 async function installCommunitySkills(
+  agents: AgentId[],
   state: InstallState,
   level: 'project' | 'global',
 ): Promise<void> {
@@ -642,20 +647,23 @@ async function installCommunitySkills(
   for (const item of list) {
     const slug = describeSkill(item);
     const key = `community:${level}:${slug}`;
-    if (state.skills[key] === 'installed') {
+    if (state.skills[key] === 'installed' && !FORCE_COMMUNITY_SKILLS) {
       log.dim(`  skipping ${slug} (already installed)`);
       continue;
     }
-    // Community skills install to `.agents/skills/<slug>/` by default (no `--agent`
-    // flag passed). This is INTENTIONAL: T1 repo-owned skills live in
-    // `.claude/skills/`, T3/T4 community skills live in `.agents/skills/`. Keeping
-    // them separate prevents visual confusion and ensures community installs are
-    // gitignored independently of T1 skill commits.
+    // Install into each selected agent's skills directory via `--agent`. Claude
+    // Code only discovers skills under `.claude/skills/` (plus ~/.claude/skills/,
+    // plugins, and --add-dir) — it NEVER scans `.agents/skills/`. Without an
+    // explicit `--agent`, `bunx skills add` writes only to `.agents/skills/` (the
+    // agent-agnostic store read by Copilot/OpenCode/Warp), so the skills stay
+    // invisible to Claude Code. Passing the selected agents lands each skill where
+    // that agent actually loads it.
     const args = ['skills', 'add', item.package];
     if (item.skill && item.skill !== '*') {
       args.push('--skill', item.skill);
     }
     if (level === 'global') { args.push('--global'); }
+    for (const agent of agents) { args.push('--agent', agent); }
     args.push('--yes');
     const result = tryRun('bunx', args);
     if (result.ok) {
@@ -741,17 +749,26 @@ export async function ensureEnvFileExists(): Promise<void> {
 export async function appendVarsToEnv(vars: Record<string, string>): Promise<void> {
   if (Object.keys(vars).length === 0) { return; }
   const existing = await readFile(ENV_PATH, 'utf8');
-  // Upsert: replace an existing `KEY=` line in place so re-runs and the acli
-  // retry loop never accumulate duplicate secret lines; append only new keys.
+  // Upsert: replace an existing declaration of KEY in place — whether it is an
+  // active `KEY=`, a commented-out `# KEY=`, or an `export KEY=` line — so re-runs
+  // and the acli retry loop never accumulate duplicate lines, and a commented
+  // placeholder copied from `.env.example` is filled in place (uncommented)
+  // instead of a second active copy being appended. Only genuinely-absent keys
+  // are appended under the header.
   const lines = existing.split('\n');
   const remaining: Record<string, string> = { ...vars };
+  // Optional indent, optional comment marker(s), optional `export`, then an
+  // identifier immediately followed by `=`. Prose comments like
+  // `# ===== Added by ... =====` never match (no identifier before the `=`).
+  const declRe = /^(\s*)(?:#+\s*)?(export\s+)?([A-Za-z_]\w*)\s*=/;
   for (let i = 0; i < lines.length; i++) {
-    if (lines[i].trimStart().startsWith('#')) { continue; }
-    const eq = lines[i].indexOf('=');
-    if (eq <= 0) { continue; }
-    const key = lines[i].slice(0, eq).trim();
+    const m = lines[i].match(declRe);
+    if (m === null) { continue; }
+    const indent = m[1];
+    const exportPrefix = m[2] ?? '';
+    const key = m[3];
     if (Object.prototype.hasOwnProperty.call(remaining, key)) {
-      lines[i] = `${key}=${remaining[key]}`;
+      lines[i] = `${indent}${exportPrefix}${key}=${remaining[key]}`;
       delete remaining[key];
     }
   }
@@ -2192,6 +2209,33 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
+  // --sync-skills: standalone repair mode. Re-installs community skills (project +
+  // user level) targeting the selected agent(s) and exits — no full install. Fixes
+  // projects scaffolded before community installs passed `--agent`, where skills
+  // landed only in `.agents/skills/` and Claude Code never discovered them. The
+  // SYNC_SKILLS flag forces a community re-run regardless of prior install state.
+  if (SYNC_SKILLS) {
+    process.stdout.write(`${tui.logo()}\n\n`);
+    process.stdout.write(`${tui.headline('agentic-dev-boilerplate — sync community skills')}\n\n`);
+    await verifyRepoRoot();
+    const detected = await detectAgents();
+    log.info(
+      `Claude Code: ${detected.claudeCode ? 'found' : 'not found'} | OpenCode: ${detected.opencode ? 'found' : 'not found'}`,
+    );
+    const agents = await promptAgentSelection(detected);
+    if (agents.length === 0) {
+      log.warn('No agents selected — nothing to sync.');
+      process.exit(0);
+    }
+    const state = buildInitialState(await loadPriorState());
+    state.agents = agents;
+    await installCommunitySkills(agents, state, 'project');
+    await installCommunitySkills(agents, state, 'global');
+    await writeInstallState(state);
+    log.success(`Community skills synced to: ${agents.join(', ')}.`);
+    process.exit(0);
+  }
+
   // Logo + headline (printed once at the top)
   process.stdout.write(`${tui.logo()}\n\n`);
   process.stdout.write(`${tui.headline('agentic-dev-boilerplate — installer')}\n\n`);
@@ -2288,8 +2332,8 @@ async function main(): Promise<void> {
 
   // Step 6 — community skills via bunx skills CLI (independent of gentle-ai)
   tui.section('Step 6: Installing community skills via bunx skills CLI');
-  await installCommunitySkills(state, 'project');
-  await installCommunitySkills(state, 'global');
+  await installCommunitySkills(agents, state, 'project');
+  await installCommunitySkills(agents, state, 'global');
 
   // ── PHASE 3 — CONFIGURATION ──────────────────────────────────────────────
   tui.phaseHeader(3, 'CONFIGURATION');

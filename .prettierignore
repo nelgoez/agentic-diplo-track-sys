@@ -88,3 +88,9 @@ moodle-login.yaml
 moodle-after-login.yaml
 moodle-session.json
 
+# ===== Synced from boilerplate v7.0 =====
+# ----- 2026-06-09 (sync) -----
+api/openapi*
+api/.openapi-config.json
+.claude/settings.local.json
+.playwright-mcp/

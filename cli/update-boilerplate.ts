@@ -28,7 +28,6 @@ const VERSION_FILE = '.template/boilerplate.lock.json';
 const TOOLING_FILES = ['.editorconfig', '.prettierrc', '.gitattributes'];
 const AGENTS_FRAMEWORK_FILES = ['README.md', 'jira-required.yaml'];
 const AGENTS_BOOTSTRAP_FILES = ['project.yaml', 'jira-fields.json', 'jira-workflows.json', 'jira-link-types.json'];
-const SCRIPTS_FILES = ['lint-vars.ts', 'agents-setup.ts', 'check-jira-setup.ts', 'sync-jira-issues.ts', 'sync-jira-fields.ts', 'sync-jira-workflows.ts'];
 const CLAUDE_CONFIG_FILES = ['settings.json'];
 
 const MCP_TEMPLATE_AGENTS = ['claude', 'opencode', 'codex', 'gemini'] as const;
@@ -49,7 +48,7 @@ const COMPONENTS: Component[] = [
   { name: 'claude', type: 'directory', paths: ['.claude/skills', '.claude/commands'] },
   { name: 'claude-config', type: 'file-list', paths: ['.claude'], files: CLAUDE_CONFIG_FILES },
   { name: 'agents', type: 'mixed', paths: ['.agents'], bootstrapOnly: false },
-  { name: 'scripts', type: 'file-list', paths: ['scripts'], files: SCRIPTS_FILES },
+  { name: 'scripts', type: 'directory', paths: ['scripts'] },
   { name: 'cli', type: 'directory', paths: ['cli'] },
   { name: 'docs', type: 'directory', paths: ['docs'] },
   { name: 'context', type: 'directory', paths: ['.context'], bootstrapOnly: true, frameworkFiles: ['README.md'] },
@@ -115,7 +114,14 @@ COMPONENTES: ${COMPONENTS.map(c => c.name).join(', ')}
 ATAJOS:      all, rollback, help
 
 FLAGS:
-  --auto                          Modo no-interactivo (CI)
+  --auto                          Modo no-interactivo: sincroniza TODO el
+                                  boilerplate (copia archivos nuevos +
+                                  sobreescribe divergencias con la versión
+                                  upstream). NO borra archivos que upstream
+                                  eliminó. El boilerplate es canónico (match 1:1).
+  --force                         Como --auto pero TAMBIÉN borra archivos que el
+                                  upstream eliminó. Hay backup + --rollback de
+                                  respaldo.
   --dry-run                       Preview, sin escribir
   --rollback                      Restaura backup mas reciente
   --update-mcp-template <agent>   Refresca docs/mcp/<agent>.template.*
@@ -126,7 +132,8 @@ EJEMPLOS:
   bun up                                    # Flujo interactivo (5 fases)
   bun up scripts                            # Un solo componente
   bun up claude agents                      # Multiples componentes
-  bun up --auto                             # CI mode
+  bun up --auto                             # CI mode (seguro, preserva lo tuyo)
+  bun up --force                            # Forzar todo del upstream (sin preguntar)
   bun up --dry-run                          # Preview
   bun up --rollback                         # Restaurar backup
   bun up --update-mcp-template claude       # Refrescar MCP template
@@ -371,6 +378,21 @@ function buildSink(): ReportSink {
       return abortOnCancel<string[]>(r);
     },
 
+    resolvePackageJsonKey: async (file, section, key, drift) => {
+      const body = `=== Tu versión (local) ===\n${drift.localValue}\n\n=== Versión del boilerplate (upstream) ===\n${drift.upstreamValue}`;
+      tui.note(body, `${file} → ${section}.${key}`);
+      const r = await tui.select({
+        message: `${section}.${key} difiere — ¿qué hacemos?`,
+        options: [
+          { value: 'mine', label: 'Mantener la mía (predeterminado)' },
+          { value: 'theirs', label: 'Actualizar a la del boilerplate' },
+          { value: 'skip', label: 'Decidir después (preguntar de nuevo)' },
+        ],
+        initialValue: 'mine',
+      });
+      return abortOnCancel<string>(r) as 'theirs' | 'mine' | 'skip';
+    },
+
     resolveDiverged: async (entry, diff) => {
       const body = `=== Cambios upstream ===\n${diff.templateDiff.trim() || '(sin diff)'}\n\n=== Tus cambios locales ===\n${diff.localDiff.trim() || '(sin diff)'}`;
       tui.note(body, `Divergencia en ${entry.path}`);
@@ -490,12 +512,28 @@ async function main(): Promise<void> {
     deprecatedFiles: DEPRECATED_FILES,
     bootstrapOnlyPaths: AGENTS_BOOTSTRAP_FILES.map(f => `.agents/${f}`),
     agentsFrameworkFiles: AGENTS_FRAMEWORK_FILES,
+    // Generated, per-repo file inside the `claude` component (which owns
+    // .claude/skills) — never synced; each repo rebuilds it from its own
+    // installed skill set (regenerated in afterApply below).
+    excludePaths: ['.claude/skills/REGISTRY.md'],
     selfUpdateComponent: 'cli',
     hooks: {
       // Runs after files land but before tempDir cleanup → upstream `.env.example`
       // is still on disk for the diff. Skipped on dry-run (no files were written).
-      afterApply: async () => {
+      afterApply: async (summary) => {
         if (parsed.dryRun) { return; }
+        // REGISTRY.md is excluded from the sync (generated, per-repo). When skills
+        // changed this run, regenerate it locally so it reflects the actual skill
+        // set — newly synced framework skills PLUS any local community skills the
+        // boilerplate never ships. Otherwise skills:registry:check (pre-push)
+        // would flag it stale after a sync that added or changed skills.
+        if (summary.applied.some(a => a.entry.path.startsWith('.claude/skills/'))) {
+          sink.step('Regenerando `.claude/skills/REGISTRY.md` (skills cambiaron)…');
+          const res = spawnSync('bun', ['run', 'skills:registry'], { stdio: 'inherit' });
+          if (res.status !== 0) {
+            sink.warn('No se pudo regenerar REGISTRY.md. Ejecuta `bun run skills:registry` manualmente.');
+          }
+        }
         await detectEnvVarDrift(TEMP_DIR, sink, parsed.auto);
       },
     },
