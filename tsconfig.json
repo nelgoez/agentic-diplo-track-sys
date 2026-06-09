@@ -18,5 +18,5 @@
     "skipLibCheck": true
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules", "packages/*/node_modules", "packages/*/dist"]
+  "exclude": ["node_modules", "packages/*/node_modules", "packages/*/dist", "demo-output"]
 }
