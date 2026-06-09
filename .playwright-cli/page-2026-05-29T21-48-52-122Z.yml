@@ -1,0 +1,12 @@
+- main [ref=e3]:
+  - generic [ref=e6]:
+    - img "UNC" [ref=e10]
+    - heading "No es posible acceder" [level=1] [ref=e11]
+    - generic [ref=e12]: Esta aplicación no está disponible para utilizar el sistema de autenticación de la UNC.
+    - generic [ref=e13]:
+      - text: Es posible que esta aplicación no esté habilitada o que haya un problema en su configuración.
+      - text: Si el problema persiste, contactá al administrador de tu dependencia o facultad.
+    - link "Contactar administrador" [ref=e14] [cursor=pointer]:
+      - /url: "#contactAdmin"
+      - button "Contactar administrador" [ref=e15]
+    - generic [ref=e16]: Nunca respondas correos electrónicos en los cuales te soliciten tu contraseña.

@@ -1,65 +1,56 @@
-# Sprint Backlog — Remaining MVP (DTS)
+# Sprint Backlog — MVP Complete ✅
 
 > **Role**: Scrum Master / Engineering Manager
-> **Date**: 2026-06-01
-> **Based on**: Code-verified STATE-OF-THE-PROJECT.md
+> **Date**: 2026-06-04 (updated from 2026-06-01)
+> **Status**: ALL DONE. Previous version was stale. See SESSION_CONTEXT.md in diploma-tracking-sys repo for canonical state.
 
 ---
 
-## Actual Remaining Work (Code Verified)
+## MVP Status: 30/30 stories delivered
 
-| # | Jira | Story | BE | FE | Tests | **Effort** |
-|---|------|-------|:--:|:--:|:-----:|:---:|
-| 1 | DTS-22 | Grade Recording UI + Tests | ✅ Done | ❌ Missing | ❌ Missing | **1 SP** |
-| 2 | DTS-24 | Resilient Adapter (retry wrapper) | ❌ | N/A | ❌ | **3 SP** |
-| 3 | DTS-23 | Moodle: conflict guard + re-eval | ❌ | N/A | ❌ | **2 SP** |
-| 4 | DTS-25 | Guaraní Student Sync | ❌ | ❌ | ❌ | **5 SP** |
+| Phase | Stories | Status |
+|-------|---------|--------|
+| 1. Foundation | 7/7 (DTS-AUTH 1-4, DTS-INT 1-3) | ✅ Complete |
+| 2. Core Domain | 6/6 (DTS-CORE 1-6) | ✅ Complete |
+| 3. Rule Engine | 4/4 (DTS-RULE 1-4) | ✅ Complete |
+| 4. Enrollment & Exam | 5/5 (DTS-EXAM 1-5) | ✅ Complete |
+| 5. Admin & Integration | 7/7 (DTS-ADMIN 1-3, DTS-SYNC 1-4) | ✅ Complete |
+| 6. Notifications & Polish | 4/4 (NOTIF 1-3 + OVERRIDE-1) | ✅ Complete |
+| Notif UI + QA Audit | 5/5 (DTS-26 to DTS-30) | ✅ Complete |
 
-**Total Must-Have remaining**: 11 SP (NOT 21 SP as previously estimated)
+## Previously misreported as missing — actually DONE
 
----
+| Story | Reality | Evidence |
+|-------|---------|----------|
+| DTS-24 (Resilient Adapter) | Done | `resilient-adapter.ts` 239-line test file |
+| DTS-23 (Conflict Guard) | Done | `syncLocks` Map in integrations.ts |
+| DTS-22 (Grade UI) | Done | `GradeExamModal.tsx` 247 lines |
+| DTS-25 (Guaraní) | Done | `guarani.service.ts` 299 lines |
 
-## Sprint Allocation
+## QA Audit Findings (2026-06-04) — All Resolved
 
-### Sprint N — Must-Have Closure (11 SP)
+| P1 Issue | Fix |
+|----------|-----|
+| Certificates invisible for staff | CertificatesPage now fetches API. 27 certs seeded. DTS-27 |
+| Sync never works | Integration-logs RLS fix, pre-flight checks, token pushed. DTS-26 |
+| Dashboard redundancy | Removed AdminStatsGrid from non-student view. DTS-28 |
+| Admin no courses CRUD | CourseManagement shared component + AdminPage tab. DTS-29 |
+| No notifications UI | Bell icon + drawer panel. DTS-30 |
 
-```
-Week 1-2:
-  DTS-24 (3 SP)  Resilient Adapter — standalone wrapper, enables retry for all providers
-  DTS-22 (1 SP)  Grade Recording UI — coordinator grading form + modal
-  DTS-23 (2 SP)  Moodle conflict guard + post-sync eligibility re-eval
-  DTS-25 (5 SP)  Guaraní Student Sync — follows Moodle pattern with DTS-24 wrapper
-```
+## Jira Board
 
-**Execution**: DTS-24 + DTS-22 can run in parallel (independent). DTS-23 + DTS-25 start after DTS-24 completes.
+All issues at https://diplo-track-sys.atlassian.net/jira/software/projects/DTS
 
-**Why 11 SP in one sprint**: 3 stories are small (1-3 SP). DTS-25 is 5 SP but follows established Moodle pattern. At 20-25 SP velocity, 11 SP is conservative.
+| Key | Summary | Status |
+|-----|---------|--------|
+| DTS-9 | Notificaciones (Epic) | ✅ Done |
+| DTS-26 | Sync infrastructure fixes | ✅ Done |
+| DTS-27 | Certificates seeding + UI | ✅ Done |
+| DTS-28 | Dashboard redundancy | ✅ Done |
+| DTS-29 | Admin courses CRUD | ✅ Done |
+| DTS-30 | Notifications UI | ✅ Done |
 
-### Sprint N+1 — Should-Have (5 SP)
-
-```
-  DTS-NOTIF-3 (3 SP)   Notification table + API
-  DTS-OVERRIDE-1 (2 SP)  Override expiry scheduler
-```
-
----
-
-## Definition of Done
-
-- [ ] TypeScript: zero errors (client + server)
-- [ ] Build: succeeds (client + server)
-- [ ] Tests: all 82 existing + new tests pass
-- [ ] E2E: no regression in 17 existing tests
-- [ ] RBAC: all new endpoints gated with requireRole
-- [ ] Jira: all stories transitioned to Done
-- [ ] Staging: smoke test passes on Vercel deploy
-
----
-
-## Risks
-
-| Risk | Likelihood | Impact | Mitigation |
-|------|:---------:|:------:|------------|
-| Moodle API token scope blocks multi-user sync | Medium | High | `findMoodleUserByEmail` already handles this gracefully — returns [] with warning |
-| Guaraní API undocumented | Medium | Medium | Follow Moodle pattern. Mock-driven development first. |
-| Vercel serverless kills async sync mid-flight | Low | Medium | Sync is in-process (not fire-and-forget). Response waits for completion. |
+## Next Steps
+- 🎯 Obtain admin Moodle token for cross-user sync
+- 🎯 Institution-scoped theming (template readiness)
+- 🎯 Onboarding script for new universities

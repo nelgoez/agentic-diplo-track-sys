@@ -1,5 +1,19 @@
 Actúa como Senior Software Architect, Tech Lead, y UI/UX Designer.
 
+---
+
+## Custom field resolution — slug-based, never hardcoded
+
+Las IDs numéricas de Jira (`customfield_NNNNN`) varían por workspace y NO viven en este skill. Esta metodología resuelve cada campo en runtime vía `{{jira.<slug>}}` contra el catálogo canónico en `.agents/jira-required.yaml`. El AI runtime resuelve el slug → ID numérico vía `.agents/jira-fields.json` (poblado por `bun run jira:sync-fields`). Si un slug no existe en el workspace de destino, el catálogo declara el fallback y `bun run jira:check` warnea.
+
+**Slug que este workflow escribe** (semántica del campo):
+
+- `{{jira.feature_implementation_plan}}` — Feature Implementation Plan (Epic-level Textarea). Plan técnico generado por este flujo y publicado al Epic.
+
+**Operación → tool layer.** Toda escritura/lectura contra Jira se expresa como `[ISSUE_TRACKER_TOOL]` pseudo-código. El skill consumidor (AI runtime) resuelve la herramienta vía la tabla `CLAUDE.md` §6 (primary `/acli`, fallback Atlassian MCP, last resort REST). Para la matriz operación → capa de herramienta, ver `.claude/skills/product-management/references/jira-operations.md`. Para gotchas de publicación a campos rich-text (ADF), ver `.claude/skills/product-management/references/jira-publishing-gotchas.md`.
+
+---
+
 **Input:**
 
 - Epic: [usar .context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/epic.md]
@@ -7,7 +21,7 @@ Actúa como Senior Software Architect, Tech Lead, y UI/UX Designer.
 - Epic-level Acceptance Criteria: [usar .context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/epic.md — sección AC, o `edge-cases-enumeration.md` si existe (artefactos del skill `product-management`)]
 - **Design System:** [usar .context/design-system.md - para decisiones de UI/UX]
 
-**Genera archivo: feature-implementation-plan.md** (dentro de .context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/)
+**Autor del plan → Jira → sync → lee.** NO escribas a mano `feature-implementation-plan.md`. Es un archivo `[SYNC]` (read-only cache): redacta el plan en sesión, publícalo al campo `{{jira.feature_implementation_plan}}` del Epic (o comentario fallback per `.agents/jira-required.yaml`), corre `bun run jira:sync-issues get <EPIC_KEY> --include-comments`, y lee el `feature-implementation-plan.md` materializado en `.context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/`. El cuerpo del plan sigue la estructura de abajo.
 
 ---
 
@@ -440,56 +454,46 @@ Todas las stories de esta feature usan vocabulario consistente del dominio, refl
 
 ### Custom Field para Feature Implementation Plan
 
-| Field ID            | Nombre                              | Tipo     | Nivel |
-| ------------------- | ----------------------------------- | -------- | ----- |
-| `customfield_10043` | Feature Implementation Plan (Dev)🛠️ | Textarea | Epic  |
+| Slug (resuelve vía jira-required.yaml) | Nombre                              | Tipo     | Nivel |
+| -------------------------------------- | ----------------------------------- | -------- | ----- |
+| `{{jira.feature_implementation_plan}}` | Feature Implementation Plan (Dev)🛠️ | Textarea | Epic  |
 
 ### Instrucciones de Sincronización
 
-**DESPUÉS de generar el archivo `feature-implementation-plan.md` localmente:**
+**Flujo: autor del plan en sesión → publicar al campo Jira → sync → leer el `.md` materializado.** El `feature-implementation-plan.md` NO se escribe a mano; es un archivo `[SYNC]` (read-only cache) que la sync genera desde el campo Jira del Epic.
 
 1. **Verificar si el Epic tiene el custom field:**
-   - Usar MCP de Atlassian para obtener el Epic
-   - Verificar si `customfield_10043` existe y está disponible
+   - Verificar si el slug `{{jira.feature_implementation_plan}}` resuelve a un campo presente en el workspace (vía `.agents/jira-fields.json` / `.agents/jira-required.yaml`).
+
+> Antes de escribir campos rich-text en Jira, leé `.claude/skills/product-management/references/jira-publishing-gotchas.md` para los dos bugs ADF conocidos y sus workarounds.
 
 2. **Si el campo existe:**
-   - Copiar el contenido COMPLETO del `feature-implementation-plan.md` generado
-   - Actualizar el Epic en Jira usando MCP:
+   - Publicar el cuerpo COMPLETO del plan al campo `{{jira.feature_implementation_plan}}` del Epic vía `[ISSUE_TRACKER_TOOL]` (escritura de custom field).
+   - Agregar label: `implementation-plan-ready`.
+
+3. **Si el campo NO existe en el workspace:**
+   - Resolver el fallback declarado en `.agents/jira-required.yaml` para el slug `feature_implementation_plan` (puede ser un slug equivalente o instrucción de comentar).
+   - Si no existe ningún campo equivalente, publicar el plan como **comentario** estructurado en el Epic vía `[ISSUE_TRACKER_TOOL]` (crear comentario), encabezado `## Feature Implementation Plan (Dev)`:
+
      ```
-     jira_update_issue(
-       issue_key: "{EPIC_JIRA_KEY}",
-       fields: {
-         "customfield_10043": "{CONTENIDO_COMPLETO_DEL_PLAN}"
-       }
-     )
+     ## Feature Implementation Plan (Dev)
+
+     [cuerpo completo del plan]
      ```
-   - Agregar label: `implementation-plan-ready`
 
-3. **Si el campo NO existe (Workspace non-UPEX):**
-   - Buscar campo equivalente: `jira_search_fields(keyword: "implementation plan")`
-   - Si se encuentra alternativa, usar ese field ID
-   - Si no existe ningún campo equivalente:
-     - Agregar el plan como **comentario** en el Epic
-     - Formato del comentario:
-
-       ```
-       ## 🛠️ Feature Implementation Plan
-
-       [CONTENIDO COMPLETO DEL PLAN]
-
-       ---
-       📄 Full document: .context/PBI/epics/EPIC-{...}/feature-implementation-plan.md
-       ```
+4. **Materializar y leer:**
+   - Correr `bun run jira:sync-issues get <EPIC_KEY> --include-comments`.
+   - Leer el `feature-implementation-plan.md` generado bajo `.context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/` (read-only cache). Si el campo estaba ausente, la sync emite un stub apuntando al comentario fallback.
 
 ### Output Esperado
 
-- ✅ Archivo local `feature-implementation-plan.md` generado
-- ✅ Epic en Jira actualizado con el plan (campo o comentario)
+- ✅ Cuerpo del plan publicado al campo `{{jira.feature_implementation_plan}}` del Epic (o comentario fallback `## Feature Implementation Plan (Dev)`)
 - ✅ Label `implementation-plan-ready` agregado al Epic
+- ✅ `bun run jira:sync-issues get <EPIC_KEY> --include-comments` ejecutado; `feature-implementation-plan.md` materializado y leído
 
 ---
 
-**Formato:** Markdown estructurado, listo para copiar a .context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/feature-implementation-plan.md
+**Formato:** Markdown estructurado. El cuerpo se publica al campo `{{jira.feature_implementation_plan}}` del Epic y, tras la sync, queda materializado en .context/PBI/epics/EPIC-{PROJECT_KEY}-{ISSUE_NUM}-{nombre}/feature-implementation-plan.md (read-only cache).
 
 **Restricciones:**
 
@@ -497,4 +501,4 @@ Todas las stories de esta feature usan vocabulario consistente del dominio, refl
 - Dependencias compartidas claras
 - Orden de implementación lógico
 - Riesgos identificados con mitigaciones
-- **Sincronizar con Jira después de generar archivo local**
+- **Publicar al campo Jira y correr la sync; nunca escribir el `.md` a mano**

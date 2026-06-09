@@ -1,0 +1,42 @@
+- generic [active] [ref=e1]:
+  - heading "Acceder" [level=1] [ref=e2]
+  - generic [ref=e3]:
+    - link "Funciona con WordPress" [ref=e4] [cursor=pointer]:
+      - /url: https://es.wordpress.org/
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - paragraph:
+          - link " Sign in with cuenta UNC" [ref=e7] [cursor=pointer]:
+            - /url: https://campusvirtual.unc.edu.ar/wp-login.php?external=cas
+            - generic [ref=e8]: 
+            - text: Sign in with cuenta UNC
+        - heading "— or —" [level=3] [ref=e9]
+      - paragraph [ref=e10]:
+        - generic [ref=e11]: Nombre de usuario o correo electrónico
+        - textbox "Nombre de usuario o correo electrónico" [ref=e12]
+      - generic [ref=e13]:
+        - generic [ref=e14]: Contraseña
+        - generic [ref=e15]:
+          - textbox "Contraseña" [ref=e16]
+          - button "Mostrar la contraseña" [ref=e17] [cursor=pointer]:
+            - generic [ref=e18]: 
+      - paragraph [ref=e19]:
+        - checkbox "Recuérdame" [ref=e20] [cursor=pointer]
+        - generic [ref=e21]: Recuérdame
+      - paragraph:
+        - button "Acceder" [ref=e22] [cursor=pointer]
+    - paragraph [ref=e23]:
+      - link "¿Has olvidado tu contraseña?" [ref=e24] [cursor=pointer]:
+        - /url: https://campusvirtual.unc.edu.ar/wp-login.php?action=lostpassword
+    - paragraph [ref=e25]:
+      - link "← Ir a Campus Virtual UNC" [ref=e26] [cursor=pointer]:
+        - /url: https://campusvirtual.unc.edu.ar/
+  - generic [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e30]: 
+      - generic [ref=e31]: Idioma
+    - combobox "Idioma" [ref=e32] [cursor=pointer]:
+      - option "English (United States)"
+      - option "Español de Argentina"
+      - option "Español" [selected]
+    - button "Cambiar" [ref=e33] [cursor=pointer]

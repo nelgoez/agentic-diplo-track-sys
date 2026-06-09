@@ -45,8 +45,11 @@
       "Bash(supabase *)",
       "mcp__context7__*",
       "mcp__tavily__*",
+      "mcp__atlassian__*",
+      "mcp__playwright__*",
+      "mcp__dbhub__*",
+      "mcp__openapi__*",
       "mcp__supabase__*",
-      "mcp__n8n__*",
       "Skill(agentic-dev-core)",
       "Skill(project-foundation)",
       "Skill(project-bootstrap)",
@@ -56,16 +59,7 @@
       "Skill(acli)",
       "Skill(git-flow-master)",
       "Skill(agentic-dev-onboard)",
-      "Skill(design-system)",
-      "Skill(testability-guide)",
-      "Skill(provider-abstraction)",
-      "Skill(exploratory-testing)",
-      "Skill(test-documentation)",
-      "Skill(kata-architecture)",
-      "Skill(shift-right-testing)",
-      "Skill(qa-learning-methodology)",
-      "Skill(playwright-cli)",
-      "Skill(dev)"
+      "Skill(sync-ai-memory)"
     ],
     "deny": [
       "Bash(rm -rf *)",
@@ -92,6 +86,14 @@
   },
   "includeCoAuthoredBy": false,
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": ["context7", "tavily", "supabase", "n8n"],
+  "enabledMcpjsonServers": [
+    "context7",
+    "tavily",
+    "atlassian",
+    "playwright",
+    "dbhub",
+    "openapi",
+    "supabase"
+  ],
   "cleanupPeriodDays": 30
 }

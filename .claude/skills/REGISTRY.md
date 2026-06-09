@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-06-02T00:49:51.793Z`
+> Generated: `2026-06-09T01:28:16.403Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-dev-core/references/skill-resolver.md`
 
@@ -8,29 +8,29 @@ This file is the per-session compact-rules cache for the Skill Resolver protocol
 The orchestrator copies one or more `## Skill: <slug>` blocks below into every subagent briefing under `## Project Standards (auto-resolved)`.
 Subagents trust those compact rules and only read the full SKILL.md when explicitly instructed.
 
-Skills indexed: 21
+Skills indexed: 22
 
 ---
 ## Skill: acli
 
-**Purpose**: Atlassian CLI (official `acli` binary, v1.3+ as of 2026) for Jira Cloud, Confluence Cloud, and org admin tasks from the terminal.
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- **Silent pagination truncation.** `workitem search` without `--paginate` returns the first page only — no warning. Scripts that count or iterate keys read the wrong number of items.
-- **Auth is per-product.** `acli jira auth login` does not authenticate `acli admin`, `acli confluence`, or `acli rovodev`. There is also a top-level `acli auth` for global OAuth (newer surface). Each scope has its own session.
-- **The "work item" vs "issue" split.** The CLI renamed commands (`jira issue` → `jira workitem`) but the JSON response still has a top-level `issues[]` array and CSV inputs still use `issueType`/`parentIssueId` spellings. Mixing old and new terminology in the same script works, but confuses readers.
-- **Unknown subcommands fail silently.** Typing `acli jira workflow --help` does NOT error — it falls back to `acli jira --help` with exit 0. So "no error" ≠ "command exists". Always verify by checking the help body actually changed.
-- **Hard limits the docs do not advertise.** `acli` cannot list custom fields, edit custom-field values on existing items, manage workflows, manage issue types, or touch project versions/components. See `references/gotchas.md`.
-- Read `complementary_categories` from this skill's frontmatter (`issue-tracker`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- Apply threshold rule per strategy doc §3.2 (T1/T3 silent; T4 ASK).
-- The Atlassian MCP fallback documented below is OPT-IN, not a skill — enable manually via docs/mcp/.
-- `acli` binary is not installed in the environment.
-- `acli` auth fails and cannot be fixed in the current session.
-- The operation is one of the documented `acli` blind spots: enumerate custom fields, edit custom-field values on existing work items, manage workflows / issue types / priorities / resolutions / project versions / components, upload attachments, add watchers, add an item to a sprint.
-- Bulk operations (acli consumes far fewer tokens per call).
-- Scripting / CI pipelines.
-- Operations that return large result sets (MCP payloads inflate token usage).
+- ---
+- name: acli
+- description: "Atlassian CLI (official `acli` binary, v1.3+ as of 2026) for Jira Cloud, Confluence Cloud, and org admin tasks from the terminal. Use whenever the user wants to create, view, edit, transition, assign, clone, archive, comment on, link, or bulk-operate on Jira work items; list or manage projects, boards, sprints, filters, dashboards, or custom-field definitions; create or update Confluence spaces, pages, or blog posts; activate/deactivate users at the org level; or authenticate to Atlassian from a shell or CI pipeline. Triggers on: `acli`, Atlassian CLI, Jira from the terminal, Confluence from the terminal, bulk Jira operations, scripting Jira, automate Jira tickets, transition a bunch of issues, create issues from a JSON/CSV file, CI pipeline that touches Jira, log in to Jira CLI, switch Atlassian sites, API-token auth for Jira. Use this skill even when the user does not say the word `acli` — if the task is CLI-driven Jira or Confluence work, this is the right tool. Do NOT use for: Atlassian MCP server work (that is a different integration), REST-API-only workflows where no CLI is involved, Bitbucket command-line needs (acli does not cover Bitbucket yet), or the legacy Appfire/Bob Swift `acli` tool (a different product that happens to share the binary name). The Atlassian MCP server is OPT-IN, documented in docs/mcp/."
+- license: MIT
+- compatibility: [claude-code, cursor, codex, opencode]
+- allowed-tools: Bash(acli:*)
+- complementary_categories: [issue-tracker]
+- ---
+- `acli` is Atlassian's official command-line tool for Jira Cloud, Confluence Cloud, and org admin operations. It replaces terminal-based Jira automation that previously required raw REST calls, and unifies Jira + Confluence + admin actions behind one binary with one credential store per product.
+- This skill teaches how to drive `acli` for any intent: one-off commands, batch mutations, scripted pipelines, and CI jobs. **Repo-specific integration** (how this skill plugs into the host repo's workflow, TMS modality, project conventions, anti-patterns) lives in the companion file `<repo-core>/references/acli-integration.md` — load it on demand. See "Navigation" below.
+- `acli` has several traits that make it easy to misuse:
+- 1. **Silent pagination truncation.** `workitem search` without `--paginate` returns the first page only — no warning. Scripts that count or iterate keys read the wrong number of items.
+- 2. **Auth is per-product.** `acli jira auth login` does not authenticate `acli admin`, `acli confluence`, or `acli rovodev`. There is also a top-level `acli auth` for global OAuth (newer surface). Each scope has its own session.
+- 3. **The "work item" vs "issue" split.** The CLI renamed commands (`jira issue` → `jira workitem`) but the JSON response still has a top-level `issues[]` array and CSV inputs still use `issueType`/`parentIssueId` spellings. Mixing old and new terminology in the same script works, but confuses readers.
+- 4. **Unknown subcommands fail silently.** Typing `acli jira workflow --help` does NOT error — it falls back to `acli jira --help` with exit 0. So "no error" ≠ "command exists". Always verify by checking the help body actually changed.
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
@@ -41,85 +41,85 @@ Skills indexed: 21
 
 ## Skill: agentic-dev-core
 
-**Purpose**: Foundation skill that hosts shared references cited by other workflow skills (briefing template, dispatch patterns, orchestration doctrin...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- agentic-dev-core/references/briefing-template.md
-- agentic-dev-core/references/dispatch-patterns.md
-- Read `complementary_categories` from this skill's frontmatter (`language`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply when consulting agentic-dev-core/references/typescript-patterns.md? Y/N"`. Cache the answer for the session.
-- When dispatching sub-agents that consume `references/typescript-patterns.md`, inject a `## Composable Skills` block per strategy doc §6.2.
-- Provide a bootstrap or init action — clone the full repo instead.
-- Create or modify any files. It is a passive reference library.
-- Create or modify `.context/` files (that belongs to `/agentic-dev-onboard` and `/project-foundation`).
-- Generate or scaffold tests, fixtures, or test components (that belongs to `/unit-testing` and test-automation skills).
-- Adapt the framework to a specific stack (that belongs to `/project-bootstrap`).
-- Sync project-specific facts in `CLAUDE.md` (that belongs to `/sync-ai-memory`).
+- ---
+- name: agentic-dev-core
+- description: 'Foundation skill that hosts shared references cited by other workflow skills (briefing template, dispatch patterns, orchestration doctrine, skill composition strategy, behavioral layer, model routing, skill resolver, topic-key conventions, TypeScript patterns). Loaded on demand by `sprint-development`, `unit-testing`, `project-foundation`, `project-bootstrap`, `product-management`, `testability-guide`, `agentic-dev-onboard`. Do NOT use for: syncing project memory facts (use `/sync-ai-memory`), onboarding project discovery (use `/agentic-dev-onboard`), or test framework adaptation (testing-only, not in scope).'
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: foundation
+- complementary_categories:
+- - language
+- ---
+- `agentic-dev-core` is the shared reference library that every workflow skill in this repo cites. It exists so doctrine (briefing template, dispatch patterns, orchestration rules, skill composition tiers, behavioral layer, model routing, topic-key conventions, TypeScript patterns) lives in one place instead of being duplicated across every `SKILL.md`.
+- Loading a workflow skill (e.g. `sprint-development`, `unit-testing`, `project-foundation`, `project-bootstrap`, `product-management`, `testability-guide`) implies loading the relevant `agentic-dev-core/references/*.md` on demand — workflow skills declare a `## Dependencies` block at the top so the AI knows what to pull in.
+- This skill does NOT orchestrate workflows, does NOT generate files, and does NOT bootstrap a target repo. The entire framework (skills, foundation files, scripts) ships together as one repo; à la carte adoption is not supported — see "Install model" below.
+- ---
+- When a skill cites one of these, it includes a Dependencies block at the top (see next section) so the AI knows to load `agentic-dev-core` before continuing.
+- ---
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\agentic-dev-core\SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\agentic-dev-core\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
 ## Skill: agentic-dev-onboard
 
-**Purpose**: Walks new users through this repo's dev flow — Next.js + Supabase stack, Jira workflow (Ready For Dev → In Progress → In Review → Ready F...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- Read `complementary_categories` from this skill's frontmatter.
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- Apply threshold rule per strategy doc §3.2 (T1/T3 silent; T4 ASK).
-- Inject a `## Composable Skills` block per strategy doc §6.2 only when (rarely) dispatching a sub-agent.
-- Use **Context7** for "how to use X" — official docs, current API
-- Use **Tavily** for "how to solve X" — community fixes, troubleshooting
-- Use **Atlassian** only as fallback — prefer `/acli` skill (fewer tokens, faster)
-- **§1 CRITICAL RULES** — 12 rules that override defaults (credentials, plan-before-coding, no AI attribution, MCP credential failure protocol, `READ package.json DIRECTLY`).
-- **§4 CONTEXT LOADING MAP** — task → trigger phrase → skill → context files → primary tool.
-- **§5 SKILLS + COMMANDS + MCPs REGISTRY** — full T1/T3/T4 skill model.
-- **§12 PROACTIVE MEMORY TRIGGERS** — when to call `mem_save` without being asked.
-- [ ] Did you run the setup script (`bun run setup` — verify name in `package.json`)?
-- [ ] Did you fill `.env` with your own credentials (`LOCAL_*`, `STAGING_*`, `ATLASSIAN_*`, `TAVILY_API_KEY`, `SUPABASE_*`)?
-- [ ] Does the agents linter (`bun run vars:check` per `package.json`) exit clean (0 errors)?
-- [ ] Does Engram appear in the active MCP list (restart your agent if not)?
+- ---
+- name: agentic-dev-onboard
+- description: "Walks new users through this repo's dev flow — Next.js + Supabase stack, Jira workflow (Ready For Dev → In Progress → In Review → Ready For QA), /sprint-development for ticket-driven work, MCPs available (Tavily, Context7, Supabase, n8n, Atlassian), critical env vars, Critical Rule #12 (READ package.json DIRECTLY). Triggers on: `onboard me`, `explain this repo`, `first time using this`, `primer vez en este repo`, `/agentic-dev-onboard`. Do NOT use for: feature implementation (use /sprint-development), test design (use /unit-testing), backlog refinement (use /product-management)."
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: foundation
+- complementary_categories: []
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
+- foundation: opus       # high-leverage architectural work
+- planning: sonnet       # structured writing
+- implementation: sonnet # default for code work
+- review: opus           # critical analysis
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\agentic-dev-onboard\SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\agentic-dev-onboard\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
 ## Skill: design-system
 
-**Purpose**: Genera un DESIGN.md (formato Google Labs Apache-2.0) en el root del proyecto antes del scaffolding del frontend.
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `agentic-dev-core/references/briefing-template.md` — used when dispatching to a subagent (Open Design or Claude Design handoff conversion).
-- `agentic-dev-core/references/dispatch-patterns.md` — selects Single / Sequential / Parallel for the chosen path.
-- `.context/business/business-model.md` — industria, value-prop, tone implícito.
-- `.context/PRD/personas.md` — target visual, demographic signal.
-- `.context/PRD/executive-summary.md` — positioning, success KPIs.
-- Read `complementary_categories` from this skill's frontmatter (`frontend-ui`, `accessibility`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply for this design-system work? Y/N"`. Cache the answer for the session.
-- When dispatching sub-agents (Open Design conversion, Claude Design handoff, LLM-authored custom DESIGN.md), inject a `## Composable Skills` block per strategy doc §6.2.
-- A new project just finished the PRD and needs to define visual identity before the SRS architecture phase.
-- An existing project wants to rebrand without touching Constitution / PRD / code.
-- A team wants to centralize design tokens in a portable format consumable by multiple AI agents.
+- ---
+- name: design-system
+- description: 'Genera un DESIGN.md (formato Google Labs Apache-2.0) en el root del proyecto antes del scaffolding del frontend. Cinco caminos: default automatizable (npx getdesign + LLM-matcher elige 1 de 72 brands según Constitution+PRD), manual gallery (designmd.ai/explore), Open Design app local (docker), Claude Design (claude.ai/design premium), LLM-authored custom. Triggers: `/design-system`, `definir design system`, `crear DESIGN.md`, `establecer paleta de colores`, `branding del proyecto`, `rebrandear el proyecto`, `set up theme tokens`, `generate design system`, `elegir paleta`, `setup design tokens`. Composable con /project-foundation (la invoca post-PRD, pre-SRS) y /project-bootstrap (consume el DESIGN.md en frontend-setup). Do NOT use for: scaffolding del frontend code (use /project-bootstrap), definir PRD/personas (use /project-foundation), implementación de componentes UI (use frontend-design community skill), o per-story dev (use /sprint-development).'
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: foundation
+- complementary_categories:
+- - frontend-ui
+- - accessibility
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
+- foundation: opus       # design decisions benefit from strong reasoning
+- matcher: sonnet        # mechanical brand selection
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\design-system\SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\design-system\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -171,29 +171,29 @@ Skills indexed: 21
 
 ## Skill: git-flow-master
 
-**Purpose**: End-to-end Git operator for any branching strategy.
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- "I want to start work on UPEX-123" → branch creation
-- "commit and push", "subir cambios", "push to main" → commit + push flow
-- "abrí un PR contra staging" → PR creation
-- "tengo conflictos al hacer pull" → conflict resolution
-- "este PR va a quedar enorme" → chained-PR planning hand-off
-- "qué estrategia de git usamos en este repo" → strategy detection / persistence
-- "el push fue rechazado" → diagnostic + recovery flow
-- Read `complementary_categories` from this skill's frontmatter.
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply for these Git operations? Y/N"`. Cache the answer for the session.
-- When dispatching sub-agents (PR creation, conflict resolution, chained-PR planning), inject a `## Composable Skills` block per strategy doc §6.2.
-- Current branch.
+- ---
+- name: git-flow-master
+- description: "End-to-end Git operator for any branching strategy. Auto-detects the project's strategy (solo-main, main+integration, enterprise multi-branch, trunk-based, GitFlow, GitHub Flow, GitLab Flow) from .git config, branches, and an CLAUDE.md marker, then adapts every commit, branch, push, PR, conflict-fix, and chained-PR action to that strategy. Use this skill whenever the user wants to: create a branch (`crear branch`, `new feature branch`, `start work on UPEX-123`), commit changes (`commit this`, `commitear esto`, `make a commit`, `commit and push`), push code (`push`, `push to main`, `push to staging`, `subir cambios`), open a pull request (`create PR`, `open PR`, `abrir PR`, `crear pull request`, `gh pr create`), fix merge conflicts (`fix conflict`, `resolver conflicto`, `merge conflict`, `rebase conflict`, `push rejected`), plan stacked or chained PRs (`stack of PRs`, `chained PRs`, `split this PR`, `PR demasiado grande`), set up or bootstrap a branching strategy on a fresh repo (`set up our git strategy`, `bootstrap branching`, `configura el flujo de git`, `git strategy setup`, `materialize the git flow`, `create the staging branch and write the runbook`), or pick / change / set up a branching strategy (`git flow`, `git strategy`, `branching strategy`, `which git flow do we use`, `set up our git strategy`, `bootstrap branching`, `configura el flujo de git`). Trigger even when the user does not say `git-flow-master` literally — if the work is git-or-PR-shaped, this is the right tool. Do NOT use for: implementing features (use /sprint-development), writing tests (use /unit-testing), product backlog refinement (use /product-management), or general code editing — git-flow-master operates strictly on the version-control layer."
+- license: MIT
+- compatibility: [claude-code, opencode]
+- phase: implementation
+- complementary_categories: []
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
+- foundation: opus       # high-leverage architectural work
+- planning: sonnet       # structured writing
+- implementation: sonnet # default for code work
+- review: opus           # critical analysis
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\git-flow-master\SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\git-flow-master\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -255,29 +255,29 @@ Skills indexed: 21
 
 ## Skill: product-management
 
-**Purpose**: Orchestrates continuous product management work — initial backlog seed from PRD, incremental feature addition, epic creation, story refin...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- A new feature or epic needs to be added to the backlog
-- A story has rough or ambiguous acceptance criteria that need sharpening
-- A story needs INVEST validation or a 3-amigos session before development starts
-- You're systematically enumerating edge cases / failure modes for a feature
-- You're seeding the very first product backlog from a freshly minted PRD
-- `/project-foundation` should have produced `.context/PRD/` and `.context/SRS/` (required for the initial backlog-seed workflow; useful context for all others)
-- `.agents/project.yaml` populated with `{{PROJECT_KEY}}`, `{{ISSUE_TRACKER}}`, `{{ATLASSIAN_URL}}` — these ship with the cloned boilerplate; if missing, clone the full repo
-- Atlassian / Jira tooling reachable (Atlassian CLI `acli` preferred, MCP Atlassian as fallback) for any workflow that writes to Jira
-- Read `complementary_categories` from this skill's frontmatter (`issue-tracker`, `creativity`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply for this PM workflow? Y/N"`. Cache the answer for the session.
-- When dispatching sub-agents (backlog seeding, story refinement, AC enumeration, sprint reporting), inject a `## Composable Skills` block per strategy doc §6.2.
+- ---
+- name: product-management
+- description: "Orchestrates continuous product management work — initial backlog seed from PRD, incremental feature addition, epic creation, story refinement (INVEST + 3-amigos), AC quality refinement (Gherkin), edge-case enumeration, and sprint reporting (PM visibility snapshot). Triggers on: 'create epic', 'crear épica', 'agregar historia al backlog', 'add feature', 'refine acceptance criteria', 'enumerar edge cases', 'INVEST a esta historia', '3 amigos', 'story refinement', 'product backlog seed', 'epic creation', 'ready for development checklist', 'sprint report', 'reporte de sprint', 'estado del sprint', 'reporte de épicas y stories', 'qué hay en el sprint', 'progress report', 'dashboard del backlog', 'in-flight stories snapshot'. Do NOT use for: foundational product definition (use `/project-foundation`), infrastructure scaffolding (use `/project-bootstrap`), per-story implementation (use `/sprint-development`), unit testing (use `/unit-testing`), or formal QA test cases / TMS workflows (out of scope here)."
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: management
+- complementary_categories:
+- - issue-tracker
+- - creativity
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
+- foundation: opus       # high-leverage architectural work
+- planning: sonnet       # structured writing
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\product-management\SKILL.md` · phase: `management` · extraction strategy: B
+> Source: `.claude\skills\product-management\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -311,29 +311,29 @@ Skills indexed: 21
 
 ## Skill: project-bootstrap
 
-**Purpose**: Scaffolds the technical infrastructure of a new project: backend (DB schemas, API base, types, error handling), frontend (design system,...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- `agentic-dev-core/references/briefing-template.md` — used when dispatching parallel scaffolding subagents (e.g. backend + frontend in parallel).
-- `agentic-dev-core/references/dispatch-patterns.md` — picks Single / Sequential / Parallel for each phase below.
-- `agentic-dev-core/references/skill-composition-strategy.md` — composition contract consumed by the step below.
-- Read `complementary_categories` from this skill's frontmatter (`frontend-framework`, `frontend-ui`, `backend-db`, `runtime`, `language`, `ci-cd`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2 (path-based: `.claude/skills/` → T1; PROJECT_LEVEL_SKILLS → T3; USER_LEVEL_SKILLS → T4).
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply for this bootstrap? Y/N"`. Cache the answer for the session.
-- When dispatching scaffolding sub-agents (Backend setup, Frontend setup, Incremental features), inject a `## Composable Skills` block per strategy doc §6.2 listing the resolved skills + project standards (test command, runtime, etc).
-- A fresh repo has its product foundation (`/project-foundation` already ran) but no code yet.
-- An existing repo needs an incremental infrastructure feature added (e.g. "add OpenAPI to the API", "add bearer auth", "wire Supabase types into the frontend").
-- Define the product (PRD, user journeys, architecture decisions) — that's `/project-foundation`.
-- Seed the Jira backlog with epics + user stories — that's `/product-management`.
-- Implement an individual user story (planning → code → review → deploy) — that's `/sprint-development`.
+- ---
+- name: project-bootstrap
+- description: 'Scaffolds the technical infrastructure of a new project: backend (DB schemas, API base, types, error handling), frontend (design system, project skeleton, routing), and incremental features (OpenAPI/Scalar UI, API routes + middleware, bearer-token auth, env vars + URL builders, Supabase types generation). Triggers on: `scaffolding del proyecto`, `setup del backend`, `inicializar el frontend`, `configurar OpenAPI`, `API routes setup`, `bearer token authentication`, `env vars setup`, `supabase types generation`, `infrastructure setup`, `backend skeleton`, `frontend boilerplate`. Do NOT use for: product definition (use `/project-foundation`), backlog seeding (use `/product-management`), per-story development (use `/sprint-development`), unit testing (use `/unit-testing`), or test framework setup (out of scope).'
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: foundation
+- complementary_categories:
+- - frontend-framework
+- - frontend-ui
+- - backend-db
+- - runtime
+- - language
+- - ci-cd
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\project-bootstrap\SKILL.md` · phase: `foundation` · extraction strategy: B
+> Source: `.claude\skills\project-bootstrap\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -344,7 +344,7 @@ Skills indexed: 21
 **Compact Rules**:
 - ---
 - name: project-foundation
-- description: 'Orchestrates the foundational definition of a new product/project: Constitution (business model + market context), Architecture (PRD + SRS + API contracts), and Discovery (business data map + API architecture + dev guide). Triggers on: `ideando un nuevo producto`, `define el PRD`, `construir la constitución del proyecto`, `mapear arquitectura del sistema`, `definir SRS`, `user personas`, `user journeys`, `MVP scope`, `business data map`, `api architecture discovery`, `project dev guide`, `constituir el proyecto desde cero`. Do NOT use for: infrastructure scaffolding (use `/project-bootstrap`), backlog seeding (use `/product-management`), per-story development (use `/sprint-development`), unit testing (use `/unit-testing`), or QA workflows (out of scope, see `agentic-qa-boilerplate`).'
+- description: 'Orchestrates the foundational definition of a new product/project: Constitution (business model + market context), Architecture (PRD + SRS + API contracts), and Discovery (business data map + API architecture + dev guide). Triggers on: `ideando un nuevo producto`, `define el PRD`, `construir la constitución del proyecto`, `mapear arquitectura del sistema`, `definir SRS`, `user personas`, `user journeys`, `MVP scope`, `business data map`, `api architecture discovery`, `project dev guide`, `constituir el proyecto desde cero`. Do NOT use for: infrastructure scaffolding (use `/project-bootstrap`), backlog seeding (use `/product-management`), per-story development (use `/sprint-development`), unit testing (use `/unit-testing`), or formal QA workflows (out of scope here).'
 - license: MIT
 - compatibility: [claude-code, copilot, cursor, codex, opencode]
 - phase: foundation
@@ -451,29 +451,29 @@ Skills indexed: 21
 
 ## Skill: sprint-development
 
-**Purpose**: Orchestrates the per-story dev loop end-to-end: Planning -> Implementation -> Code Review -> Staging deploy -> (gated) Production deploy.
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- **New user story** (most common) -> Stage 1 (story-plan) -> Stage 2 (implement-story) -> ... -> Stage 4
-- **New feature with multiple stories** -> Stage 1 macro (feature-plan) -> loop Stage 1+2 per story -> Stage 4 per merge
-- **Bug fix** -> skip to Stage 2 with `bug-fix-workflow.md` (root cause first), then Stage 3+4
-- **Resume from interruption** -> Stage 2 entry via `continue-implementation.md`
-- **PR feedback / code review iteration** -> Stage 3 with `fix-issues.md`, fix-and-iterate loop
-- **Production deploy** (separate event) -> Stage 5, only after QA green + business approval
-- `.agents/project.yaml` populated. If missing, clone the full boilerplate — foundation files ship with the repo.
-- Story exists in the issue tracker with refined Acceptance Criteria. If backlog is empty or AC are unclear, run `/product-management` first.
-- Branch policy clear and CI configured. First-time-only setup lives in `references/setup-linting.md` and `references/ci-cd-setup.md`.
-- Working directory is the **target project repo**. Sprint-dev runs there, not in the boilerplate.
-- `.env` populated with environment URLs and credentials. Never hardcode credentials.
-- **Missing** → generate it before entering the ticket loop. Delegate to
-- **Present but older than 24h, OR the user explicitly asks for a refresh** →
-- **Present and fresh** → proceed.
-- **UI work in any stage** → `frontend-ui` category match (T3 or T4 — ASK if T4).
+- ---
+- name: sprint-development
+- description: "Orchestrates the per-story dev loop end-to-end: Planning -> Implementation -> Code Review -> Staging deploy -> (gated) Production deploy. Mega-orchestrator on the dev side. Drives the 12-step workflow: epic precheck, Jira transitions (Ready For Dev -> In Progress -> In Review -> Ready For QA), impl plan, code, PR, review, docs, merge, staging deploy, optional production deploy with rollback. Triggers on: implementar esta historia, implement this story, trabajar el ticket UPEX-XXX, plan to code to review to deploy, fix this bug and merge, deploy a staging, code review for PR, production deployment, rollback, continue implementation, story-level dev workflow, sprint-development, process sprint N, continue sprint, implement sprint N, sprint-file. Do NOT use for: foundational product definition (use /project-foundation), infrastructure scaffolding (use /project-bootstrap), backlog seeding / AC refinement (use /product-management), unit-testing TDD (use /unit-testing), formal QA testing (out of scope here)."
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: implementation
+- complementary_categories:
+- - frontend-ui
+- - frontend-framework
+- - forms-validation
+- - backend-db
+- - testing-e2e
+- - accessibility
+- - seo
+- - ci-cd
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\sprint-development\SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\sprint-development\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -535,54 +535,82 @@ Skills indexed: 21
 
 ## Skill: testability-guide
 
-**Purpose**: Generates a public in-app `/qa` page ("Software Testability Guide for QA") + a tool-agnostic credentials artifact (markdown body) the use...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- **A public `/qa` page inside the app** titled _"Software Testability Guide for QA"_ — explains the architecture, demo users, DB-level testing via DBHub MCP, API-level testing via OpenAPI MCP, UI-level testing via Playwright (scripted and agentic). The page links out to the real credentials but never inlines them.
-- **A tool-agnostic credentials artifact** (a markdown body) that holds the real DB connection, API login, demo passwords, OpenAPI spec URL, and Swagger UI link. The user picks where this artifact gets published: a Jira Epic (default), a Confluence page, a Notion page, any tool reachable via an MCP or a CLI, or — as a last resort — manual paste.
-- `agentic-dev-core/references/briefing-template.md` — used when dispatching parallel sub-agents (e.g. page codegen + credentials-artifact publish in parallel).
-- `agentic-dev-core/references/dispatch-patterns.md` — picks Single / Sequential / Parallel for each phase.
-- `agentic-dev-core/references/skill-composition-strategy.md` — composition contract consumed by the auto-resolve step below.
-- Read `complementary_categories` from this skill's frontmatter.
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- Classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
-- **T4** matches → ASK user once: `"Detected <skill> (T4). Apply for this run? Y/N"`. Cache the answer.
-- Inject a `## Composable Skills` block per strategy doc §6.2 into every sub-agent prompt.
-- A working app exists and QA (humans or AI agents) need a single page in the product that explains how to test it.
-- The user wants to create or refresh the credentials artifact (Jira Epic, Confluence, Notion, or another destination) that backs the `/qa` page's CTA.
-- The host project's stack drifted (auth changed, DB moved, new MCP available) and the existing `/qa` needs to be brought back in sync.
+- ---
+- name: testability-guide
+- description: 'Generates a public in-app `/qa` page ("Software Testability Guide for QA") + a tool-agnostic credentials artifact (markdown body) the user publishes to Jira Epic (default), Confluence, Notion, any MCP/CLI-reachable tool, or via manual paste. Idempotent — re-runs detect host-stack drift via a snapshot comment in the generated page and propose surgical patches instead of rewriting. Invoke whenever the user asks to create, update, regenerate, or publish a QA testing guide, testability guide, /qa page, credentials Epic, or says "guía de testeabilidad", "credenciales para testing", "publish credentials artifact", "/testability-guide". Do NOT use for: PRD definition (`/project-foundation`), infrastructure scaffolding (`/project-bootstrap`), per-story implementation (`/sprint-development`), unit testing (`/unit-testing`), or formal QA test cases / TMS workflows (out of scope here).'
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: foundation-extension
+- complementary_categories:
+- - frontend-framework
+- - frontend-ui
+- - issue-tracker
+- - testing-e2e
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\testability-guide\SKILL.md` · phase: `foundation-extension` · extraction strategy: B
+> Source: `.claude\skills\testability-guide\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
 ## Skill: unit-testing
 
-**Purpose**: Focused skill for unit-test design — TDD workflow (red-green-refactor), test naming (AAA, Given-When-Then), mocking patterns (mocks/spies...
+**Purpose**: (no description in frontmatter)
 
 **Compact Rules**:
-- "Write unit tests for this function/class"
-- "TDD this slice" / "red-green-refactor"
-- "What should I mock here?"
-- "How do I name this test?"
-- "What's the right coverage target for this module?"
-- Mid-flight from `/sprint-development` Stage 2 (Implementation) when implementing TDD-friendly code (pure functions, complex branching, bug fix reproducers)
-- Project has a unit test runner configured (Jest, Vitest, Mocha, or similar)
-- Test command exists in `package.json` (`bun test`, `npm test`, `vitest`, etc.)
-- For TDD: test runner supports watch mode (`--watch`)
-- If no runner is configured, the first task is to set one up — see `references/unit-testing.md` § Setup
-- Read `complementary_categories` from this skill's frontmatter (`language`).
-- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
-- For each matched skill, classify tier per strategy doc §2.
-- Apply threshold rule per strategy doc §3.2:
-- **T1 / T3** matches → load silently. Cache for the session.
+- ---
+- name: unit-testing
+- description: 'Focused skill for unit-test design — TDD workflow (red-green-refactor), test naming (AAA, Given-When-Then), mocking patterns (mocks/spies/stubs/fakes, dependency injection), and coverage strategy (line vs branch, mutation testing). Composable: invokable standalone (write unit tests for this function, qué mockear aquí, what to mock) or mid-flight from sprint-development for TDD slices. Triggers on: write unit tests, TDD this function, test-driven development, qué mockear aquí, what to mock, test naming, AAA pattern, Given-When-Then, test coverage, branch coverage, Jest, Vitest, unit testing. Do NOT use for: feature implementation orchestration (use /sprint-development), E2E or integration testing (out of scope, see playwright-cli skill), production deploy, or formal QA workflow.'
+- license: MIT
+- compatibility: [claude-code, copilot, cursor, codex, opencode]
+- phase: implementation
+- complementary_categories:
+- - language
+- ---
+- <!-- Model preferences (advisory; dispatchers may use to route) -->
+- <!--
+- model_preferences:
+- foundation: opus       # high-leverage architectural work
+- planning: sonnet       # structured writing
+- implementation: sonnet # default for code work
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\unit-testing\SKILL.md` · phase: `implementation` · extraction strategy: B
+> Source: `.claude\skills\unit-testing\SKILL.md` · phase: `unknown` · extraction strategy: B
+
+---
+
+## Skill: vercel-cli
+
+**Purpose**: (no description in frontmatter)
+
+**Compact Rules**:
+- ---
+- name: vercel-cli
+- description: 'Vercel CLI cookbook for this Next.js + Supabase + Vercel boilerplate. Covers deployment verification (poll by commit SHA + `vercel inspect --wait`), env var sync between `.env` and Vercel scopes (Preview / Production / Development), build and runtime log streaming, rollback, and `.vercel/` project linking detection. Trigger whenever the user runs `vercel`, asks to "check deploy status", "wait until ready", "is my deploy live", "sync env vars to Vercel", "push env to Vercel", "see build logs", "tail Vercel logs", "rollback last deploy", "promote to production", "link this repo to Vercel", or any vercel-CLI-shaped task. Composes with `/deploy-to-vercel` (community skill, owns the deploy method selection) and `/sprint-development` (Stages 9 & 12 own the deploy orchestration). Do NOT use for: choosing a deploy method or doing a first-time link (use `/deploy-to-vercel`), driving the full sprint deploy stage (use `/sprint-development`), reading Supabase as source-of-truth for env values (use Supabase MCP — Vercel only mirrors them), or Bitbucket / Netlify / Cloudflare deployment (out of scope).'
+- license: MIT
+- compatibility: [claude-code, cursor, codex, opencode]
+- allowed-tools: Bash(vercel:*)
+- complementary_categories:
+- - deploy
+- phase: implementation
+- ---
+- `vercel` is Vercel's official command-line client. In this boilerplate it is the primary verification + env-management surface for our standard stack: **Next.js + Supabase + Vercel + Resend**, with branch-based auto-deploys (`develop` → Vercel Preview / staging, `main` → Vercel Production).
+- This skill teaches the operations that live AROUND a deploy — confirming it actually shipped, pushing the right env vars before it ships, tailing logs when it breaks, rolling back when it breaks badly. The act of TRIGGERING a deploy (choosing between git push, `vercel deploy`, or first-time `vercel link`) is owned by the community skill `/deploy-to-vercel`. This skill points at it; it does not duplicate it.
+- `vercel` is easy to misuse in three specific ways that have burned past sessions:
+- 1. **`vercel ls | grep` is the wrong tool to check whether YOUR deploy is ready.** ANSI color codes break the regex, and the output mixes new and old deploys for the same branch. The canonical "is this exact commit deployed" question has a different answer: `vercel ls -m githubCommitSha=<sha> --format json` to find the URL, then `vercel inspect <url> --wait --timeout=10m` to block until terminal state.
+- 2. **`vercel deploy` blocks by default; `vercel inspect` does NOT.** That asymmetry is backwards from intuition and trips agents constantly. Rule: **always pass `--no-wait` to `vercel deploy`** (return URL immediately), **always pass `--wait` to `vercel inspect`** (block until READY / ERROR / CANCELED). See `references/gotchas.md`.
+- (truncated — read full SKILL.md for the rest)
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\vercel-cli\SKILL.md` · phase: `unknown` · extraction strategy: B

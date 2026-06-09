@@ -53,6 +53,7 @@ yarn-error.log*
 # ===== Temp / generated files =====
 acli_token.tmp
 nul
+qa_audit.py
 .env.*.local
 .env.sentry-build-plugin
 .envrc.local
@@ -94,6 +95,9 @@ dbhub.toml
 # reports, session handoffs). Kept on local disk only — never pushed.
 .scratch/
 
+# ===== Demo output pipeline (standalone tool, not application code) =====
+demo-output/
+
 # ===== Installer lock + state =====
 # `.template/installer.lock.json` is TRACKED (small, immutable sentinel that
 # pins the bootstrapped template — written once by the scaffolder / installer).
@@ -114,3 +118,4 @@ dbhub.toml
 # matches it, but this guards against future blanket *.lock or skills.* rules.
 !skills-lock.json
 !**/skills-lock.json
+nul

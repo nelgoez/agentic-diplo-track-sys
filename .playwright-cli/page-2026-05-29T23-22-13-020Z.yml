@@ -1,0 +1,302 @@
+- generic [active] [ref=e1]:
+  - status
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#maincontent"
+    - navigation "Site navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "CAMPUS VIRTUAL" [ref=e6] [cursor=pointer]:
+          - /url: https://campus.aulavirtual.unc.edu.ar/
+          - img "CAMPUS VIRTUAL" [ref=e7]
+        - navigation [ref=e9]:
+          - menubar [ref=e10]:
+            - menuitem "Home" [ref=e11] [cursor=pointer]
+            - menuitem "Dashboard" [ref=e12] [cursor=pointer]
+            - menuitem "My courses" [ref=e13] [cursor=pointer]
+            - text: 
+        - list
+        - generic [ref=e14]:
+          - button "Show notification window with no new notifications" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 
+          - button "Toggle messaging drawer" [ref=e19] [cursor=pointer]:
+            - generic [ref=e20]: 
+          - generic [ref=e24]:
+            - button "User menu" [ref=e25] [cursor=pointer]: 
+            - text:  
+    - generic [ref=e29]:
+      - button "Close block drawer" [ref=e31] [cursor=pointer]:
+        - generic [ref=e32]: 
+      - complementary "Blocks" [ref=e35]:
+        - heading "Blocks" [level=2] [ref=e36]
+        - link "Skip Mesa de ayuda" [ref=e37] [cursor=pointer]:
+          - /url: "#sb-1"
+        - region "Mesa de ayuda" [ref=e38]:
+          - generic [ref=e39]:
+            - heading "Mesa de ayuda" [level=3] [ref=e40]
+            - blockquote [ref=e43]:
+              - generic [ref=e44]: Si tenés dificultades técnicas o administrativas, enviá un mail a
+              - link "consulta@campusvirtual.unc.edu.ar" [ref=e45] [cursor=pointer]:
+                - /url: mailto:consulta@campusvirtual.unc.edu.ar
+                - text: consulta@campusvirtual.unc.
+                - text: edu.ar
+              - text: .
+              - text: ¡Estamos para ayudarte!
+        - link "Skip 📚 Biblioteca" [ref=e46] [cursor=pointer]:
+          - /url: "#sb-2"
+        - region "📚 Biblioteca" [ref=e47]:
+          - generic [ref=e48]:
+            - heading "📚 Biblioteca" [level=3] [ref=e49]
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - paragraph [ref=e54]: Bienvenida
+                - list [ref=e55]:
+                  - listitem [ref=e56]:
+                    - link "Recurso Introductorio" [ref=e58] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/page/view.php?id=7008
+              - generic [ref=e59]:
+                - paragraph [ref=e60]:
+                  - 'link "Módulo 1: Control de flujo y lógica" [ref=e61] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269&section=1#tabs-tree-start
+                - list [ref=e62]:
+                  - listitem [ref=e63]:
+                    - link "Guía de instalación" [ref=e64] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6943
+                - paragraph [ref=e65]: Notebooks
+                - list [ref=e66]:
+                  - listitem [ref=e67]:
+                    - 'link "Lógica Booleana: Comparaciones y Operadores" [ref=e68] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6995
+                  - listitem [ref=e69]:
+                    - 'link "Toma de Decisiones: Sentencias If, Elif y Else" [ref=e70] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6996
+                  - listitem [ref=e71]:
+                    - 'link "El Bucle For: Iteraciones Definidas" [ref=e72] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6993
+                  - listitem [ref=e73]:
+                    - 'link "El Bucle While: Ciclos Condicionales" [ref=e74] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6994
+                  - listitem [ref=e75]:
+                    - 'link "Control de Bucles: Break, Continue y Pass" [ref=e76] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6992
+              - generic [ref=e77]:
+                - paragraph [ref=e78]:
+                  - 'link "Módulo 2: Introducción a NumPy" [ref=e79] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269&section=2#tabs-tree-start
+                - paragraph [ref=e80]: Notebooks
+                - list [ref=e81]:
+                  - listitem [ref=e82]:
+                    - link "Introducción a Librerías y Modularidad" [ref=e83] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7002
+                  - listitem [ref=e84]:
+                    - 'link "Arrays vs. Listas: Creación y Estructura" [ref=e85] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6998
+                  - listitem [ref=e86]:
+                    - 'link "Eficiencia: Tipos de Datos y Memoria" [ref=e87] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6999
+                  - listitem [ref=e88]:
+                    - 'link "Indexación y Slicing: Acceso a Datos" [ref=e89] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7001
+                  - listitem [ref=e90]:
+                    - link "Álgebra Lineal y Operaciones Matriciales" [ref=e91] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6997
+                  - listitem [ref=e92]:
+                    - link "Funciones Matemáticas Universales (Ufuncs)" [ref=e93] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7000
+                  - listitem [ref=e94]:
+                    - link "Máscaras Booleanas y Filtrado" [ref=e95] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7003
+                  - listitem [ref=e96]:
+                    - link "Tipos de Datos (Dtypes) y Coerción" [ref=e97] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7005
+                  - listitem [ref=e98]:
+                    - 'link "Persistencia: Lectura y Escritura de Archivos" [ref=e99] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7004
+              - generic [ref=e100]:
+                - paragraph [ref=e101]:
+                  - 'link "Módulo 3: Visualización con Matplotlib" [ref=e102] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269&section=3#tabs-tree-start
+                - paragraph [ref=e103]: Notebooks
+                - list [ref=e104]:
+                  - listitem [ref=e105]:
+                    - link "Fundamentos de Visualización con Matplotlib" [ref=e106] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7007
+                  - listitem [ref=e107]:
+                    - link "Galerías de Estilos y Manejo de Imágenes" [ref=e108] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7006
+    - generic [ref=e109]:
+      - generic [ref=e110]:
+        - generic:  
+        - banner [ref=e111]:
+          - generic [ref=e112]:
+            - navigation "Breadcrumb" [ref=e115]:
+              - list [ref=e116]:
+                - listitem [ref=e117]:
+                  - link "Tecnología e Informática" [ref=e118] [cursor=pointer]:
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/index.php?categoryid=42
+                - listitem [ref=e119]: / Bienvenida
+            - heading "Aprendiendo a caminar en Python - Certificación 2" [level=1] [ref=e125]
+        - navigation [ref=e127]:
+          - menubar [ref=e128]:
+            - menuitem "Course" [ref=e129] [cursor=pointer]
+            - menuitem "Participants" [ref=e130] [cursor=pointer]
+            - menuitem "Competencies" [ref=e131] [cursor=pointer]
+            - menuitem "More " [ref=e132] [cursor=pointer]
+        - generic [ref=e137]:
+          - heading "Section outline" [level=2] [ref=e138]
+          - generic [ref=e139]:
+            - list [ref=e141]:
+              - listitem [ref=e142]:
+                - link "Bienvenida" [ref=e143] [cursor=pointer]:
+                  - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276&section=0#tabs-tree-start
+              - listitem [ref=e144]:
+                - link "Módulo 1 Information":
+                  - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276&section=1#tabs-tree-start
+                  - text: Módulo 1
+                  - img "Information" [ref=e146] [cursor=pointer]: 
+                - text:    
+              - listitem [ref=e147]:
+                - link "Módulo 2 Information":
+                  - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276&section=2#tabs-tree-start
+                  - text: Módulo 2
+                  - img "Information" [ref=e149] [cursor=pointer]: 
+                  - text:    
+              - listitem [ref=e150]:
+                - link "Módulo 3 Information":
+                  - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276&section=3#tabs-tree-start
+                  - text: Módulo 3
+                  - img "Information" [ref=e152] [cursor=pointer]: 
+                  - text:    
+              - listitem [ref=e153]:
+                - link "Cierre Information":
+                  - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276&section=4#tabs-tree-start
+                  - text: Cierre
+                  - img "Information" [ref=e155] [cursor=pointer]: 
+                  - text:    
+            - main [ref=e157]:
+              - list [ref=e161]:
+                - listitem [ref=e162]:
+                  - generic [ref=e163]:
+                    - generic [ref=e167]:
+                      - heading "Te damos la bienvenida al curso Aprendiendo a caminar en Python - Certificación 2" [level=2] [ref=e168]:
+                        - text: Te damos la bienvenida al curso
+                        - text: Aprendiendo a caminar en Python - Certificación 2
+                      - generic [ref=e169]:
+                        - paragraph [ref=e170]:
+                          - text: Si ya cursaste y aprobaste el curso "
+                          - link "Aprendiendo a caminar en Python - Certificación 1" [ref=e171] [cursor=pointer]:
+                            - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269
+                          - text: "\", te invitamos a dar el siguiente paso en tu formación: desarrollar la capacidad de"
+                          - strong [ref=e172]: estructurar, modelar y analizar datos
+                          - text: aplicando los principios de la programación modular y científica.
+                        - paragraph [ref=e173]:
+                          - text: Este espacio fue diseñado bajo una modalidad autogestiva, asumiendo que ya cuentas con nociones básicas de control de flujo. Aquí descubrirás que programar en este nivel no es memorizar código, sino
+                          - strong [ref=e174]: pensar en sistemas
+                          - text: y expresar soluciones complejas a través de algoritmos.
+                        - paragraph [ref=e175]:
+                          - text: A lo largo del recorrido, avanzarás desde la lógica booleana hasta el procesamiento de grandes volúmenes de datos con
+                          - strong [ref=e176]: NumPy
+                          - text: y la creación de visualizaciones profesionales con
+                          - strong [ref=e177]: Matplotlib y Seaborn.
+                          - text: Te invitamos a explorar y a transferir este conocimiento a tu propio campo profesional.
+                      - iframe [ref=e182]:
+                        - main [ref=f2e4]:
+                          - generic [ref=f2e7]: Your browser does not support the video tag.
+                          - generic:
+                            - generic:
+                              - generic: Empieza gratis
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic: Mostrar detalles
+                                - generic:
+                                  - img
+                          - generic:
+                            - generic: Comenzar ahora
+                      - paragraph
+                      - paragraph
+                      - generic [ref=e183]:
+                        - heading "🧭 ¿Cómo está organizado el curso?" [level=3] [ref=e184]
+                        - paragraph [ref=e185]: "El recorrido avanza progresivamente: comenzarás profundizando en la lógica avanzada y el control de flujo para la toma de decisiones, transicionarás hacia el manejo vectorial de datos numéricos y finalizarás construyendo representaciones gráficas informativas."
+                        - paragraph [ref=e186]: "En cada módulo encontrarás:"
+                        - generic [ref=e187]:
+                          - generic [ref=e188]: "1"
+                          - paragraph [ref=e190]:
+                            - strong [ref=e191]: "Video explicativo:"
+                            - text: Clases con ejemplos claros para entender la lógica del pensamiento avanzado.
+                        - generic [ref=e192]:
+                          - generic [ref=e193]: "2"
+                          - paragraph [ref=e195]:
+                            - strong [ref=e196]: "Notebooks de práctica:"
+                            - text: Archivos para experimentar con código real, manipular arrays y generar gráficos.
+                        - generic [ref=e197]:
+                          - generic [ref=e198]: "3"
+                          - paragraph [ref=e200]:
+                            - strong [ref=e201]: Recursos clave
+                            - text: en la 📚 Biblioteca del curso, a la cual puedes acceder desde el margen derecho de tu pantalla, presionando el botón .
+                        - generic [ref=e202]:
+                          - generic [ref=e203]: "4"
+                          - generic [ref=e204]:
+                            - paragraph [ref=e205]:
+                              - strong [ref=e206]: "Dos tipos de actividades:"
+                            - generic [ref=e207]:
+                              - generic [ref=e208]: 👤
+                              - generic [ref=e209]:
+                                - strong [ref=e210]: "Actividad individual (Obligatoria):"
+                                - text: Ejercicios con retroalimentación automática para validar tus conocimientos en cada etapa.
+                            - generic [ref=e211]:
+                              - generic [ref=e212]: 👥
+                              - generic [ref=e213]:
+                                - strong [ref=e214]: "Actividad grupal (Optativa):"
+                                - text: Un espacio para compartir y comentar notebooks, construyendo una red de apoyo mutuo.
+                        - paragraph [ref=e215]:
+                          - text: En el
+                          - strong [ref=e216]: Cierre
+                          - text: realizarás un Proyecto Integrador que articula código, análisis y visualización para acreditar el curso.
+                      - generic [ref=e217]:
+                        - link "🎯 Sobre los objetivos" [ref=e218] [cursor=pointer]:
+                          - /url: https://campus.aulavirtual.unc.edu.ar/mod/page/view.php?id=6930
+                        - link "👩🏻‍💻👨‍💻 Sobre los docentes" [ref=e219] [cursor=pointer]:
+                          - /url: https://campus.aulavirtual.unc.edu.ar/mod/page/view.php?id=6929
+                    - list [ref=e220]:
+                      - listitem [ref=e221]:
+                        - generic [ref=e227]:
+                          - heading "Actividad de bienvenida" [level=2] [ref=e228]
+                          - generic [ref=e229]:
+                            - paragraph [ref=e230]:
+                              - text: "Las actividades de bienvenida están pensadas para acompañarte en los primeros pasos del curso: primero te proponemos un"
+                              - strong [ref=e231]: cuestionario diagnóstico
+                              - text: para conocer tus saberes iniciales, y luego una presentación personal donde compartas tus intereses, expectativas y una imagen o emoji que te represente. Ambas instancias te permiten familiarizarte con el aula, el uso de los recursos y la comunidad con la que vas a aprender.
+                            - generic [ref=e232]:
+                              - link "👤 Actividad individual" [ref=e233] [cursor=pointer]:
+                                - /url: https://campus.aulavirtual.unc.edu.ar/mod/quiz/view.php?id=6980
+                                - generic [ref=e234]:
+                                  - generic [ref=e235]: 👤
+                                  - generic [ref=e236]: Actividad individual
+                              - link "👥 Actividad grupal" [ref=e238] [cursor=pointer]:
+                                - /url: https://campus.aulavirtual.unc.edu.ar/mod/data/view.php?id=6935&forceview=1
+                                - generic [ref=e239]:
+                                  - generic [ref=e240]: 👥
+                                  - generic [ref=e241]: Actividad grupal
+                      - listitem [ref=e243]:
+                        - generic [ref=e250]:
+                          - paragraph [ref=e251]: "Antes de continuar, asegurate de haber realizado los siguientes pasos:"
+                          - generic [ref=e252]:
+                            - generic [ref=e253]:
+                              - generic [ref=e254]: ✓
+                              - generic [ref=e255]: Revisar la información general del curso.
+                            - generic [ref=e256]:
+                              - generic [ref=e257]: ✓
+                              - generic [ref=e258]: Conocer a tus docentes y los objetivos del curso.
+                            - generic [ref=e259]:
+                              - generic [ref=e260]: ✓
+                              - generic [ref=e261]: Completar el cuestionario de diagnóstico.
+                            - generic [ref=e262]:
+                              - generic [ref=e263]: ✓
+                              - generic [ref=e264]: Participar en la actividad grupal de bienvenida.
+                          - paragraph [ref=e265]: Si ya hiciste este recorrido inicial, ¡estás lista/o para empezar!
+                          - link "¡Avanzá al Módulo 1! 🚀" [ref=e267] [cursor=pointer]:
+                            - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=276&section=1#tabs-tree-start
+                            - generic [ref=e269]: ¡Avanzá al Módulo 1! 🚀
+      - contentinfo:
+        - button "Show footer" [ref=e270] [cursor=pointer]:
+          - generic [ref=e271]: "?"

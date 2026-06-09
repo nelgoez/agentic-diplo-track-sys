@@ -1,0 +1,717 @@
+[
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Eligibility Check (wired to rule engine)"
+    },
+    "fieldsToInclude": null,
+    "id": "10052",
+    "key": "DTS-21",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10052",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Student Progress API"
+    },
+    "fieldsToInclude": null,
+    "id": "10051",
+    "key": "DTS-20",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10051",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Rule Tree Viewer (hierarchical display)"
+    },
+    "fieldsToInclude": null,
+    "id": "10050",
+    "key": "DTS-19",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10050",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Manual Override CRUD"
+    },
+    "fieldsToInclude": null,
+    "id": "10049",
+    "key": "DTS-18",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10049",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Rule Engine Evaluator (recursive, \u003e95% coverage)"
+    },
+    "fieldsToInclude": null,
+    "id": "10048",
+    "key": "DTS-17",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10048",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Prerequisite Rules CRUD (recursive tree)"
+    },
+    "fieldsToInclude": null,
+    "id": "10047",
+    "key": "DTS-16",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10047",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Integration Logging Helpers"
+    },
+    "fieldsToInclude": null,
+    "id": "10046",
+    "key": "DTS-15",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10046",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Moodle Provider (mock + health check)"
+    },
+    "fieldsToInclude": null,
+    "id": "10045",
+    "key": "DTS-14",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10045",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "Provider Abstraction Interfaces + Registry"
+    },
+    "fieldsToInclude": null,
+    "id": "10044",
+    "key": "DTS-13",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10044",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "User CRUD + Role Management"
+    },
+    "fieldsToInclude": null,
+    "id": "10043",
+    "key": "DTS-12",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10043",
+    "transitions": null,
+    "versionedRepresentations": null
+  },
+  {
+    "changelog": null,
+    "editmeta": null,
+    "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+    "fields": {
+      "assignee": {
+        "accountId": "609005c5f0db130069a64294",
+        "accountType": "atlassian",
+        "active": true,
+        "avatarUrls": {
+          "16x16": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "24x24": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "32x32": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png",
+          "48x48": "https://secure.gravatar.com/avatar/841c03aed42ff47e5637de65c87bc97f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNG-0.png"
+        },
+        "displayName": "Nahuel Gomez",
+        "emailAddress": "nahuelgomez.cti@gmail.com",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/user?accountId=609005c5f0db130069a64294",
+        "timeZone": "America/Buenos_Aires"
+      },
+      "issuetype": {
+        "avatarId": 10315,
+        "description": "",
+        "entityId": "4917a4f7-4886-4333-82b6-6dc699864c76",
+        "hierarchyLevel": 0,
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10315?size=medium",
+        "id": "10008",
+        "name": "Story",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10008",
+        "subtask": false
+      },
+      "priority": {
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/priorities/medium_new.svg",
+        "id": "3",
+        "name": "Medium",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/priority/3"
+      },
+      "status": {
+        "description": "",
+        "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+        "id": "10006",
+        "name": "Done",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10006",
+        "statusCategory": {
+          "colorName": "green",
+          "id": 3,
+          "key": "done",
+          "name": "Done",
+          "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/3"
+        }
+      },
+      "summary": "JWT Authentication (login + refresh + logout)"
+    },
+    "fieldsToInclude": null,
+    "id": "10042",
+    "key": "DTS-11",
+    "names": null,
+    "operations": null,
+    "properties": null,
+    "renderedFields": null,
+    "schema": null,
+    "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10042",
+    "transitions": null,
+    "versionedRepresentations": null
+  }
+]

@@ -50,11 +50,13 @@ Expected: clean, OR only pre-existing warnings on files this run did not touch.
 
 If the host uses ESLint flat config + custom rules that fail on the generated page → DO NOT disable the rules. Fix the page to comply.
 
+> **MCP-config JSONC is lint-sensitive.** If this run edited `.mcp.json` / `opencode.jsonc` to wire testing MCPs, the host lint may enforce one-array-item-per-line (e.g. `antfu/consistent-list-newline`) on JSON/JSONC arrays — inline `["a", "b"]` will fail. Run the host's `lint:fix` on the edited config files (and the generated page) BEFORE this check; a pre-push `repo:check` hook will otherwise reject the push.
+
 ## 4. Browser smoke (Playwright CLI)
 
 Load `/playwright-cli`. Run:
 
-- Open `/qa` against the local dev server (`{{environments.local.WEB_URL}}/qa`, fallback `http://localhost:3000/qa`).
+- Open `/qa` against the local dev server (`{{environments.local.web_url}}/qa`, fallback `http://localhost:3000/qa`).
 - Assert the page returns 200, the H1 reads `Software Testability Guide for QA`, and `data-testid="qa-page"` is present.
 - Click `data-testid="qa-credentials-button"` → assert it opens the credentials destination URL in a new tab.
 - Expand every accordion / section → assert `data-testid` selectors render their code blocks.

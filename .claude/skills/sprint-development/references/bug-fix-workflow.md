@@ -4,6 +4,26 @@
 
 ---
 
+## Custom field resolution — slug-based, never hardcoded
+
+Las IDs numéricas de Jira (`customfield_NNNNN`) varían por workspace y NO viven en este skill. Esta metodología resuelve cada campo en runtime vía `{{jira.<slug>}}` contra el catálogo canónico en `.agents/jira-required.yaml`. El AI runtime resuelve el slug → ID numérico vía `.agents/jira-fields.json` (poblado por `bun run jira:sync-fields`). Si un slug no existe en el workspace de destino, el catálogo declara el fallback y `bun run jira:check` warnea.
+
+**Slugs que este workflow lee/escribe** (semántica de cada campo):
+
+- `{{jira.actual_result}}` — 🐞 Actual Result (Textarea). Lo que pasó (comportamiento del bug).
+- `{{jira.expected_result}}` — ✅ Expected Result (Textarea). Lo que debería haber pasado.
+- `{{jira.error_type}}` — Error Type (Dropdown). Functional/Visual/Content/Performance/Crash/Data/Integration/Security.
+- `{{jira.severity}}` — SEVERITY (Dropdown). Crítica/Mayor/Moderada/Menor/Trivial.
+- `{{jira.test_environment}}` — Test Environment (Dropdown). Dev/QA/UAT/Staging/Production.
+- `{{jira.root_cause}}` — Root Cause🐞 (Dropdown). Code Error/Config-Env Error/Environment Error/Requirement Error/WAD/Third-Party/etc.
+- `{{jira.workaround}}` — Workaround (Textarea). Solución temporal mientras se aplica el fix definitivo.
+- `{{jira.evidence}}` — Evidence (attachments/links). Screenshots, logs, traces.
+- `{{jira.fix}}` — Fix (Radio). Bugfix (standard) / Hotfix (critical, immediate deploy).
+
+**Operación → tool layer.** Toda escritura/lectura contra Jira se expresa como `[ISSUE_TRACKER_TOOL]` pseudo-código. El skill consumidor (AI runtime) resuelve la herramienta vía la tabla `CLAUDE.md` §6 (primary `/acli`, fallback Atlassian MCP, last resort REST). Para la matriz operación → capa de herramienta, ver `.claude/skills/product-management/references/jira-operations.md`. Para gotchas de publicación a campos rich-text (ADF), ver `.claude/skills/product-management/references/jira-publishing-gotchas.md`.
+
+---
+
 ## Purpose
 
 Analyze, triage, and fix bugs/defects reported during exploratory testing or production. This prompt helps the AI:
@@ -26,7 +46,7 @@ Analyze, triage, and fix bugs/defects reported during exploratory testing or pro
 - Optional: API testing tools (e.g., Postman MCP)
 - Optional: Context7 MCP for library documentation
 
-**Important:** This prompt is primarily configured for the **UPEX Galaxy Jira Workspace**. The custom field IDs below are shared across all projects in this workspace. For external workspaces, see the **Fallback Strategy** section.
+**Important:** Custom fields are referenced by slug (resolved against `.agents/jira-required.yaml`) — never by hardcoded `customfield_NNNNN`. If a slug doesn't resolve to a workspace field, see the **Fallback Strategy** section.
 
 ---
 
@@ -34,26 +54,27 @@ Analyze, triage, and fix bugs/defects reported during exploratory testing or pro
 
 **BEFORE starting, verify available tools:**
 
-### Required: Atlassian MCP
+### Required: Jira reads (sync script) + writes (`[ISSUE_TRACKER_TOOL]`)
 
-**Check if available:** [Verify access to `[ISSUE_TRACKER_TOOL]`]
+This workflow splits Jira access two ways — they resolve to **different tools**:
 
-**If NOT available:**
+- **Detailed READS** (bug custom fields: `actual_result`, `expected_result`, `error_type`, `severity`, `test_environment`, `root_cause`, `fix`; description; comments for context) → **`bun run jira:sync-issues get <BUG-KEY> --include-comments`**, then read the materialized `.md` files under `.context/PBI/`. The sync materializes the FULL synced bug folder (every per-field `.md` + `comments.md`); to fix a bug you MUST read the whole synced bug folder + comments — never omit custom fields, description, or comment context. The sync resolves every slug and converts ADF→Markdown; `[ISSUE_TRACKER_TOOL]` `view` returns `null` for `customfield_*` and MUST NOT be used to read these.
+- **WRITES** (transition issue status, add documentation comment, set bug custom fields) → `[ISSUE_TRACKER_TOOL]` (primary `/acli`, fallback Atlassian MCP per `CLAUDE.md` §6).
+
+**Check before starting:**
+
+- `bun run jira:sync-issues get <BUG-KEY> --include-comments` succeeds (auth fresh — run `[ISSUE_TRACKER_TOOL]` auth login first if the sync errors).
+- `[ISSUE_TRACKER_TOOL]` resolves (for transitions + comments).
 
 ```
-⚠️ Atlassian MCP Required
+⚠️ Jira access required
 
-This workflow requires Jira integration to:
-- Read bug details and custom fields
-- Read comments for context
-- Transition issue status
-- Add documentation comments
+This workflow needs:
+- READ bug details + custom fields + comments → bun run jira:sync-issues get <BUG-KEY> --include-comments
+- WRITE status transitions + documentation comments → [ISSUE_TRACKER_TOOL]
 
-**How to connect:**
-1. Add Atlassian MCP to your configuration
-2. Restart the chat session
-
-**Cannot proceed without Atlassian MCP.**
+If the sync errors with an auth failure, authenticate via [ISSUE_TRACKER_TOOL] and re-run.
+Cannot proceed without Jira read (sync) + write ([ISSUE_TRACKER_TOOL]) access.
 ```
 
 ### Required: GitHub CLI (gh)
@@ -111,21 +132,21 @@ This workflow requires GitHub CLI for:
 
 ---
 
-## Custom Fields Schema (UPEX Galaxy Workspace)
+## Custom Fields Schema
 
-> **CRITICAL:** Use these exact field IDs for bug custom fields. For non-UPEX workspaces, see **Fallback Strategy**.
+> **CRITICAL:** Reference bug fields by slug; the runtime resolves each slug against `.agents/jira-fields.json`. For workspaces missing a slug, see **Fallback Strategy**.
 
 ### Bug Fields Reference
 
-| Field ID            | Jira Field Name    | Type     | Values/Usage                                                                         |
-| ------------------- | ------------------ | -------- | ------------------------------------------------------------------------------------ |
-| `customfield_10109` | 🐞 Actual Result   | Textarea | What happened (the bug behavior)                                                     |
-| `customfield_10110` | ✅ Expected Result | Textarea | What should have happened                                                            |
-| `customfield_10112` | Error Type         | Dropdown | Functional/Visual/Content/Performance/Crash/Data/Integration/Security                |
-| `customfield_10116` | SEVERITY           | Dropdown | Crítica/Mayor/Moderada/Menor/Trivial                                                 |
-| `customfield_12210` | Test Environment   | Dropdown | Dev/QA/UAT/Staging/Production                                                        |
-| `customfield_10701` | Root Cause🐞       | Dropdown | Code Error/Config-Env Error/Environment Error/Requirement Error/WAD/Third-Party/etc. |
-| `customfield_12212` | Fix                | Radio    | Bugfix (standard) / Hotfix (critical, immediate deploy)                              |
+| Slug (resuelve vía jira-required.yaml)  | Jira Field Name    | Type     | Values/Usage                                                                         |
+| --------------------------------------- | ------------------ | -------- | ------------------------------------------------------------------------------------ |
+| `{{jira.actual_result}}` | 🐞 Actual Result   | Textarea | What happened (the bug behavior)                                                     |
+| `{{jira.expected_result}}`       | ✅ Expected Result | Textarea | What should have happened                                                            |
+| `{{jira.error_type}}`                   | Error Type         | Dropdown | Functional/Visual/Content/Performance/Crash/Data/Integration/Security                |
+| `{{jira.severity}}`                     | SEVERITY           | Dropdown | Crítica/Mayor/Moderada/Menor/Trivial                                                 |
+| `{{jira.test_environment}}`             | Test Environment   | Dropdown | Dev/QA/UAT/Staging/Production                                                        |
+| `{{jira.root_cause}}`                   | Root Cause🐞       | Dropdown | Code Error/Config-Env Error/Environment Error/Requirement Error/WAD/Third-Party/etc. |
+| `{{jira.fix}}`                          | Fix                | Radio    | Bugfix (standard) / Hotfix (critical, immediate deploy)                              |
 
 ### Root Cause Categories
 
@@ -152,36 +173,35 @@ This workflow requires GitHub CLI for:
 
 ---
 
-## Fallback Strategy (Non-UPEX Workspaces)
+## Fallback Strategy (Slug doesn't resolve in workspace)
 
-> Apply when using this prompt in Jira workspaces OTHER than UPEX Galaxy.
+> Apply when a `{{jira.<slug>}}` doesn't resolve to a present field in the target workspace (per `.agents/jira-fields.json` or a runtime probe).
 
 ### Fallback 1: Search for Equivalent Field
 
-When a custom field ID fails, use `[ISSUE_TRACKER_TOOL]` to search for fields:
+When a slug doesn't resolve to a present field, search the workspace:
 
 ```
-Use [ISSUE_TRACKER_TOOL] to search fields:
-  keyword: "root cause"  // or "severity", "error type", etc.
+[ISSUE_TRACKER_TOOL] search_fields(keyword="root cause")  // or "severity", "error type", etc.
 ```
 
 If found:
 
-1. Use discovered field ID for this session
-2. Inform user: "Using `customfield_XXXXX` for [Field Name] in this workspace"
-3. Proceed with fix workflow
+1. Update `.agents/jira-required.yaml` to point the slug at the discovered field (or add an alias slug) and re-run `bun run jira:sync-fields`.
+2. Inform user: "Slug `<slug>` now resolves to the discovered field in this workspace."
+3. Proceed with fix workflow.
 
 ### Fallback 2: Ask User to Define Fields
 
 ```
 ⚠️ Custom Field Not Found
 
-The field "[Field Name]" (UPEX ID: `customfield_XXXXX`) doesn't exist.
+The slug `{{jira.<slug>}}` ("[Field Name]") doesn't resolve to a present field in this workspace.
 
 Options:
-1. Tell me the correct custom field ID for this workspace
-2. Skip this field and include info in the Jira comment
-3. Proceed without updating this field
+1. Tell me which existing workspace field maps to this slug — I'll update `.agents/jira-required.yaml`.
+2. Skip this field and include info in the Jira comment.
+3. Proceed without updating this field.
 
 Which would you prefer?
 ```
@@ -202,36 +222,26 @@ As last resort:
 
 ### 1. Bug Issue from Jira
 
-> **⚠️ IMPORTANT:** The Atlassian MCP may not return custom fields with `fields: "*all"`. Make TWO calls to ensure complete data.
+> Detailed bug-field READS go through the sync, NOT `[ISSUE_TRACKER_TOOL]` `view` — `view` returns `null` for `customfield_*`.
 
-**Call 1 - Standard fields:**
-
-```
-Use [ISSUE_TRACKER_TOOL] to get issue:
-  issue_key: "PROJ-123"
-  fields: "*all"
-  expand: "changelog"
-  comment_limit: 50
-```
-
-**Call 2 - Custom fields explicitly:**
+Materialize the FULL synced bug folder, then read it:
 
 ```
-Use [ISSUE_TRACKER_TOOL] to get issue:
-  issue_key: "PROJ-123"
-  fields: "customfield_10109,customfield_10110,customfield_10112,customfield_10116,customfield_12210,customfield_10701,customfield_10111,customfield_10607,customfield_12212"
+bun run jira:sync-issues get <BUG-KEY> --include-comments
 ```
 
-**Extract from combined results:**
+Read every materialized file under `.context/PBI/` (the bug's `.md` per-field files + `comments.md`). The sync resolves every slug (`{{jira.actual_result}}`, `{{jira.expected_result}}`, `{{jira.error_type}}`, `{{jira.severity}}`, `{{jira.test_environment}}`, `{{jira.root_cause}}`, `{{jira.workaround}}`, `{{jira.evidence}}`, `{{jira.fix}}`), converts ADF→Markdown, and captures the description + comments in one pass. Read the WHOLE folder — never omit a custom field, the description, or comment context.
+
+**Extract from the synced files:**
 
 - Summary and Description
 - Steps to Reproduce
-- **Actual Result** (customfield_10109) vs **Expected Result** (customfield_10110)
-- **Error Type** (customfield_10112) and **Severity** (customfield_10116)
-- **Test Environment** (customfield_12210)
-- **Root Cause** (customfield_10701) - may be empty initially
-- All comments (context, discussions, prior attempts)
-- Attachments (screenshots, logs)
+- **Actual Result** vs **Expected Result**
+- **Error Type** and **Severity**
+- **Test Environment**
+- **Root Cause** — may be empty initially
+- All comments (context, discussions, prior attempts) from `comments.md`
+- Attachments (screenshots, logs) — linked in the synced fields
 
 ### 2. Linked Issues
 
@@ -269,38 +279,20 @@ Check issue links for:
 
 **Objective:** Understand the bug completely before attempting to fix.
 
-**Step 1: Read the bug issue (TWO CALLS REQUIRED)**
+**Step 1: Read the bug issue (via the sync)**
 
-> **CRITICAL:** The Atlassian MCP may not return custom fields with `fields: "*all"`. You MUST make TWO separate calls to ensure you have all information.
-
-**Call 1 - Standard fields and comments:**
+> Detailed bug-field READS go through the sync. `[ISSUE_TRACKER_TOOL]` `view` returns `null` for `customfield_*` and MUST NOT be used to read bug custom fields.
 
 ```
-Use [ISSUE_TRACKER_TOOL] to get issue:
-  issue_key: "[BUG_ID]"
-  fields: "*all"
-  expand: "changelog"
-  comment_limit: 50
+bun run jira:sync-issues get [BUG_ID] --include-comments
 ```
 
-**Call 2 - Custom fields explicitly (REQUIRED):**
+Then read the materialized files under `.context/PBI/` — every per-field `.md` (Actual / Expected Result, Error Type, Severity, Test Environment, Root Cause, Workaround, Evidence, Fix), the description, and `comments.md`. The sync resolves all slugs and converts ADF→Markdown in one pass, so a single command yields the complete bug context (summary, description, status, changelog-derived fields, comments, custom field VALUES).
 
-```
-Use [ISSUE_TRACKER_TOOL] to get issue:
-  issue_key: "[BUG_ID]"
-  fields: "customfield_10109,customfield_10110,customfield_10112,customfield_10116,customfield_12210,customfield_10701,customfield_10111,customfield_10607,customfield_12212"
-```
+**If a custom field's `.md` is a stub (field absent on this instance):**
 
-**Why two calls?**
-
-- Call 1: Gets summary, description, status, comments, changelog
-- Call 2: Explicitly retrieves custom field VALUES (Actual/Expected Result, Severity, Error Type, etc.)
-
-**If custom fields return `null` or "field not found":**
-
-1. Use `[ISSUE_TRACKER_TOOL]` to search for fields by keyword to find equivalent fields
-2. Ask user for correct field IDs (see Fallback Strategy section)
-3. Do NOT assume fields are empty without verifying
+1. The stub points at the fallback comment — read it in `comments.md` (per `.agents/jira-required.yaml` → `fallback:`).
+2. Do NOT assume a field is empty without checking `comments.md` and the description.
 
 **Step 2: Extract and present critical information**
 
@@ -729,8 +721,6 @@ Fixes [ISSUE_KEY]: [Bug summary from Jira]
 ---
 
 Fixes: [ISSUE_KEY]
-
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
 EOF
 )" \
   --base staging
@@ -763,14 +753,22 @@ Next steps:
 
 **Objective:** Update Jira with complete fix documentation.
 
+> Before writing rich-text fields in Jira, read `.claude/skills/product-management/references/jira-publishing-gotchas.md` for the two known ADF bugs and their workarounds.
+
 **Step 1: Update Custom Fields (Root Cause)**
 
 ```
-Use [ISSUE_TRACKER_TOOL] to update issue:
-  issue_key: "[BUG_ID]"
-  fields:
-    customfield_10701: {"value": "[Root Cause Category]"}
-    customfield_12212: {"value": "Bugfix"}  // or "Hotfix"
+[ISSUE_TRACKER_TOOL] update_issue_field(
+  issue_key="[BUG_ID]",
+  field={{jira.root_cause}},
+  value={"value": "[Root Cause Category]"}
+)
+
+[ISSUE_TRACKER_TOOL] update_issue_field(
+  issue_key="[BUG_ID]",
+  field={{jira.fix}},
+  value={"value": "Bugfix"}  // or "Hotfix"
+)
 ```
 
 **Step 2: Add Fix Documentation Comment**
@@ -815,18 +813,14 @@ Use [ISSUE_TRACKER_TOOL] to update issue:
 
 Before evaluating whether fields are "missing" or "incomplete":
 
-1. **Ensure you made the explicit custom fields call** (Phase 1, Call 2)
-2. **Re-verify if uncertain:** Make another call with explicit field IDs
-3. **List found values:** In your feedback, show the ACTUAL values found
-4. **Only mark as "missing" if the explicit call returned `null` or empty**
+1. **Re-run the sync** so you read the current values, not a stale cache:
+   ```
+   bun run jira:sync-issues get [BUG_ID] --include-comments
+   ```
+2. **List found values:** in your feedback, show the ACTUAL values from the synced per-field `.md` files.
+3. **Only mark as "missing" if the synced `.md` is a stub** (field absent on this instance) AND no fallback comment carries the content in `comments.md`.
 
-```
-Use [ISSUE_TRACKER_TOOL] to get issue:
-  issue_key: "[BUG_ID]"
-  fields: "customfield_10109,customfield_10110,customfield_10112,customfield_10116,customfield_12210,customfield_10701,customfield_10111,customfield_10607,customfield_12212"
-```
-
-**If fields return null after explicit call:** Then it's valid to note as missing in feedback.
+**If a field's `.md` is a stub and `comments.md` has no fallback for it:** then it's valid to note as missing in feedback.
 
 **Evaluation Criteria:**
 
@@ -883,7 +877,7 @@ Use [ISSUE_TRACKER_TOOL] to get issue:
 ---
 
 _Este feedback es constructivo y busca mejorar nuestro proceso de testing._
-_Bug retest / QA verification: out of scope here — see `agentic-qa-boilerplate` sister repo._
+_Bug retest / QA verification: out of scope here._
 ```
 
 ---
@@ -1345,7 +1339,7 @@ After completing the workflow, present this consolidated report to the user in t
 
 | Acción            | Detalle                                                   |
 | ----------------- | --------------------------------------------------------- |
-| Jira - Read       | `jira_get_issue` [ISSUE_KEY] (con comentarios/changelog)  |
+| Jira - Read       | `bun run jira:sync-issues get` [ISSUE_KEY] `--include-comments` (con comentarios/changelog)  |
 | Jira - Transition | [Status inicial] → In Progress → Ready For QA             |
 | Jira - Fields     | Root Cause, Fix Type actualizados                         |
 | Jira - Comments   | [N] comentarios añadidos (Fix documentation [+ Feedback]) |
@@ -1387,7 +1381,7 @@ After completing the workflow, present this consolidated report to the user in t
 
 ---
 
-**Próximo paso:** Bug retest / QA verification: out of scope here — see `agentic-qa-boilerplate` sister repo.
+**Próximo paso:** Bug retest / QA verification: out of scope here.
 ```
 
 ### Report Variations
@@ -1419,7 +1413,7 @@ Add this banner at the top:
 
 | Acción            | Detalle                        |
 | ----------------- | ------------------------------ |
-| Jira - Read       | `jira_get_issue` [ISSUE_KEY]   |
+| Jira - Read       | `bun run jira:sync-issues get` [ISSUE_KEY] `--include-comments`   |
 | Jira - Link       | Linked to [EXISTING_ISSUE_KEY] |
 | Jira - Transition | [Status] → Duplicate           |
 | Jira - Comment    | Documented duplicate reasoning |
@@ -1445,7 +1439,7 @@ Add this banner at the top:
 
 | Acción            | Detalle                      |
 | ----------------- | ---------------------------- |
-| Jira - Read       | `jira_get_issue` [ISSUE_KEY] |
+| Jira - Read       | `bun run jira:sync-issues get` [ISSUE_KEY] `--include-comments` |
 | Jira - Transition | [Status] → Won't Fix         |
 | Jira - Comment    | Documented WAD reasoning     |
 
@@ -1471,7 +1465,7 @@ Add this banner at the top:
 
 | Acción            | Detalle                           |
 | ----------------- | --------------------------------- |
-| Jira - Read       | `jira_get_issue` [ISSUE_KEY]      |
+| Jira - Read       | `bun run jira:sync-issues get` [ISSUE_KEY] `--include-comments`      |
 | Jira - Comment    | Preguntas específicas al reporter |
 | Jira - Transition | [Status] → Need Info              |
 
@@ -1587,7 +1581,7 @@ Use [ISSUE_TRACKER_TOOL] to transition issue:
 | `fase-8-code-review/review-pr.md`          | For code review of the fix PR |
 | `git-flow.md`                              | For advanced git operations   |
 
-> _Bug reporting, retest, and QA verification flows are out of scope here — see the `agentic-qa-boilerplate` sister repo._
+> _Bug reporting, retest, and QA verification flows are out of scope here._
 
 ---
 
@@ -1739,51 +1733,51 @@ To continue a previous session, paste this block with updated data:
 
 ## Troubleshooting
 
-| Issue                               | Solution                                             |
-| ----------------------------------- | ---------------------------------------------------- |
-| "Field customfield_XXXXX not found" | Use Fallback Strategy (search or include in comment) |
-| "Transition not valid"              | Check available transitions for current status       |
-| Cannot reproduce bug                | Request more info, check environment differences     |
-| Fix breaks other tests              | Investigate regression, consider scope of fix        |
-| PR conflicts                        | Rebase on target branch, resolve conflicts           |
-| Hotfix needs backport               | Use cherry-pick to apply to staging/develop          |
+| Issue                            | Solution                                             |
+| -------------------------------- | ---------------------------------------------------- |
+| "Slug `{{jira.<slug>}}` doesn't resolve to a workspace field" | Use Fallback Strategy (search or include in comment) |
+| "Transition not valid"           | Check available transitions for current status       |
+| Cannot reproduce bug             | Request more info, check environment differences     |
+| Fix breaks other tests           | Investigate regression, consider scope of fix        |
+| PR conflicts                     | Rebase on target branch, resolve conflicts           |
+| Hotfix needs backport            | Use cherry-pick to apply to staging/develop          |
 
 ### Custom Fields Not Returned (Common Issue)
 
-**Problem:** `jira_get_issue` with `fields: "*all"` returns standard fields but custom field values are `null` or missing.
+**Problem:** `[ISSUE_TRACKER_TOOL]` `view` / `get_issue` returns standard fields but custom field values are `null` or missing.
 
-**Root Cause:** The Atlassian MCP may not expand custom fields automatically.
+**Root Cause:** `acli view` (and some MCP tiers) return `null` for `customfield_*` — they are not the read path for custom-field content.
 
-**Solution:** Always make TWO calls:
+**Solution:** Read custom-field content via the sync, never via `view`:
 
-1. **First call:** `fields: "*all"` for standard fields + comments
-2. **Second call:** Explicitly list custom field IDs:
-   ```
-   fields: "customfield_10109,customfield_10110,customfield_10112,customfield_10116,customfield_12210,customfield_10701,customfield_10111,customfield_10607,customfield_12212"
-   ```
+```
+bun run jira:sync-issues get <BUG-KEY> --include-comments
+```
 
-**If still not found:**
+The sync resolves every slug, converts ADF→Markdown, and writes one `.md` per field under `.context/PBI/`. Read those files plus `comments.md`.
 
-1. Verify field exists: use `[ISSUE_TRACKER_TOOL]` to search fields with keyword
-2. Ask user for correct field ID
-3. Check if field is only visible to certain roles/projects
+**If a field's `.md` is a stub (field absent on this instance):**
 
-**NEVER assume a field is empty without making the explicit call.**
+1. The stub points at the fallback comment — read it in `comments.md` (per `.agents/jira-required.yaml` → `fallback:`).
+2. Verify the slug→ID mapping in `.agents/jira-fields.json` (run `bun run jira:sync-fields` to refresh), or update `.agents/jira-required.yaml`.
+3. Check if the field is only visible to certain roles/projects.
+
+**NEVER assume a field is empty without reading the synced `.md` + `comments.md`.**
 
 ### Incorrect Feedback Due to Missing Fields
 
 **Problem:** AI gives feedback that custom fields are "missing" when they were actually filled.
 
-**Root Cause:** AI only made one call with `fields: "*all"` and assumed empty = not filled.
+**Root Cause:** AI read via `acli view` (which returns `null` for `customfield_*`) or read a stale cache, and assumed empty = not filled.
 
 **Prevention:**
 
-1. Always make the second explicit call for custom fields
-2. Before giving feedback on missing fields, verify with explicit field query
-3. In Phase 8 (Feedback), explicitly list which fields WERE found and their values
+1. Always read custom-field content via `bun run jira:sync-issues get <BUG-KEY> --include-comments`, never `view`.
+2. Before giving feedback on missing fields, re-run the sync and read the per-field `.md` + `comments.md`.
+3. In Phase 8 (Feedback), explicitly list which fields WERE found and their values.
 
 **If you already gave incorrect feedback:**
 
-1. Acknowledge the error to the user
-2. Re-query with explicit field IDs
-3. Provide corrected assessment
+1. Acknowledge the error to the user.
+2. Re-run the sync and read the materialized fields.
+3. Provide corrected assessment.

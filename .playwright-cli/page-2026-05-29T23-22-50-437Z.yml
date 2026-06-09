@@ -1,0 +1,150 @@
+- generic [active] [ref=e1]:
+  - status
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#maincontent"
+    - navigation "Site navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - link "CAMPUS VIRTUAL" [ref=e6] [cursor=pointer]:
+          - /url: https://campus.aulavirtual.unc.edu.ar/
+          - img "CAMPUS VIRTUAL" [ref=e7]
+        - navigation [ref=e9]:
+          - menubar [ref=e10]:
+            - menuitem "Home" [ref=e11] [cursor=pointer]
+            - menuitem "Dashboard" [ref=e12] [cursor=pointer]
+            - menuitem "My courses" [ref=e13] [cursor=pointer]
+            - text: 
+        - list
+        - generic [ref=e14]:
+          - button "Show notification window with no new notifications" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: 
+          - button "Toggle messaging drawer" [ref=e19] [cursor=pointer]:
+            - generic [ref=e20]: 
+          - generic [ref=e24]:
+            - button "User menu" [ref=e25] [cursor=pointer]: 
+            - text:  
+    - generic [ref=e29]:
+      - generic [ref=e30]: 
+      - complementary "Blocks" [ref=e33]:
+        - heading "Blocks" [level=2] [ref=e34]
+        - link "Skip Mesa de ayuda" [ref=e35] [cursor=pointer]:
+          - /url: "#sb-1"
+        - region "Mesa de ayuda" [ref=e36]:
+          - generic [ref=e37]:
+            - heading "Mesa de ayuda" [level=3] [ref=e38]
+            - blockquote [ref=e41]:
+              - generic [ref=e42]: Si tenés dificultades técnicas o administrativas, enviá un mail a
+              - link "consulta@campusvirtual.unc.edu.ar" [ref=e43] [cursor=pointer]:
+                - /url: mailto:consulta@campusvirtual.unc.edu.ar
+                - text: consulta@campusvirtual.unc.
+                - text: edu.ar
+              - text: .
+              - text: ¡Estamos para ayudarte!
+        - link "Skip 📚 Biblioteca" [ref=e44] [cursor=pointer]:
+          - /url: "#sb-2"
+        - region "📚 Biblioteca" [ref=e45]:
+          - generic [ref=e46]:
+            - heading "📚 Biblioteca" [level=3] [ref=e47]
+            - generic [ref=e50]:
+              - generic [ref=e51]:
+                - paragraph [ref=e52]: Bienvenida
+                - list [ref=e53]:
+                  - listitem [ref=e54]:
+                    - link "Recurso Introductorio" [ref=e56] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/page/view.php?id=7008
+              - generic [ref=e57]:
+                - paragraph [ref=e58]:
+                  - 'link "Módulo 1: Control de flujo y lógica" [ref=e59] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269&section=1#tabs-tree-start
+                - list [ref=e60]:
+                  - listitem [ref=e61]:
+                    - link "Guía de instalación" [ref=e62] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6943
+                - paragraph [ref=e63]: Notebooks
+                - list [ref=e64]:
+                  - listitem [ref=e65]:
+                    - 'link "Lógica Booleana: Comparaciones y Operadores" [ref=e66] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6995
+                  - listitem [ref=e67]:
+                    - 'link "Toma de Decisiones: Sentencias If, Elif y Else" [ref=e68] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6996
+                  - listitem [ref=e69]:
+                    - 'link "El Bucle For: Iteraciones Definidas" [ref=e70] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6993
+                  - listitem [ref=e71]:
+                    - 'link "El Bucle While: Ciclos Condicionales" [ref=e72] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6994
+                  - listitem [ref=e73]:
+                    - 'link "Control de Bucles: Break, Continue y Pass" [ref=e74] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6992
+              - generic [ref=e75]:
+                - paragraph [ref=e76]:
+                  - 'link "Módulo 2: Introducción a NumPy" [ref=e77] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269&section=2#tabs-tree-start
+                - paragraph [ref=e78]: Notebooks
+                - list [ref=e79]:
+                  - listitem [ref=e80]:
+                    - link "Introducción a Librerías y Modularidad" [ref=e81] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7002
+                  - listitem [ref=e82]:
+                    - 'link "Arrays vs. Listas: Creación y Estructura" [ref=e83] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6998
+                  - listitem [ref=e84]:
+                    - 'link "Eficiencia: Tipos de Datos y Memoria" [ref=e85] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6999
+                  - listitem [ref=e86]:
+                    - 'link "Indexación y Slicing: Acceso a Datos" [ref=e87] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7001
+                  - listitem [ref=e88]:
+                    - link "Álgebra Lineal y Operaciones Matriciales" [ref=e89] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=6997
+                  - listitem [ref=e90]:
+                    - link "Funciones Matemáticas Universales (Ufuncs)" [ref=e91] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7000
+                  - listitem [ref=e92]:
+                    - link "Máscaras Booleanas y Filtrado" [ref=e93] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7003
+                  - listitem [ref=e94]:
+                    - link "Tipos de Datos (Dtypes) y Coerción" [ref=e95] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7005
+                  - listitem [ref=e96]:
+                    - 'link "Persistencia: Lectura y Escritura de Archivos" [ref=e97] [cursor=pointer]':
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7004
+              - generic [ref=e98]:
+                - paragraph [ref=e99]:
+                  - 'link "Módulo 3: Visualización con Matplotlib" [ref=e100] [cursor=pointer]':
+                    - /url: https://campus.aulavirtual.unc.edu.ar/course/view.php?id=269&section=3#tabs-tree-start
+                - paragraph [ref=e101]: Notebooks
+                - list [ref=e102]:
+                  - listitem [ref=e103]:
+                    - link "Fundamentos de Visualización con Matplotlib" [ref=e104] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7007
+                  - listitem [ref=e105]:
+                    - link "Galerías de Estilos y Manejo de Imágenes" [ref=e106] [cursor=pointer]:
+                      - /url: https://campus.aulavirtual.unc.edu.ar/mod/resource/view.php?id=7006
+    - generic [ref=e107]:
+      - generic [ref=e108]:
+        - generic:  
+        - banner [ref=e109]:
+          - generic [ref=e110]:
+            - generic:
+              - generic:
+                - navigation "Breadcrumb":
+                  - list
+            - heading "Aprendiendo a caminar en Python - Certificación 2" [level=1] [ref=e116]
+        - navigation [ref=e118]:
+          - menubar [ref=e119]:
+            - menuitem "Course" [ref=e120] [cursor=pointer]
+            - menuitem "Participants" [ref=e121] [cursor=pointer]
+            - menuitem "Competencies" [ref=e122] [cursor=pointer]
+            - menuitem "More " [ref=e123] [cursor=pointer]
+        - main [ref=e127]:
+          - generic [ref=e129]:
+            - paragraph [ref=e130]: Sorry, but you do not currently have permissions to do that (View course completion report).
+            - paragraph [ref=e131]:
+              - link "More information about this error" [ref=e132] [cursor=pointer]:
+                - /url: http://docs.moodle.org/405/en/error/moodle/nopermissions
+          - button "Continue" [ref=e135] [cursor=pointer]
+      - contentinfo:
+        - button "Show footer" [ref=e136] [cursor=pointer]:
+          - generic [ref=e137]: "?"

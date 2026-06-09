@@ -1,0 +1,60 @@
+{
+  "changelog": null,
+  "editmeta": null,
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "fields": {
+    "assignee": null,
+    "description": {
+      "content": [
+        {
+          "content": [
+            {
+              "text": "Gestionar estudiantes, dashboard stats, configurar diplomaturas",
+              "type": "text"
+            }
+          ],
+          "type": "paragraph"
+        }
+      ],
+      "type": "doc",
+      "version": 1
+    },
+    "issuetype": {
+      "avatarId": 10307,
+      "description": "Epics track collections of related bugs, stories, and tasks.",
+      "entityId": "c573fbce-578f-413e-a039-197287cdc204",
+      "hierarchyLevel": 1,
+      "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/2/universal_avatar/view/type/issuetype/avatar/10307?size=medium",
+      "id": "10005",
+      "name": "Epic",
+      "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issuetype/10005",
+      "subtask": false
+    },
+    "status": {
+      "description": "",
+      "iconUrl": "https://jira-prod-us-99-3.prod.atl-paas.net/images/icons/statuses/generic.png",
+      "id": "10003",
+      "name": "To Do",
+      "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/status/10003",
+      "statusCategory": {
+        "colorName": "blue-gray",
+        "id": 2,
+        "key": "new",
+        "name": "To Do",
+        "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/statuscategory/2"
+      }
+    },
+    "summary": "Panel de Administración"
+  },
+  "fieldsToInclude": null,
+  "id": "10005",
+  "key": "DTS-6",
+  "names": null,
+  "operations": null,
+  "properties": null,
+  "renderedFields": null,
+  "schema": null,
+  "self": "https://jira-prod-us-99-3.prod.atl-paas.net/rest/api/3/issue/10005",
+  "transitions": null,
+  "versionedRepresentations": null
+}

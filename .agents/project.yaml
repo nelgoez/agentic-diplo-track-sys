@@ -10,7 +10,7 @@
 project:
   project_name: Diploma Tracking System
   project_key: DTS
-  webapp_domain: nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app
+  webapp_domain: diplomatrackingsystem.qzz.io
 
 backend:
   backend_repo: nelgoez/diploma-tracking-sys
@@ -46,5 +46,9 @@ environments:
     db_project_ref: vbjhxlezqhkmhpuypkvf
   staging:
     web_url: https://nelgoez-diploma-tracking-sys-git-main-nelgoezs-projects.vercel.app
+    api_url: https://server-git-main-nelgoezs-projects.vercel.app/api/v1
+    db_project_ref: vbjhxlezqhkmhpuypkvf
+  production:
+    web_url: https://diplomatrackingsystem.qzz.io
     api_url: https://server-git-main-nelgoezs-projects.vercel.app/api/v1
     db_project_ref: vbjhxlezqhkmhpuypkvf
