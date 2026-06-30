@@ -222,6 +222,12 @@ const EXTERNAL_CLIS: ReadonlyArray<{ name: string, install?: string, docs: strin
     docs: 'https://jqlang.org/',
     purpose: 'JSON processor — required by /acli skill for parsing acli --json output',
   },
+  {
+    name: 'graphify',
+    install: 'uv tool install graphifyy',
+    docs: 'https://github.com/safishamsi/graphify',
+    purpose: 'knowledge graph — codebase relationships, /graphify slash commands',
+  },
 ];
 
 // Matches Claude Code ${VAR} and ${VAR:-default} placeholders in .mcp.json.

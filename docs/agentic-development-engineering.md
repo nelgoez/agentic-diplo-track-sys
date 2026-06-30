@@ -241,7 +241,7 @@ The skill roster is split by _phase_ (declared in each `SKILL.md` frontmatter as
 
 - **`foundation` (passive reference host)** — `agentic-dev-core` (briefing template, dispatch patterns, orchestration doctrine, skill-composition strategy; loaded on demand by other skills, not invoked directly).
 - **`onboarding`** — `agentic-dev-onboard` (guided tour for newcomers).
-- **`foundation`** — `project-foundation` (Constitution + PRD + SRS + Discovery), `design-system` (DESIGN.md), `project-bootstrap` (backend + frontend scaffolding).
+- **`foundation`** — `project-foundation` (Constitution + PRD + SRS + Discovery), `design-system` (DESIGN.md + opt-in screen-mapping: design briefs for Claude Design / Open Design → `master-design-plan.md`), `project-bootstrap` (backend + frontend scaffolding).
 - **`foundation-extension`** — `testability-guide` (in-app `/qa` page + tool-agnostic credentials artifact for QA testers and AI agents; runs after `project-bootstrap`, idempotent on re-run).
 - **`management`** — `product-management` (backlog seed, epic creation, story refinement, AC quality, edge-case enumeration, sprint reporting).
 - **`implementation`** — `sprint-development` (per-story mega-orchestrator), `unit-testing` (TDD composable slice), `git-flow-master` (branches, commits, PRs, conflicts).
@@ -282,10 +282,10 @@ The knowledge layer is organised in three tiers, mirroring the scope at which th
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
 │  MODULE / EPIC LEVEL  (Module = Epic, 1:1)                  │
-│  Module context · Roadmap of stories · Cross-story decisions │
-│  Example: .context/PBI/epics/EPIC-<KEY>-<slug>/              │
-│  module-context.md catalogues the routes, DB tables, and     │
-│  shared types for that epic.                                 │
+│  Epic scope · Feature plans · Cross-story decisions          │
+│  Example: .context/PBI/epics/EPIC-<KEY>-<slug>/ holds        │
+│  epic.md plus feature-implementation-plan.md and             │
+│  feature-test-plan.md, mirroring epic-level Jira fields.     │
 └──────────────────────────────────────────────────────────────┘
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
@@ -302,9 +302,6 @@ The knowledge layer is organised in three tiers, mirroring the scope at which th
 
 ```
 .context/
-├── _framework/                       # Framework infrastructure
-│   └── skill-registry.md            #   Compact-rules cache    (scripts/build-skill-registry.ts)
-│
 ├── PRD/                              # Product Requirements (/project-foundation Phase 2)
 │   ├── executive-summary.md         #   Problem, KPIs, MVP metrics
 │   ├── personas.md                  #   Target users, JTBD
@@ -328,28 +325,26 @@ The knowledge layer is organised in three tiers, mirroring the scope at which th
 │   ├── legacy-analysis.md           #   Legacy stack + doc-gap analysis (optional) (/project-foundation Phase 1)
 │   ├── business-data-map.md         #   Entities, flows, state machines  (/business-data-map)
 │   ├── business-feature-map.md      #   Feature inventory + CRUD matrix  (/business-feature-map)
-│   └── business-api-map.md          #   Auth model + critical endpoints  (/business-api-map)
+│   ├── business-api-map.md          #   Auth model + critical endpoints  (/business-api-map)
+│   └── domain-glossary.md           #   Canonical domain terminology     (/project-foundation Phase 4 Step 6; hand-maintained, append-only)
 │
 ├── master-implementation-plan.md     # High-level roadmap                (/master-implementation-plan)
 │
 └── PBI/                              # Per-epic + per-ticket memory (Module = Epic, 1:1)
     ├── epic-tree.md                 #   [SYNC] master index
+    ├── bugs/ defects/ improvements/ tests/  # [SYNC] standalone issue types (per work_types registry)
     └── epics/EPIC-<KEY>-<slug>/
         ├── epic.md                  #   [SYNC]
         ├── feature-implementation-plan.md  # [SYNC ← Jira field / stub]
         ├── feature-test-plan.md     #   [SYNC ← Jira field / stub]
-        ├── module-context.md        #   Routes, DB tables, shared types (non-Jira)
-        ├── ROADMAP.md               #   Stories + dev status
-        ├── PROGRESS.md              #   Current progress
-        ├── SESSION-PROMPT.md        #   @-loadable session resume
         └── stories/STORY-<KEY>-<slug>/
             ├── story.md             #   [SYNC]
-            ├── acceptance-criteria.md  # AC                  (non-Jira)
-            ├── scope.md             #   In-scope
-            ├── out-of-scope.md      #   Out-of-scope
-            ├── business-rules.md    #   Domain rules
-            ├── workflow.md          #   Flow / sequence
-            ├── implementation-plan.md  # Plan               (/sprint-development Stage 1)
+            ├── acceptance-criteria.md  # AC                 [SYNC ← Jira field / stub]
+            ├── scope.md             #   In-scope            [SYNC ← Jira field / stub]
+            ├── out-of-scope.md      #   Out-of-scope        [SYNC ← Jira field / stub]
+            ├── business-rules.md    #   Domain rules        [SYNC ← Jira field / stub]
+            ├── workflow.md          #   Flow / sequence     [SYNC ← Jira field / stub]
+            ├── implementation-plan.md  # Plan               [SYNC ← Jira `spec_implementation_plan` / stub]
             ├── comments.md          #   [SYNC, --include-comments]
             ├── context.md           #   Session context     (non-Jira)
             ├── progress.md          #   Story progress       (non-Jira)
@@ -360,7 +355,7 @@ The `PBI/` tree is owned by `scripts/sync-jira-issues.ts`: Jira is the source of
 
 Plus, at the project root:
 
-- **`DESIGN.md`** — Apache-2.0 spec from Google Labs. The portable visual identity (palette, typography, spacing, components) every AI agent reads. Generated by `/design-system`.
+- **`DESIGN.md`** — Apache-2.0 spec from Google Labs. The portable visual identity (palette, typography, spacing, components) every AI agent reads. Generated by `/design-system`. An optional opt-in screen-mapping phase extends it with `.context/design/master-design-plan.md` (per-screen specs + US→Screen map): the AI generates portable design briefs, the user produces mockups in Claude Design / Open Design, the bundle returns to `.context/designs/`, and `/sprint-development` builds every UI story against its agreed screen.
 - **`CLAUDE.md`** — operational context loaded every Claude Code session: project identity, behavioral layer, critical reminders, tool resolution, orchestration mode, skills catalog.
 
 The canonical shape is documented in `.context/README.md`. The strategic reasoning behind the three-tier split lives in `CONTEXT.md` at the repo root.

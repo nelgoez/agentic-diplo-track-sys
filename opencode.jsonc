@@ -20,6 +20,7 @@
     ".context/master-implementation-plan.md",
     ".context/business/business-data-map.md",
     ".context/PBI/README.md",
+    ".opencode/instructions/graphify-context.md",
   ],
 
   // Plugins:
@@ -48,9 +49,12 @@
       "enabled": true,
     },
     "supabase": {
-      "type": "remote",
-      "url": "https://mcp.supabase.com/mcp?project_ref=vbjhxlezqhkmhpuypkvf",
+      "type": "local",
+      "command": ["bunx", "-y", "@supabase/mcp-server-supabase@latest"],
       "enabled": true,
+      "environment": {
+        "SUPABASE_ACCESS_TOKEN": "{env:SUPABASE_ACCESS_TOKEN}",
+      },
     },
     "n8n": {
       "type": "local",
@@ -62,6 +66,16 @@
         "DISABLE_CONSOLE_OUTPUT": "true",
         "N8N_API_URL": "{env:N8N_API_URL}",
         "N8N_API_KEY": "{env:N8N_API_KEY}",
+      },
+    },
+    "atlassian": {
+      "type": "local",
+      "command": ["uvx", "mcp-atlassian"],
+      "enabled": true,
+      "environment": {
+        "JIRA_URL": "{env:ATLASSIAN_URL}",
+        "JIRA_USERNAME": "{env:ATLASSIAN_EMAIL}",
+        "JIRA_API_TOKEN": "{env:ATLASSIAN_API_TOKEN}",
       },
     },
   },

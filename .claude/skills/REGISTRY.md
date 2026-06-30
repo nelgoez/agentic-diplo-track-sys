@@ -1,6 +1,6 @@
 # Skill Registry (auto-generated)
 
-> Generated: `2026-06-09T02:15:28.836Z`
+> Generated: `2026-06-30T02:29:00.304Z`
 > Generator: `bun scripts/build-skill-registry.ts`
 > Protocol: `.claude/skills/agentic-dev-core/references/skill-resolver.md`
 
@@ -8,7 +8,7 @@ This file is the per-session compact-rules cache for the Skill Resolver protocol
 The orchestrator copies one or more `## Skill: <slug>` blocks below into every subagent briefing under `## Project Standards (auto-resolved)`.
 Subagents trust those compact rules and only read the full SKILL.md when explicitly instructed.
 
-Skills indexed: 22
+Skills indexed: 25
 
 ---
 ## Skill: acli
@@ -69,29 +69,49 @@ Skills indexed: 22
 
 ## Skill: agentic-dev-onboard
 
-**Purpose**: (no description in frontmatter)
+**Purpose**: Walks new users through this repo's dev flow — Next.js + Supabase stack, Jira workflow (Ready For Dev → In Progress → In Review → Ready F...
 
 **Compact Rules**:
-- ---
-- name: agentic-dev-onboard
-- description: "Walks new users through this repo's dev flow — Next.js + Supabase stack, Jira workflow (Ready For Dev → In Progress → In Review → Ready For QA), /sprint-development for ticket-driven work, MCPs available (Tavily, Context7, Supabase, n8n, Atlassian), critical env vars, Critical Rule #12 (READ package.json DIRECTLY). Triggers on: `onboard me`, `explain this repo`, `first time using this`, `primer vez en este repo`, `/agentic-dev-onboard`. Do NOT use for: feature implementation (use /sprint-development), test design (use /unit-testing), backlog refinement (use /product-management)."
-- license: MIT
-- compatibility: [claude-code, opencode]
-- phase: foundation
-- complementary_categories: []
-- ---
-- <!-- Model preferences (advisory; dispatchers may use to route) -->
-- <!--
-- model_preferences:
-- foundation: opus       # high-leverage architectural work
-- planning: sonnet       # structured writing
-- implementation: sonnet # default for code work
-- review: opus           # critical analysis
+- Read `complementary_categories` from this skill's frontmatter.
+- Resolve via local skill-registry script (`scripts/build-skill-registry.ts` → cached at `.claude/skills/REGISTRY.md`). Fallback: scan the session-start `system-reminder` skill list.
+- Apply threshold rule per strategy doc §3.2 (T1/T3 silent; T4 ASK).
+- Inject a `## Composable Skills` block per strategy doc §6.2 only when (rarely) dispatching a sub-agent.
+- Use **Context7** for "how to use X" — official docs, current API
+- Use **Tavily** for "how to solve X" — community fixes, troubleshooting
+- Use **Atlassian** only as fallback — prefer `/acli` skill (fewer tokens, faster)
+- **§1 CRITICAL RULES** — 14 rules that override defaults (credentials, plan-before-coding, no AI attribution, MCP credential failure protocol, `READ package.json DIRECTLY`, UI fidelity contract).
+- **§4 CONTEXT LOADING MAP** — task → trigger phrase → skill → context files → primary tool.
+- **§5 SKILLS + COMMANDS + MCPs REGISTRY** — full T1/T3/T4 skill model.
+- **§12 PROACTIVE MEMORY TRIGGERS** — when to call `mem_save` without being asked.
+- [ ] Did you run the setup script (`bun run setup` — verify name in `package.json`)?
+- [ ] Did you fill `.env` with your own credentials (`LOCAL_*`, `STAGING_*`, `ATLASSIAN_*`, `TAVILY_API_KEY`, `SUPABASE_*`)?
+- [ ] Does the agents linter (`bun run vars:check` per `package.json`) exit clean (0 errors)?
+- [ ] Does Engram appear in the active MCP list (restart your agent if not)?
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\agentic-dev-onboard\SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\agentic-dev-onboard\SKILL.md` · phase: `foundation` · extraction strategy: B
+
+---
+
+## Skill: agentic-qa-core
+
+**Purpose**: Foundation skill that hosts shared references cited by other workflow skills (briefing template, dispatch patterns, orchestration doctrin...
+
+**Compact Rules**:
+- agentic-qa-core/references/briefing-template.md
+- agentic-qa-core/references/dispatch-patterns.md
+- Create or modify any files. It is a passive reference library.
+- Create or modify `.context/` files (that belongs to `/project-discovery`).
+- Generate or scaffold tests, fixtures, or KATA components (that belongs to `/adapt-framework` and `/test-automation`).
+- Adapt the framework to a specific stack (that belongs to `/adapt-framework`).
+- Sync AI-critical documents or project-specific facts in `CLAUDE.md` (that belongs to `/sync-ai-memory`).
+- Sync OpenAPI / API schemas (that's `bun run api:sync`).
+
+**Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
+
+> Source: `.claude\skills\agentic-qa-core\SKILL.md` · phase: `unknown` · extraction strategy: B
 
 ---
 
@@ -171,29 +191,29 @@ Skills indexed: 22
 
 ## Skill: git-flow-master
 
-**Purpose**: (no description in frontmatter)
+**Purpose**: End-to-end Git operator for any branching strategy.
 
 **Compact Rules**:
-- ---
-- name: git-flow-master
-- description: "End-to-end Git operator for any branching strategy. Auto-detects the project's strategy (solo-main, main+integration, enterprise multi-branch, trunk-based, GitFlow, GitHub Flow, GitLab Flow) from .git config, branches, and an CLAUDE.md marker, then adapts every commit, branch, push, PR, conflict-fix, and chained-PR action to that strategy. Use this skill whenever the user wants to: create a branch (`crear branch`, `new feature branch`, `start work on UPEX-123`), commit changes (`commit this`, `commitear esto`, `make a commit`, `commit and push`), push code (`push`, `push to main`, `push to staging`, `subir cambios`), open a pull request (`create PR`, `open PR`, `abrir PR`, `crear pull request`, `gh pr create`), fix merge conflicts (`fix conflict`, `resolver conflicto`, `merge conflict`, `rebase conflict`, `push rejected`), plan stacked or chained PRs (`stack of PRs`, `chained PRs`, `split this PR`, `PR demasiado grande`), set up or bootstrap a branching strategy on a fresh repo (`set up our git strategy`, `bootstrap branching`, `configura el flujo de git`, `git strategy setup`, `materialize the git flow`, `create the staging branch and write the runbook`), or pick / change / set up a branching strategy (`git flow`, `git strategy`, `branching strategy`, `which git flow do we use`, `set up our git strategy`, `bootstrap branching`, `configura el flujo de git`). Trigger even when the user does not say `git-flow-master` literally — if the work is git-or-PR-shaped, this is the right tool. Do NOT use for: implementing features (use /sprint-development), writing tests (use /unit-testing), product backlog refinement (use /product-management), or general code editing — git-flow-master operates strictly on the version-control layer."
-- license: MIT
-- compatibility: [claude-code, opencode]
-- phase: implementation
-- complementary_categories: []
-- ---
-- <!-- Model preferences (advisory; dispatchers may use to route) -->
-- <!--
-- model_preferences:
-- foundation: opus       # high-leverage architectural work
-- planning: sonnet       # structured writing
-- implementation: sonnet # default for code work
-- review: opus           # critical analysis
+- "I want to start work on UPEX-123" → branch creation
+- "commit and push", "subir cambios", "push to main" → commit + push flow
+- "abrí un PR contra staging" → PR creation
+- "tengo conflictos al hacer pull" → conflict resolution
+- "este PR va a quedar enorme" → chained-PR planning hand-off
+- "qué estrategia de git usamos en este repo" → strategy detection / persistence
+- "el push fue rechazado" → diagnostic + recovery flow
+- Current branch.
+- Dirty / clean working tree (staged / unstaged / untracked counts).
+- Unpushed / unpulled commits (ahead / behind upstream).
+- Upstream status (no upstream, up-to-date, diverged).
+- Remote name(s) — most repos have one (`origin`); some have a fork + upstream.
+- **Marker in `CLAUDE.md`** — search for `<!-- git-flow-master:strategy:VALUE -->` where `VALUE` is one of the seven slugs. If found, use it. This is the persisted decision. Also read the decision markers if present — `<!-- git-flow-master:integration-branch:NAME -->`, `<!-- git-flow-master:promote-method:... -->`, `<!-- git-flow-master:feature-merge:... -->`, `<!-- git-flow-master:hotfix-policy:... -->`. Each marker that resolves a questionnaire answer means Strategy Setup SKIPS that question on re-run (idempotent).
+- **Single-branch heuristic** — `git branch -a` shows only `main` (or `master`) and no integration branch in the remote → `solo-main`.
+- **Two-branch heuristic** — exactly `main` (or `master`) + one of `{staging, dev, develop, integration}` exists upstream → `main-integration` (record the integration branch name).
 - (truncated — read full SKILL.md for the rest)
 
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
-> Source: `.claude\skills\git-flow-master\SKILL.md` · phase: `unknown` · extraction strategy: B
+> Source: `.claude\skills\git-flow-master\SKILL.md` · phase: `implementation` · extraction strategy: B
 
 ---
 
@@ -421,6 +441,26 @@ Skills indexed: 22
 
 ---
 
+## Skill: shift-left-testing
+
+**Purpose**: Orchestrates pre-sprint Shift-Left QA on a batch of backlog Stories.
+
+**Compact Rules**:
+- ACs are the FLOOR. Refinement's job is to push past the happy-path contract: surface the boundaries, exceptions, states, and anomalies the Story is silent on.
+- 1:N is the default: a non-trivial AC implies multiple outlines (valid partition + each distinct invalid + boundaries + states). A 1-outline AC requires a written "trivially atomic" justification — never the default.
+- Tag each refinement gap to a technique: ranges/limits → BVA; status/lifecycle fields → State-Transition; 2+ interacting conditions → Decision Table; 3+ combinable factors → Pairwise.
+- A refined AC (Given/When/Then) is the business assertion; the outline (`Should <behavior> <condition>`) is its exploration. Keep them distinct.
+- Stories ONLY (no bugs — nothing to refine upstream). Entry status Backlog / Shift-Left QA / Estimation / Ready For Dev.
+- Output = refined ACs + gap/ambiguity questions + ATP DRAFT (outline NAMES + coverage estimate, no test code, no execution).
+- The heart of the skill (Phase 2) = edge cases not in story + ambiguities + gaps — feed them to PO/Dev as questions AND as derived outlines.
+- On completion: add label `shift-left-reviewed`; transition Backlog → Shift-Left QA → Estimation.
+
+**Read full SKILL.md when**: running the batch grooming pipeline, writing the per-Story `shift-left-refinement.md`, or handling the PO/Dev handoff.
+
+> Source: `.claude\skills\shift-left-testing\SKILL.md` · phase: `unknown` · extraction strategy: A
+
+---
+
 ## Skill: shift-right-testing
 
 **Purpose**: (no description in frontmatter)
@@ -502,6 +542,28 @@ Skills indexed: 22
 **Read full SKILL.md when**: the compact rules above are insufficient (e.g. novel scenario, debugging, or the briefing tells you to load the full skill).
 
 > Source: `.claude\skills\sprint-gate-review\SKILL.md` · phase: `unknown` · extraction strategy: B
+
+---
+
+## Skill: sprint-testing
+
+**Purpose**: Orchestrates in-sprint manual QA per ticket across Stages 1 (Planning), 2 (Execution) and 3 (Reporting).
+
+**Compact Rules**:
+- AC-pass is the FLOOR, not the goal. Coverage = AC-conformance + risk-beyond-AC (boundaries, errors, states, anomalies). Never report "% of ACs verified" as completeness.
+- 1:N is the default: explode every non-trivial AC into multiple cases (EP partitions + boundaries + states + contexts). Collapsing an AC to one case requires a written "trivially atomic" justification.
+- Apply techniques by trigger: EP always; BVA wherever a range / limit / length / date-window exists; State-Transition for stateful entities; Decision Table when 2+ conditions interact; Pairwise when 3+ combinable factors (log the reduction); Error-Guessing charters for experience-based risk.
+- A criterion is a business assertion; a test case is a concrete exploration of it. Run the Test-Design Checklist before finalizing the ATP.
+- Three stages, always in order: Stage 1 Planning → Stage 2 Execution → Stage 3 Reporting. Hand off Stages 4/5/6 to `test-documentation` / `test-automation` / `regression-testing`.
+- Jira is source of truth. Read tickets via `bun run jira:sync-issues get <KEY> --include-comments`, then the synced `.md`. NEVER `acli workitem view` for custom fields (returns `null`).
+- Bugs run the veto + triage + risk-score decision tree BEFORE any ATP is written.
+- Execution = smoke pass first, then trifuerza (UI/API/DB) exploration; capture evidence under the PBI folder.
+- Consult `domain-glossary.md` (if present) before authoring the ATP, refined ACs, and TC outlines.
+- On any subagent failure: STOP, report partial state, offer retry / skip-stage / abort. No auto-fix, no auto-rollback.
+
+**Read full SKILL.md when**: starting a sprint cold, resuming a session, or handling a bug-triage / batch-sprint flow not covered by the rules above.
+
+> Source: `.claude\skills\sprint-testing\SKILL.md` · phase: `unknown` · extraction strategy: A
 
 ---
 

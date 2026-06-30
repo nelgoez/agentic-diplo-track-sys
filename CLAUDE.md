@@ -184,7 +184,7 @@ Example (same work, different register):
 >
 > Layout convention: T1 repo skills → `.claude/skills/<slug>/` (committed source). T3/T4 community skills installed via `bunx skills add` → `.agents/skills/<slug>/` (gitignored, default CLI behavior).
 
-### Slash commands (utilities, 5)
+### Slash commands (utilities + graphify)
 
 | Command                       | Purpose                                                                                        |
 | ----------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -193,6 +193,18 @@ Example (same work, different register):
 | `/business-feature-map`       | Refresh `.context/business/business-feature-map.md` (CRUD matrix, UI inventory).               |
 | `/business-api-map`           | Refresh `.context/business/business-api-map.md` (auth model, endpoints, architecture).         |
 | `/master-implementation-plan` | Refresh `.context/master-implementation-plan.md` (prioritized feature roadmap).                |
+
+**Graphify knowledge graph** — persistent, queryable codebase graph (requires `uv tool install graphifyy`):
+
+| Graphify command              | Purpose                                                                                        |
+| ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| `/graphify rebuild`           | Rebuild codebase graph (`graphify extract . --code-only`). Run after significant changes.      |
+| `/graphify query "..."`       | Returns subgraph matching natural-language query about entities and relationships.             |
+| `/graphify neighbors "X"`     | Shows nodes within N hops of concept.                                                          |
+| `/graphify path "A" "B"`      | Shortest path between two nodes.                                                               |
+| `/graphify explain "X"`       | Detailed explanation of a node and its connections.                                            |
+
+Graph outputs in `graphify-out/` (gitignored). Graph created on `staging` push by CI. Query across child repos via `graphify global add graphify-out/graph.json <project-name>`. Full eval: `.context/research/graphify-evaluation.md`.
 
 ### MCPs (configured in `.mcp.json`)
 
@@ -236,6 +248,7 @@ Example (same work, different register):
 | `acli`           | `/acli`                                                                | Atlassian CLI — Jira/Confluence workflows. Owns slug syntax + custom-field IDs. |
 | `playwright-cli` | `/playwright-cli`, `/sprint-development`                               | Browser automation — used by sprint-dev E2E checks + standalone QA capture.     |
 | `jq`             | `/acli`                                                                | JSON processor — required by acli skill for parsing `acli ... --json` output.   |
+| `graphify`       | `/graphify` (Python tool, no skill wrapper)                            | Knowledge graph — codebase relationships. `uv tool install graphifyy` to install. |
 
 **Mandatory**: before any `Bash` call that names one of these binaries, check matching skill loaded for this session. If not, load via Skill tool first. Hard gate, not suggestion.
 

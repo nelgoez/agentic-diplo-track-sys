@@ -25,3 +25,5 @@ jobs:
 
       - name: Full repo check
         run: bun run skills:registry && bun run repo:check
+
+
