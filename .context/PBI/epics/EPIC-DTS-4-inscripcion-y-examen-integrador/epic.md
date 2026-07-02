@@ -20,6 +20,8 @@ Inscribir a examen, registrar nota, historial de exámenes
 | [DTS-20](https://diplo-track-sys.atlassian.net/browse/DTS-20) | Student Progress API | - | Medium | Done |
 | [DTS-21](https://diplo-track-sys.atlassian.net/browse/DTS-21) | Eligibility Check (wired to rule engine) | - | Medium | Done |
 | [DTS-22](https://diplo-track-sys.atlassian.net/browse/DTS-22) | Grade Recording + Auto-Status Transition | - | Medium | Done |
+| [DTS-51](https://diplo-track-sys.atlassian.net/browse/DTS-51) | Exam enrollment - inscribir a examen | - | Medium | Done |
+| [DTS-52](https://diplo-track-sys.atlassian.net/browse/DTS-52) | Exam history view | - | Medium | Done |
 
 ---
 

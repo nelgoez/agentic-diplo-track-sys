@@ -1,7 +1,7 @@
 # Resilient Adapter (retry + backoff + timeout)
 
 **Jira Key:** [DTS-24](https://diplo-track-sys.atlassian.net/browse/DTS-24)
-**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Integración Moodle)
+**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Moodle Integration)
 **Type:** Story
 **Status:** Done
 **Priority:** Medium
@@ -30,7 +30,7 @@ Wrapper: 3 retries with exponential backoff. Per-student isolation. Configurable
 ## Metadata
 
 - **Created:** 1/6/2026
-- **Updated:** 1/6/2026
+- **Updated:** 4/6/2026
 - **Reporter:** Nahuel Gomez
 - **Assignee:** Nahuel Gomez
 

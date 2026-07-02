@@ -1,7 +1,7 @@
 # JWT Authentication (login + refresh + logout)
 
 **Jira Key:** [DTS-11](https://diplo-track-sys.atlassian.net/browse/DTS-11)
-**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Integración Moodle)
+**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Moodle Integration)
 **Type:** Story
 **Status:** Done
 **Priority:** Medium

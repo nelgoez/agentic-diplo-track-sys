@@ -1,7 +1,7 @@
 # Provider Abstraction Interfaces + Registry
 
 **Jira Key:** [DTS-13](https://diplo-track-sys.atlassian.net/browse/DTS-13)
-**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Integración Moodle)
+**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Moodle Integration)
 **Type:** Story
 **Status:** Done
 **Priority:** Medium

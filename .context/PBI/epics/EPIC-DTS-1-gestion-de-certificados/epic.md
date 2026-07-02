@@ -13,6 +13,14 @@ Sincronizar certificados desde Moodle, visualizarlos, y proveedor abstracto de c
 
 ---
 
+## User Stories
+
+| Key | Story | Points | Priority | Status |
+| --- | ----- | ------ | -------- | ------ |
+| [DTS-49](https://diplo-track-sys.atlassian.net/browse/DTS-49) | Certificate list + get by ID | - | Medium | Done |
+
+---
+
 ## Planning
 
 - [Feature Implementation Plan (Dev)](./feature-implementation-plan.md)

@@ -1,4 +1,4 @@
-# EPIC: Integración Moodle
+# EPIC: Moodle Integration
 
 **Jira Key:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5)
 **Priority:** Medium
@@ -23,6 +23,8 @@ Conexión API, sincronización batch, monitoreo de estado
 | [DTS-15](https://diplo-track-sys.atlassian.net/browse/DTS-15) | Integration Logging Helpers | - | Medium | Done |
 | [DTS-23](https://diplo-track-sys.atlassian.net/browse/DTS-23) | Moodle Batch Certificate Sync (real API) | - | Medium | Done |
 | [DTS-24](https://diplo-track-sys.atlassian.net/browse/DTS-24) | Resilient Adapter (retry + backoff + timeout) | - | Medium | Done |
+| [DTS-55](https://diplo-track-sys.atlassian.net/browse/DTS-55) | Individual certificate re-sync | - | Medium | Done |
+| [DTS-56](https://diplo-track-sys.atlassian.net/browse/DTS-56) | Integration status + logs viewer | - | Medium | Done |
 
 ---
 
@@ -36,7 +38,7 @@ Conexión API, sincronización batch, monitoreo de estado
 ## Metadata
 
 - **Created:** 20/5/2026
-- **Updated:** 1/6/2026
+- **Updated:** 5/6/2026
 - **Reporter:** Nahuel Gomez
 - **Assignee:** Unassigned
 

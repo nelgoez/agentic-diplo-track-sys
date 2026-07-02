@@ -30,7 +30,7 @@ GuaraniAcademicProvider.fetchStudents(). POST /integrations/sync/guarani. Upsert
 ## Metadata
 
 - **Created:** 1/6/2026
-- **Updated:** 1/6/2026
+- **Updated:** 4/6/2026
 - **Reporter:** Nahuel Gomez
 - **Assignee:** Nahuel Gomez
 

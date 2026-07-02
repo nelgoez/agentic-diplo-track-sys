@@ -1,7 +1,7 @@
 # Integration Logging Helpers
 
 **Jira Key:** [DTS-15](https://diplo-track-sys.atlassian.net/browse/DTS-15)
-**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Integración Moodle)
+**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Moodle Integration)
 **Type:** Story
 **Status:** Done
 **Priority:** Medium

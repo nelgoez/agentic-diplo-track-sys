@@ -30,7 +30,7 @@ _No description provided_
 ## Metadata
 
 - **Created:** 27/5/2026
-- **Updated:** 27/5/2026
+- **Updated:** 4/6/2026
 - **Reporter:** Nahuel Gomez
 - **Assignee:** Nahuel Gomez
 

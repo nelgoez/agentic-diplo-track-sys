@@ -30,7 +30,7 @@ PUT /enrollments/:id/grade records grade 1-10. 4+=aprobado, <4=desaprobado. Back
 ## Metadata
 
 - **Created:** 1/6/2026
-- **Updated:** 1/6/2026
+- **Updated:** 4/6/2026
 - **Reporter:** Nahuel Gomez
 - **Assignee:** Nahuel Gomez
 

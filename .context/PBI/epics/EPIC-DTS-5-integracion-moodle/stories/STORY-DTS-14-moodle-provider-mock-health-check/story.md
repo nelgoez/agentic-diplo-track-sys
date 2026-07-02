@@ -1,7 +1,7 @@
 # Moodle Provider (mock + health check)
 
 **Jira Key:** [DTS-14](https://diplo-track-sys.atlassian.net/browse/DTS-14)
-**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Integración Moodle)
+**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Moodle Integration)
 **Type:** Story
 **Status:** Done
 **Priority:** Medium

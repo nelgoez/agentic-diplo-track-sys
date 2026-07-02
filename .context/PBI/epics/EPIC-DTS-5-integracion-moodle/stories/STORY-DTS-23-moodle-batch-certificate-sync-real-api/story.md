@@ -1,7 +1,7 @@
 # Moodle Batch Certificate Sync (real API)
 
 **Jira Key:** [DTS-23](https://diplo-track-sys.atlassian.net/browse/DTS-23)
-**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Integración Moodle)
+**Epic:** [DTS-5](https://diplo-track-sys.atlassian.net/browse/DTS-5) (Moodle Integration)
 **Type:** Story
 **Status:** Done
 **Priority:** Medium
@@ -30,7 +30,7 @@ Replace mock with real Moodle REST API. Batch 50 students. UPSERT certificates. 
 ## Metadata
 
 - **Created:** 1/6/2026
-- **Updated:** 1/6/2026
+- **Updated:** 4/6/2026
 - **Reporter:** Nahuel Gomez
 - **Assignee:** Nahuel Gomez
 
