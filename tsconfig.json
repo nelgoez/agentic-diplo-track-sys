@@ -6,6 +6,9 @@
     "moduleDetection": "force",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "paths": {
+      "@dts/test-kit": ["./packages/dts-test-kit/src"]
+    },
     "resolveJsonModule": true,
     "types": ["bun-types", "node"],
     "allowImportingTsExtensions": true,

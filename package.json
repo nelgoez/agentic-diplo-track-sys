@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "description": "",
   "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "setup": "bun cli/doctor.ts --preflight && bun cli/install.ts",
     "setup:doctor": "bun cli/doctor.ts",
@@ -24,8 +27,14 @@
     "lint:check": "eslint .",
     "lint:fix": "eslint --fix .",
     "types:check": "tsc --noEmit",
-    "repo:check": "bun run format:check && bun run lint:check && bun run types:check && bun run vars:check && bun run vars:env:check && bun run skills:check && bun run skills:registry:check",
-    "repo:fix": "bun run format:fix && bun run lint:fix && bun run types:check && bun run vars:check && bun run vars:env:check && bun run skills:check && bun run skills:registry:check",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "test:coverage": "bun test --coverage",
+    "test:unit": "bun test tests/unit",
+    "test:integration": "bun test tests/integration",
+    "test:kata": "bun test tests/kata",
+    "repo:check": "bun run format:check && bun run lint:check && bun run types:check && bun run test && bun run vars:check && bun run vars:env:check && bun run skills:check && bun run skills:registry:check",
+    "repo:fix": "bun run format:fix && bun run lint:fix && bun run types:check && bun run test && bun run vars:check && bun run vars:env:check && bun run skills:check && bun run skills:registry:check",
     "clean": "rm -rf node_modules dist",
     "prepare": "husky",
     "claude": "bash -c 'set -a; . ./.env; set +a; exec claude \"$@\"' --",
