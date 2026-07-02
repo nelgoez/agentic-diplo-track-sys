@@ -174,7 +174,7 @@ interface Frontmatter {
   complementary_categories?: string[]
 }
 
-function parseFrontmatter(raw: string): { meta: Frontmatter, body: string } {
+export function parseFrontmatter(raw: string): { meta: Frontmatter, body: string } {
   if (!raw.startsWith('---\n')) { return { meta: {}, body: raw }; }
   const end = raw.indexOf('\n---', 4);
   if (end === -1) { return { meta: {}, body: raw }; }
@@ -381,7 +381,7 @@ function scanForStalePath() {
 // Inline-code STALE-PATH scan (per-skill, body-scoped)
 // -----------------------------------------------------------------------------
 
-function stripFencedCodeBlocks(md: string): string {
+export function stripFencedCodeBlocks(md: string): string {
   return md.replace(/```[\s\S]*?```/g, '');
 }
 
@@ -521,7 +521,7 @@ function skillSlugForFile(file: string): string | null {
  *   - `**No ` (bolded "No" prefix used in summary anti-pattern callouts)
  *   - `- No ` (bulleted "No" anti-pattern row at start of bullet)
  */
-function isAntiPatternCitation(line: string): boolean {
+export function isAntiPatternCitation(line: string): boolean {
   if (/\b(?:NEVER|Never |Anti-pattern|Restrictions|never appear)\b/.test(line)) { return true; }
   if (/❌/.test(line)) { return true; }
   if (/\*\*No\s/.test(line)) { return true; } // "**No `FR-XXX —` prefix.**"
@@ -859,4 +859,4 @@ function main() {
   process.exit(counts.ERROR > 0 ? 1 : 0);
 }
 
-main();
+if (import.meta.main) { main(); }

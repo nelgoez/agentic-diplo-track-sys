@@ -4,3 +4,4 @@ export { createApiFixture } from './ApiFixture';
 export { atc, getAtcMap, step } from './decorators';
 export { TestContext } from './TestContext';
 export { createFixture } from './TestFixture';
+export { UiBase } from './UiBase';

@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "agentic-debate": {
+      "source": "nelgoez/agentic-debate",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "0630ecc5bb46d12d90e041c9ee4f700acf475ef00c13a042c2fa3a80fa2fa175"
+    },
     "dev": {
       "source": "microsoft/playwright-cli",
       "sourceType": "github",

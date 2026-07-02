@@ -149,7 +149,7 @@ function listSkillDirs(): string[] {
 // Frontmatter + body parsing
 // -----------------------------------------------------------------------------
 
-function splitFrontmatter(text: string): { frontmatter: SkillFrontmatter, body: string } {
+export function splitFrontmatter(text: string): { frontmatter: SkillFrontmatter, body: string } {
   if (!text.startsWith('---\n')) {
     return { frontmatter: {}, body: text };
   }
@@ -172,7 +172,7 @@ function splitFrontmatter(text: string): { frontmatter: SkillFrontmatter, body: 
  * Strip the section delimiter prefix from a line so we can compare/extract.
  * Returns null when the line is not a bullet.
  */
-function bulletText(line: string): string | null {
+export function bulletText(line: string): string | null {
   // Match "- text" or "* text" or "1. text" with optional leading whitespace.
   // First char of captured text must be non-space to avoid super-linear backtracking
   // (otherwise the prior [ \t]+ and (.+) overlap on space chars).
@@ -184,7 +184,7 @@ function bulletText(line: string): string | null {
  * Strategy A: explicit `## Compact Rules` or `## Standards` section near top.
  * Returns null if no such section exists.
  */
-function extractStrategyA(body: string): { rules: string[], truncated: boolean } | null {
+export function extractStrategyA(body: string): { rules: string[], truncated: boolean } | null {
   const lines = body.split('\n');
   let startIdx = -1;
   for (let i = 0; i < lines.length; i++) {
@@ -259,7 +259,7 @@ function extractReadFullWhen(body: string): string {
  * One-line purpose: take the first non-empty sentence from frontmatter
  * description, capped at ~140 chars.
  */
-function distillPurpose(description: string | undefined): string {
+export function distillPurpose(description: string | undefined): string {
   if (typeof description !== 'string' || description.trim().length === 0) {
     return '(no description in frontmatter)';
   }
@@ -320,7 +320,7 @@ function processSkill(slug: string): SkillEntry {
 // Render
 // -----------------------------------------------------------------------------
 
-function renderEntry(entry: SkillEntry): string {
+export function renderEntry(entry: SkillEntry): string {
   const lines: string[] = [];
   lines.push(`## Skill: ${entry.slug}`);
   lines.push('');
@@ -377,7 +377,7 @@ function renderRegistry(entries: SkillEntry[]): string {
  * Strip the volatile `Generated:` timestamp line so byte-level comparison in
  * `--check` mode ignores cosmetic drift from re-runs.
  */
-function stripVolatile(text: string): string {
+export function stripVolatile(text: string): string {
   return text.replace(/^> Generated: `[^`]+`\n/m, '> Generated: `<stripped>`\n');
 }
 
@@ -449,4 +449,4 @@ function main(): void {
   process.exit(0);
 }
 
-main();
+if (import.meta.main) { main(); }
