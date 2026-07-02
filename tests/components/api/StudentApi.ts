@@ -1,0 +1,42 @@
+import type { ApiResponse } from '@dts/test-kit';
+import { ApiBase, atc } from '@dts/test-kit';
+
+export interface StudentPayload {
+  email: string
+  name: string
+  dni?: string
+}
+
+export interface Student {
+  id: string
+  email: string
+  name: string
+  dni: string | null
+  role: string
+  is_active: boolean
+  created_at: string
+}
+
+export class StudentApi extends ApiBase {
+  @atc('DTS-CORE-3')
+  async createStudentSuccessfully(
+    payload: StudentPayload,
+  ): Promise<ApiResponse<Student>> {
+    return this.post<Student, StudentPayload>('/admin/students', payload);
+  }
+
+  @atc('DTS-CORE-3')
+  async listStudents(): Promise<ApiResponse<Student[]>> {
+    return this.get<Student[]>('/admin/students');
+  }
+
+  @atc('DTS-CORE-3')
+  async getStudentById(studentId: string): Promise<ApiResponse<Student>> {
+    return this.get<Student>(`/admin/students/${studentId}`);
+  }
+
+  @atc('DTS-CORE-3')
+  async searchStudents(query: string): Promise<ApiResponse<Student[]>> {
+    return this.get<Student[]>(`/admin/students?search=${query}`);
+  }
+}

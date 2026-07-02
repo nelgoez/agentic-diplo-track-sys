@@ -4,7 +4,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 const API_URL = process.env.API_URL ?? '';
 
 describe('API — health', () => {
-  const { ctx, api } = createApiFixture({ apiUrl: API_URL });
+  const { api } = createApiFixture({ apiUrl: API_URL });
 
   beforeAll(() => {
     if (!API_URL) {
