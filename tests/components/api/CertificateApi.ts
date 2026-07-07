@@ -13,21 +13,21 @@ export interface Certificate {
 }
 
 export class CertificateApi extends ApiBase {
-  @atc('DTS-CORE-5')
+  @atc('DTS-CORE-5', { story: 'DTS-1', feature: 'Certificates' })
   async listStudentCertificates(
     studentId: string,
   ): Promise<ApiResponse<Certificate[]>> {
     return this.get<Certificate[]>(`/students/${studentId}/certificates`);
   }
 
-  @atc('DTS-CORE-5')
+  @atc('DTS-CORE-5', { story: 'DTS-1', feature: 'Certificates' })
   async getCertificateById(
     certificateId: string,
   ): Promise<ApiResponse<Certificate>> {
     return this.get<Certificate>(`/certificates/${certificateId}`);
   }
 
-  @atc('DTS-SYNC-2')
+  @atc('DTS-SYNC-2', { story: 'DTS-5', feature: 'Moodle Integration' })
   async resyncCertificate(
     certificateId: string,
   ): Promise<ApiResponse<Certificate>> {

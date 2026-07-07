@@ -21,19 +21,19 @@ export interface SyncResponse {
 }
 
 export class AdminApi extends ApiBase {
-  @atc('DTS-ADMIN-1')
+  @atc('DTS-ADMIN-1', { story: 'DTS-6', feature: 'Admin Dashboard' })
   async getDashboardStats(): Promise<ApiResponse<DashboardStats>> {
     return this.get<DashboardStats>('/admin/dashboard-stats');
   }
 
-  @atc('DTS-ADMIN-2')
+  @atc('DTS-ADMIN-2', { story: 'DTS-6', feature: 'Admin Dashboard' })
   async listStudentsWithFilters(
     params?: string,
   ): Promise<ApiResponse<unknown[]>> {
     return this.get<unknown[]>(`/admin/students${params ? `?${params}` : ''}`);
   }
 
-  @atc('DTS-SYNC-1')
+  @atc('DTS-SYNC-1', { story: 'DTS-5', feature: 'Moodle Integration' })
   async triggerMoodleSync(): Promise<ApiResponse<SyncResponse>> {
     return this.post<SyncResponse, void>(
       '/integrations/sync/moodle',
@@ -41,12 +41,12 @@ export class AdminApi extends ApiBase {
     );
   }
 
-  @atc('DTS-SYNC-3')
+  @atc('DTS-SYNC-3', { story: 'DTS-5', feature: 'Moodle Integration' })
   async getIntegrationStatus(): Promise<ApiResponse<unknown>> {
     return this.get<unknown>('/integrations/status');
   }
 
-  @atc('DTS-SYNC-3')
+  @atc('DTS-SYNC-3', { story: 'DTS-5', feature: 'Moodle Integration' })
   async getIntegrationLogs(): Promise<ApiResponse<unknown[]>> {
     return this.get<unknown[]>('/integrations/logs');
   }

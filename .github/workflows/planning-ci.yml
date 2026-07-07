@@ -1,4 +1,4 @@
-name: Planning CI — Lint, TypeCheck, Registry
+name: Planning CI — Lint, TypeCheck, Registry, Allure
 
 on:
   push:
@@ -26,4 +26,48 @@ jobs:
       - name: Full repo check
         run: bun run skills:registry && bun run repo:check
 
+  allure-report:
+    name: Allure Test Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [planning-check]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run E2E smoke tests
+        run: ALLURE_DIR=allure-results bun run test:e2e
+        continue-on-error: true
+        env:
+          BASE_URL: ${{ vars.BASE_URL || 'http://localhost:3000' }}
+
+      - name: Generate Allure Report
+        if: always()
+        run: bun run allure:generate
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+
+      - name: Generate Traceability Matrix
+        if: always()
+        run: TRACEABILITY_DIR=traceability-out bun run traceability:generate
+
+      - name: Upload Traceability Matrix
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traceability-matrix
+          path: traceability-out/

@@ -19,14 +19,14 @@ export interface Track {
 }
 
 export class TrackApi extends ApiBase {
-  @atc('DTS-CORE-1')
+  @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async createTrackSuccessfully(
     payload: TrackPayload,
   ): Promise<ApiResponse<Track>> {
     return this.post<Track, TrackPayload>('/admin/tracks', payload);
   }
 
-  @atc('DTS-CORE-1')
+  @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async createTrackWithDuplicateCode(
     payload: TrackPayload,
   ): Promise<ApiResponse<{ message: string }>> {
@@ -36,17 +36,17 @@ export class TrackApi extends ApiBase {
     );
   }
 
-  @atc('DTS-CORE-1')
+  @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async listTracks(): Promise<ApiResponse<Track[]>> {
     return this.get<Track[]>('/admin/tracks');
   }
 
-  @atc('DTS-CORE-1')
+  @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async getTrackById(trackId: string): Promise<ApiResponse<Track>> {
     return this.get<Track>(`/admin/tracks/${trackId}`);
   }
 
-  @atc('DTS-CORE-1')
+  @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async updateTrackName(
     trackId: string,
     name: string,

@@ -1,4 +1,4 @@
-import { atc, createApiFixture, createFixture, getAtcMap, TestContext } from '@dts/test-kit';
+import { atc, createApiFixture, createFixture, getAllAtcs, getAtcMap, TestContext } from '@dts/test-kit';
 import { describe, expect, it } from 'bun:test';
 
 describe('KATA — TestContext', () => {
@@ -55,5 +55,21 @@ describe('KATA — @atc decorator', () => {
     const instance = new TestComponent();
     expect(instance.doSomething()).toBe(42);
     expect(getAtcMap().size).toBeGreaterThan(0);
+  });
+
+  it('stores Jira story link when provided', () => {
+    class TestComponent {
+      @atc('TEST-002', { story: 'DTS-42', feature: 'Enrollment' })
+      loginFlow() {
+        return 'ok';
+      }
+    }
+    const instance = new TestComponent();
+    expect(instance.loginFlow()).toBe('ok');
+    const allAtcs = getAllAtcs();
+    const found = allAtcs.find(a => a.testId === 'TEST-002');
+    expect(found).toBeDefined();
+    expect(found!.story).toBe('DTS-42');
+    expect(found!.feature).toBe('Enrollment');
   });
 });

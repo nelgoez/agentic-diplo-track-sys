@@ -35,7 +35,7 @@ export interface ManualOverride {
 }
 
 export class RuleApi extends ApiBase {
-  @atc('DTS-RULE-1')
+  @atc('DTS-RULE-1', { story: 'DTS-3', feature: 'Rule Engine' })
   async createPrerequisiteRule(
     payload: PrerequisiteRulePayload,
   ): Promise<ApiResponse<PrerequisiteRule>> {
@@ -45,12 +45,12 @@ export class RuleApi extends ApiBase {
     );
   }
 
-  @atc('DTS-RULE-1')
+  @atc('DTS-RULE-1', { story: 'DTS-3', feature: 'Rule Engine' })
   async listRulesByTrack(trackId: string): Promise<ApiResponse<PrerequisiteRule[]>> {
     return this.get<PrerequisiteRule[]>(`/rules?trackId=${trackId}`);
   }
 
-  @atc('DTS-RULE-2')
+  @atc('DTS-RULE-2', { story: 'DTS-3', feature: 'Rule Engine' })
   async evaluateEligibility(
     studentId: string,
     trackId: string,
@@ -61,7 +61,7 @@ export class RuleApi extends ApiBase {
     );
   }
 
-  @atc('DTS-RULE-3')
+  @atc('DTS-RULE-3', { story: 'DTS-3', feature: 'Rule Engine' })
   async createOverride(
     payload: OverridePayload,
   ): Promise<ApiResponse<ManualOverride>> {
@@ -71,7 +71,7 @@ export class RuleApi extends ApiBase {
     );
   }
 
-  @atc('DTS-RULE-3')
+  @atc('DTS-RULE-3', { story: 'DTS-3', feature: 'Rule Engine' })
   async revokeOverride(
     overrideId: string,
   ): Promise<ApiResponse<ManualOverride>> {

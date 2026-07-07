@@ -12,7 +12,7 @@ export interface AuthTokens {
 }
 
 export class AuthApi extends ApiBase {
-  @atc('DTS-AUTH-2')
+  @atc('DTS-AUTH-2', { story: 'DTS-1', feature: 'Auth & Certificates' })
   async loginSuccessfully(
     email: string,
     password: string,
@@ -24,7 +24,7 @@ export class AuthApi extends ApiBase {
     return res;
   }
 
-  @atc('DTS-AUTH-2')
+  @atc('DTS-AUTH-2', { story: 'DTS-1', feature: 'Auth & Certificates' })
   async loginWithInvalidCredentials(): Promise<ApiResponse<{ message: string }>> {
     const res = await this.post<{ message: string }, LoginPayload>(
       '/auth/login',
@@ -33,7 +33,7 @@ export class AuthApi extends ApiBase {
     return res;
   }
 
-  @atc('DTS-AUTH-2')
+  @atc('DTS-AUTH-2', { story: 'DTS-1', feature: 'Auth & Certificates' })
   async refreshTokenSuccessfully(
     refreshToken: string,
   ): Promise<ApiResponse<AuthTokens>> {

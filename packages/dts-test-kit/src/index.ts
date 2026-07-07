@@ -1,7 +1,13 @@
+export { assertNoA11yViolations, checkA11y } from './a11y';
+export type { A11yResult, A11yViolation } from './a11y';
+export { buildTraceabilityMatrix, generateTraceabilityMarkdown } from './allure';
+export type { TraceabilityRow } from './allure';
+export { linkAtcsToAllure } from './allure-bridge';
 export { ApiBase } from './ApiBase';
 export type { ApiResponse } from './ApiBase';
 export { createApiFixture } from './ApiFixture';
-export { atc, getAtcMap, step } from './decorators';
+export { atc, getAllAtcs, getAtcMap, step } from './decorators';
+export type { AtcMetadata, AtcOptions } from './decorators';
 export { TestContext } from './TestContext';
 export { createFixture } from './TestFixture';
 export { UiBase } from './UiBase';
