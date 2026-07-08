@@ -123,6 +123,12 @@ demo-output/
 !**/skills-lock.json
 nul
 
+# ===== Exposed secrets (purged from history) =====
+NIMDTSAK.txt
+
+# ===== Backup before git-filter-repo =====
+.git.backup.before-*/
+
 # ===== Synced from boilerplate v7.0 =====
 # ----- 2026-06-09 (sync) -----
 .claude/scheduled_tasks.lock
