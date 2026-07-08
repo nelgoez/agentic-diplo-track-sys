@@ -12,7 +12,7 @@
 
 | # | Gap | UPEX Requirement | Current Status | Effort | Priority |
 |---|---|---|---|---|---|
-| 1 | **Allure reports** | Test report visualization, required in cert checklist | ❌ Not configured | 1h | P0 |
+| 1 | **Allure reports** | Test report visualization, required in cert checklist | ✅ GH Pages live | 1h | P0 |
 | 2 | **Xray integration** | Test case management + traceability in Jira | ❌ No Xray | 8h | P0 |
 | 3 | **Late-Game (IQL Step 11)** | Production smoke tests post-deploy | ❌ Not implemented | 4h | P0 |
 | 4 | **a11y testing** | axe-core integration | ⚠️ Mentioned only | 2h | P1 |
@@ -26,8 +26,9 @@
 Sprint A (NOW) — Fast wins, graphify persistence
 ├── 1.1 Allure: install + configure reporter
 ├── 1.2 Allure: add to CI pipeline
-├── 1.3 Write plan doc + rebuild graphify
-└── Deliverable: Allure reports in CI artifacts
+├── 1.3 Allure: GH Pages deploy (smoke + prod)
+├── 1.4 Write plan doc + rebuild graphify
+└── Deliverable: Allure reports LIVE on GitHub Pages
 
 Sprint B — Infrastructure for Xray
 ├── 2.1 Audit current Jira schema + custom fields
@@ -91,7 +92,15 @@ Add step to GitHub Actions workflow after test run:
     path: allure-report/
 ```
 
-### A3. Graphify Persistence
+### A3. GitHub Pages Deployment (completes A1/A2)
+
+- Added `allure-report` job to `smoke.yml` + `prod-validate.yml`
+- Patterns: `simple-elf/allure-report-action@master` + `peaceiris/actions-gh-pages@v4`
+- Root `gh-pages-root/index.html` deployed alongside reports
+- Repo now public, GH Pages enabled with `build_type: workflow`
+- **URLs**: `https://nelgoez.github.io/diploma-tracking-sys/staging/smoke/` and `production/smoke/`
+
+### A4. Graphify Persistence
 
 After all changes: `bun run graph:rebuild` so future sessions can query.
 
@@ -180,7 +189,7 @@ Create reference doc `.claude/skills/sprint-development/references/vcr-framework
 | Item | Owner | Status | Sprint |
 |---|---|---|---|
 | Links to Stories in Jira | Jira sync works | ✅ DONE | — |
-| Links to Allure reports | Allure integration | ❌ GAP | A |
+| Links to Allure reports | Allure integration | ✅ GH Pages live | A |
 | Links to Xray test reports | Xray integration | ❌ GAP | B |
 | GitHub repo | Repo exists + CI/CD | ✅ DONE | — |
 | MVP with Playwright | KATA framework | ✅ DONE | — |
