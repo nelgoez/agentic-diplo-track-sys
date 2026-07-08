@@ -1,0 +1,9 @@
+version: 2
+exit_zero: false
+verbose: false
+max_commits_for_hook: 50
+show_secrets: false
+
+secret:
+  ignored_detectors:
+    - Generic Password
