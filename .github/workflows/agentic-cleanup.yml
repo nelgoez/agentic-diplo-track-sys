@@ -1,0 +1,46 @@
+name: Agentic Hygiene — Weekly Cleanup Check
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  cleanup-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run agentic cleanup script
+        run: bash scripts/cleanup-agentic.sh 2>&1 | tee cleanup-report.txt
+
+      - name: Check if cleanup found issues
+        id: check
+        run: |
+          if grep -q 'MISSING\|Stray tracked\|stale session' cleanup-report.txt; then
+            echo "issues_found=true" >> $GITHUB_OUTPUT
+          else
+            echo "issues_found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create PR if cleanup needed
+        if: steps.check.outputs.issues_found == 'true'
+        run: |
+          REPORT=$(cat cleanup-report.txt)
+          git config user.name "agentic-cleanup[bot]"
+          git config user.email "agentic-cleanup[bot]@users.noreply.github.com"
+          BRANCH="cleanup/agentic-hygiene-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: agentic hygiene cleanup $(date +%Y-%m-%d)" || true
+          git push origin "$BRANCH"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "chore: agentic hygiene cleanup $(date +%Y-%m-%d)" \
+            --body "$(cat cleanup-report.txt)"
