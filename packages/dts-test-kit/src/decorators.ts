@@ -1,15 +1,23 @@
 import { randomUUID } from 'node:crypto';
 
+export interface VcrScore {
+  value: 1 | 2 | 3 | 4 | 5
+  cost: 1 | 2 | 3 | 4 | 5
+  risk: 1 | 2 | 3 | 4 | 5
+}
+
 export interface AtcMetadata {
   testId: string
   label: string
   story?: string
   feature?: string
+  vcr?: VcrScore
 }
 
 export interface AtcOptions {
   story?: string
   feature?: string
+  vcr?: VcrScore
 }
 
 const ATC_MAP = new Map<string, AtcMetadata>();
@@ -33,6 +41,7 @@ export function atc(testId: string, opts?: AtcOptions) {
       label: String(context.name),
       story: opts?.story,
       feature: opts?.feature,
+      vcr: opts?.vcr,
     });
 
     function replacement(this: This, ...args: Args): Return {

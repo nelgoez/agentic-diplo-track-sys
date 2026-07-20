@@ -1,7 +1,22 @@
+import { atc } from '@dts/test-kit';
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { AuthApi, CertificateApi, CourseApi, EnrollmentApi, StudentApi, TrackApi } from '../components/api';
 
 const API_URL = process.env.API_URL ?? '';
+
+class StudentFlowSteps {
+  @atc('STUDENT-FLOW-001', { story: 'DTS-CORE-4', vcr: { value: 5, cost: 2, risk: 3 } })
+  async enrollStudent(api: EnrollmentApi, studentId: string, trackId: string, courseId: string) {
+    const res = await api.enrollStudentSuccessfully({
+      student_id: studentId,
+      track_id: trackId,
+      course_id: courseId,
+    });
+    expect(res.status).toBe(201);
+    expect(res.body.id).toBeTruthy();
+    return res.body.id;
+  }
+}
 
 describe('Student Lifecycle', () => {
   let authToken = '';
@@ -76,14 +91,8 @@ describe('Student Lifecycle', () => {
   it('enrolls student in track', async () => {
     if (!API_URL) { return; }
     const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.enrollStudentSuccessfully({
-      student_id: studentId,
-      track_id: trackId,
-      course_id: courseId,
-    });
-    expect(res.status).toBe(201);
-    expect(res.body.id).toBeTruthy();
-    enrollmentId = res.body.id;
+    const steps = new StudentFlowSteps();
+    enrollmentId = await steps.enrollStudent(api, studentId, trackId, courseId);
   });
 
   it('lists student certificates', async () => {

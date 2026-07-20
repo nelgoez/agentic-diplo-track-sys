@@ -59,7 +59,7 @@ describe('KATA — @atc decorator', () => {
 
   it('stores Jira story link when provided', () => {
     class TestComponent {
-      @atc('TEST-002', { story: 'DTS-42', feature: 'Enrollment' })
+      @atc('TEST-002', { story: 'DTS-42', feature: 'Enrollment', vcr: { value: 3, cost: 1, risk: 2 } })
       loginFlow() {
         return 'ok';
       }
@@ -71,5 +71,6 @@ describe('KATA — @atc decorator', () => {
     expect(found).toBeDefined();
     expect(found!.story).toBe('DTS-42');
     expect(found!.feature).toBe('Enrollment');
+    expect(found!.vcr).toEqual({ value: 3, cost: 1, risk: 2 });
   });
 });

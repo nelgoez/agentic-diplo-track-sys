@@ -7,7 +7,7 @@ export { ApiBase } from './ApiBase';
 export type { ApiResponse } from './ApiBase';
 export { createApiFixture } from './ApiFixture';
 export { atc, getAllAtcs, getAtcMap, step } from './decorators';
-export type { AtcMetadata, AtcOptions } from './decorators';
+export type { AtcMetadata, AtcOptions, VcrScore } from './decorators';
 export { TestContext } from './TestContext';
 export { createFixture } from './TestFixture';
 export { UiBase } from './UiBase';

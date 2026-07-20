@@ -1,7 +1,18 @@
+import { atc } from '@dts/test-kit';
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { AdminApi, AuthApi, TrackApi } from '../components/api';
 
 const API_URL = process.env.API_URL ?? '';
+
+class AdminFlowSteps {
+  @atc('ADMIN-DASHBOARD-001', { story: 'DTS-ADMIN-1', vcr: { value: 4, cost: 2, risk: 2 } })
+  async getDashboardStats(api: AdminApi) {
+    const res = await api.getDashboardStats();
+    expect(res.status).toBe(200);
+    expect(typeof res.body.totalStudents).toBe('number');
+    expect(typeof res.body.activeTracks).toBe('number');
+  }
+}
 
 describe('Admin Management', () => {
   let authToken = '';
@@ -31,10 +42,8 @@ describe('Admin Management', () => {
   it('returns dashboard stats', async () => {
     if (!API_URL) { return; }
     const api = new AdminApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.getDashboardStats();
-    expect(res.status).toBe(200);
-    expect(typeof res.body.totalStudents).toBe('number');
-    expect(typeof res.body.activeTracks).toBe('number');
+    const steps = new AdminFlowSteps();
+    await steps.getDashboardStats(api);
   });
 
   it('lists tracks', async () => {
