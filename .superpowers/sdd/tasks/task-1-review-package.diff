@@ -1,0 +1,59 @@
+diff --git a/.github/workflows/production-smoke.yml b/.github/workflows/production-smoke.yml
+new file mode 100644
+index 0000000..d07ca9d
+--- /dev/null
++++ b/.github/workflows/production-smoke.yml
+@@ -0,0 +1,53 @@
++name: Production Smoke Tests
++
++on:
++  workflow_dispatch:
++  push:
++    branches: [main]
++  schedule:
++    - cron: '0 6 * * *'
++
++env:
++  BASE_URL: ${{ vars.BASE_URL || 'https://diplomatrackingsystem.qzz.io' }}
++
++permissions:
++  contents: write
++  pages: write
++  id-token: write
++
++jobs:
++  production-smoke:
++    runs-on: ubuntu-latest
++    timeout-minutes: 5
++    steps:
++      - uses: actions/checkout@v4
++      - uses: oven-sh/setup-bun@v2
++        with:
++          bun-version: latest
++      - run: bun install
++      - name: Run production smoke tests
++        id: run-smoke
++        run: ALLURE_DIR=allure-results-prod bunx playwright test tests/e2e/production-smoke.test.ts
++        continue-on-error: true
++      - name: Generate Allure Report
++        if: always()
++        run: bunx allure generate allure-results-prod --clean -o allure-report-prod
++      - name: Upload Allure Report
++        if: always()
++        uses: actions/upload-artifact@v4
++        with:
++          name: allure-report-prod
++          path: allure-report-prod/
++      - name: Deploy to GitHub Pages
++        if: always()
++        uses: peaceiris/actions-gh-pages@v3
++        with:
++          github_token: ${{ secrets.GITHUB_TOKEN }}
++          publish_dir: ./allure-report-prod
++          destination_dir: production
++          publish_branch: gh-pages
++      - name: Notify on failure
++        if: steps.run-smoke.outcome == 'failure'
++        run: |
++          echo '❌ Production smoke tests failed!' >> $GITHUB_STEP_SUMMARY
++          echo 'See Allure report at https://nelgoez.github.io/diploma-tracking-sys/production/' >> $GITHUB_STEP_SUMMARY

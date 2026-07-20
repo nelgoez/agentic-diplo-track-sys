@@ -1,17 +1,15 @@
-import { beforeAll, describe, expect, it } from 'bun:test';
+import { assertNoA11yViolations, checkA11y } from '@dts/test-kit';
+import { expect, test } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL ?? '';
+const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
 
-describe('a11y — smoke', () => {
-  beforeAll(() => {
-    if (!BASE_URL) {
-      console.warn('SKIP: BASE_URL not set');
-    }
-  });
-
-  it('loads login page without crash', async () => {
-    if (!BASE_URL) { return; }
-    const resp = await fetch(`${BASE_URL}/login`);
-    expect(resp.status).toBe(200);
+test.describe('a11y — smoke', () => {
+  test('login page has no a11y violations', async ({ page }) => {
+    test.skip(!BASE_URL, 'BASE_URL not set');
+    await page.goto(`${BASE_URL}/login`);
+    const result = await checkA11y(page);
+    assertNoA11yViolations(result, 'login page');
+    expect(result.violations.length).toBeLessThanOrEqual(A11Y_THRESHOLD);
   });
 });

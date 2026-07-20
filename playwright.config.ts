@@ -1,6 +1,8 @@
 import type { ReporterDescription } from '@playwright/test';
 import { defineConfig } from '@playwright/test';
 
+const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
+
 const reporters: ReporterDescription[] = [['line']];
 
 if (process.env.ALLURE_DIR) {
