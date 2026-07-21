@@ -91,6 +91,7 @@ import { dirname, join } from 'node:path';
 const REPO_ROOT = join(import.meta.dir, '..');
 const OUTPUT_PATH = join(REPO_ROOT, '.agents', 'jira-fields.json');
 const MANIFEST_PATH = join(REPO_ROOT, '.agents', 'jira-required.yaml');
+const PROJECT_YAML_PATH = join(REPO_ROOT, '.agents', 'project.yaml');
 
 /**
  * Raw URL of the upstream UPEX-standard `.agents/jira-fields.json` file.
@@ -472,9 +473,51 @@ async function jiraFetch<T>(
 }
 
 async function fetchAllCustomFields(config: Config): Promise<JiraField[]> {
-  // GET /rest/api/3/field returns the full array (no pagination on this endpoint).
-  const all = await jiraFetch<JiraField[]>(config, '/rest/api/3/field');
-  return all.filter(f => f.custom === true);
+  // Team-managed (next-gen) projects store fields differently from classic projects.
+  // The classic /rest/api/3/field endpoint returns all workspace-wide custom fields
+  // but may miss team-managed project fields or use different field IDs.
+  // The project-scoped /rest/api/3/field/search returns project-specific fields.
+  // We merge both sources: project-specific takes priority for slug resolution,
+  // classic provides fallback IDs for fields not assigned to the project.
+  const byId = new Map<string, JiraField>();
+
+  // 1. Classic endpoint: workspace-wide, returns custom: true at top level
+  const classicAll = await jiraFetch<JiraField[]>(config, '/rest/api/3/field');
+  for (const f of (classicAll || []).filter(f => f.custom === true)) {
+    byId.set(f.id, f);
+  }
+
+  // 2. Project-scoped endpoint: returns team-managed field IDs
+  const projectKey = readProjectKey();
+  if (projectKey) {
+    try {
+      const url = `/rest/api/3/field/search?projectKeys=${encodeURIComponent(projectKey)}&maxResults=200`;
+      const resp = await jiraFetch<{ values: JiraField[], total: number }>(config, url);
+      for (const f of (resp?.values || []).filter(f => f.schema?.custom)) {
+        // Project-scoped fields overwrite classic ones when same slug would collide
+        byId.set(f.id, f);
+      }
+    }
+    catch {
+      // Non-fatal: classic list is still usable
+    }
+  }
+
+  return Array.from(byId.values());
+}
+
+/** Read project key from .agents/project.yaml */
+function readProjectKey(): string | null {
+  try {
+    if (!existsSync(PROJECT_YAML_PATH)) { return null; }
+    const text = readFileSync(PROJECT_YAML_PATH, 'utf8');
+    for (const line of text.split(/\r?\n/)) {
+      const m = line.match(/^\s+project_key:\s*(\S+)/);
+      if (m) { return m[1]; }
+    }
+  }
+  catch { /* ignore */ }
+  return null;
 }
 
 async function fetchFieldContexts(
