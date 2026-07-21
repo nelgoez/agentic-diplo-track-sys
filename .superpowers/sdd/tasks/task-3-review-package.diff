@@ -1,0 +1,73 @@
+diff --git a/.github/workflows/planning-ci.yml b/.github/workflows/planning-ci.yml
+index e1f4da1..17d17a2 100644
+--- a/.github/workflows/planning-ci.yml
++++ b/.github/workflows/planning-ci.yml
+@@ -71,3 +71,23 @@ jobs:
+         with:
+           name: traceability-matrix
+           path: traceability-out/
++
++  a11y-check:
++    name: a11y check
++    runs-on: ubuntu-latest
++    timeout-minutes: 5
++    needs: [planning-check]
++    if: always()
++    steps:
++      - name: Checkout
++        uses: actions/checkout@v4
++      - name: Setup Bun
++        uses: oven-sh/setup-bun@v2
++        with:
++          bun-version: latest
++      - name: Install dependencies
++        run: bun install
++      - name: Run a11y tests
++        run: bun run test:a11y
++        env:
++          BASE_URL: ${{ vars.BASE_URL || 'http://localhost:3000' }}
+diff --git a/playwright.config.ts b/playwright.config.ts
+index fb31093..0cc3dd9 100644
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@ -1,6 +1,8 @@
+ import type { ReporterDescription } from '@playwright/test';
+ import { defineConfig } from '@playwright/test';
+ 
++const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
++
+ const reporters: ReporterDescription[] = [['line']];
+ 
+ if (process.env.ALLURE_DIR) {
+diff --git a/tests/e2e/a11y-smoke.test.ts b/tests/e2e/a11y-smoke.test.ts
+index 2b0ffd5..33ced09 100644
+--- a/tests/e2e/a11y-smoke.test.ts
++++ b/tests/e2e/a11y-smoke.test.ts
+@@ -1,17 +1,15 @@
+-import { beforeAll, describe, expect, it } from 'bun:test';
++import { assertNoA11yViolations, checkA11y } from '@dts/test-kit';
++import { expect, test } from '@playwright/test';
+ 
+ const BASE_URL = process.env.BASE_URL ?? '';
++const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
+ 
+-describe('a11y — smoke', () => {
+-  beforeAll(() => {
+-    if (!BASE_URL) {
+-      console.warn('SKIP: BASE_URL not set');
+-    }
+-  });
+-
+-  it('loads login page without crash', async () => {
+-    if (!BASE_URL) { return; }
+-    const resp = await fetch(`${BASE_URL}/login`);
+-    expect(resp.status).toBe(200);
++test.describe('a11y — smoke', () => {
++  test('login page has no a11y violations', async ({ page }) => {
++    test.skip(!BASE_URL, 'BASE_URL not set');
++    await page.goto(`${BASE_URL}/login`);
++    const result = await checkA11y(page);
++    assertNoA11yViolations(result, 'login page');
++    expect(result.violations.length).toBeLessThanOrEqual(A11Y_THRESHOLD);
+   });
+ });

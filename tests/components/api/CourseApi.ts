@@ -7,6 +7,7 @@ export interface CoursePayload {
   code: string
   credits?: number
   order_index?: number
+  moodle_course_id?: number
   is_integrator_exam?: boolean
 }
 

@@ -108,7 +108,7 @@ describe('Student Lifecycle', () => {
     const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
     const res = await api.recordGrade(enrollmentId, 8);
     expect(res.status).toBe(200);
-    expect(res.body.exam_grade).toBe(8);
+    expect(res.body.qualification).toBe(8);
   });
 
   it('views exam history', async () => {

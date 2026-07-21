@@ -1,0 +1,35 @@
+diff --git a/playwright.config.ts b/playwright.config.ts
+index 0cc3dd9..f11d827 100644
+--- a/playwright.config.ts
++++ b/playwright.config.ts
+@@ -1,7 +1,7 @@
+ import type { ReporterDescription } from '@playwright/test';
+ import { defineConfig } from '@playwright/test';
+ 
+-const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
++export const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
+ 
+ const reporters: ReporterDescription[] = [['line']];
+ 
+diff --git a/tests/e2e/a11y-smoke.test.ts b/tests/e2e/a11y-smoke.test.ts
+index 33ced09..13ee998 100644
+--- a/tests/e2e/a11y-smoke.test.ts
++++ b/tests/e2e/a11y-smoke.test.ts
+@@ -1,15 +1,14 @@
+-import { assertNoA11yViolations, checkA11y } from '@dts/test-kit';
++import { checkA11y } from '@dts/test-kit';
+ import { expect, test } from '@playwright/test';
++import { A11Y_THRESHOLD } from '../../playwright.config';
+ 
+ const BASE_URL = process.env.BASE_URL ?? '';
+-const A11Y_THRESHOLD = Number.parseInt(process.env.A11Y_THRESHOLD ?? '0', 10);
+ 
+ test.describe('a11y — smoke', () => {
+   test('login page has no a11y violations', async ({ page }) => {
+     test.skip(!BASE_URL, 'BASE_URL not set');
+     await page.goto(`${BASE_URL}/login`);
+     const result = await checkA11y(page);
+-    assertNoA11yViolations(result, 'login page');
+     expect(result.violations.length).toBeLessThanOrEqual(A11Y_THRESHOLD);
+   });
+ });

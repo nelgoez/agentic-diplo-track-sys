@@ -16,12 +16,16 @@ export interface Enrollment {
   status: string
   exam_status: string | null
   exam_date: string | null
-  exam_grade: number | null
+  qualification: number | null
   created_at: string
 }
 
 export interface GradePayload {
-  grade: number
+  qualification: number
+}
+
+export interface ExamEnrollPayload {
+  exam_date: string
 }
 
 export class EnrollmentApi extends ApiBase {
@@ -47,7 +51,7 @@ export class EnrollmentApi extends ApiBase {
     enrollmentId: string,
     examDate: string,
   ): Promise<ApiResponse<Enrollment>> {
-    return this.patch<Enrollment, { exam_date: string }>(
+    return this.patch<Enrollment, ExamEnrollPayload>(
       `/enrollments/${enrollmentId}`,
       { exam_date: examDate },
     );
@@ -56,11 +60,11 @@ export class EnrollmentApi extends ApiBase {
   @atc('DTS-EXAM-4', { story: 'DTS-4', feature: 'Exam Grading' })
   async recordGrade(
     enrollmentId: string,
-    grade: number,
+    qualification: number,
   ): Promise<ApiResponse<Enrollment>> {
     return this.put<Enrollment, GradePayload>(
       `/enrollments/${enrollmentId}/grade`,
-      { grade },
+      { qualification },
     );
   }
 
