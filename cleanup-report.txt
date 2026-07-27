@@ -1,0 +1,25 @@
+=== Agentic Cleanup: 2026-07-27 10:05 ===
+
+--- Checking .gitignore compliance ---
+  MISSING: /session-ses_*.md
+  1 rule(s) missing — consider adding them
+
+--- Checking for stray session artifacts ---
+  No stray session files tracked
+
+--- Checking stale local sessions (.session/) ---
+  No stale sessions
+
+--- Checking old archive dirs (.session/.archive/) ---
+
+--- Checking stale context dirs (.context/) ---
+  No stale context dirs
+
+--- Repo size report ---
+  Tracked files: 281
+  Packed size: 860K
+  Large tracked files (>500KB):
+
+--- Untracked large files (>1MB) ---
+
+=== Cleanup check complete ===
