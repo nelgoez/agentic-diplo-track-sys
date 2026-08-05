@@ -1,0 +1,28 @@
+{
+  "featured": true,
+  "thumbnail": "",
+  "displayName": "Agentic Diplo Track Sys",
+  "shortDescription": "Agentic-dev boilerplate — from PRD to staging deploy, driven by AI skills. Built for real teams shipping backlogs with Playwright, Allure, and Jira integration.",
+  "category": "platform",
+  "tags": [
+    "agentic-development",
+    "ai-workflow",
+    "boilerplate",
+    "typescript",
+    "bun",
+    "playwright",
+    "allure",
+    "vercel",
+    "supabase",
+    "jira-integration",
+    "kata-testing",
+    "mcp"
+  ],
+  "order": 3,
+  "screenshots": [],
+  "links": {
+    "staging": "https://nelgoez-diploma-tracking-sys-git-staging-nelgoezs-projects.vercel.app",
+    "allure_staging": "https://nelgoez.github.io/diploma-tracking-sys/staging/smoke/",
+    "docs": "https://github.com/nelgoez/agentic-diplo-track-sys/tree/main/docs"
+  }
+}
