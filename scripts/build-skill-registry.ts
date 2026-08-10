@@ -103,6 +103,7 @@ interface CliFlags {
   check: boolean
   dryRun: boolean
   verbose: boolean
+  skipMissing: boolean
 }
 
 function parseArgs(argv: string[]): CliFlags {
@@ -114,6 +115,7 @@ function parseArgs(argv: string[]): CliFlags {
     check: argv.includes('--check') || argv.includes('-c'),
     dryRun: argv.includes('--dry-run'),
     verbose: argv.includes('--verbose') || argv.includes('-v'),
+    skipMissing: argv.includes('--skip-missing'),
   };
 }
 
@@ -126,8 +128,9 @@ function vlog(msg: string): void {
 // Skill discovery
 // -----------------------------------------------------------------------------
 
-function listSkillDirs(): string[] {
+function listSkillDirs(skipMissing = false): string[] {
   if (!existsSync(SKILLS_DIR)) {
+    if (skipMissing) { return []; }
     console.error(`FATAL: ${relative(REPO_ROOT, SKILLS_DIR)} not found.`);
     process.exit(1);
   }
@@ -403,8 +406,13 @@ function main(): void {
   VERBOSE = flags.verbose;
   if (VERBOSE) { console.log(`[build-skill-registry] cwd=${REPO_ROOT}`); }
 
-  const slugs = listSkillDirs();
+  const slugs = listSkillDirs(flags.skipMissing);
   if (slugs.length === 0) {
+    if (flags.skipMissing) {
+      console.warn(`SKIP: ${relative(REPO_ROOT, SKILLS_DIR)} not found.`);
+      console.warn('Use --skip-missing in CI where .claude/skills/ is not committed.');
+      process.exit(0);
+    }
     console.error(`FATAL: no SKILL.md found under ${relative(REPO_ROOT, SKILLS_DIR)}.`);
     process.exit(1);
   }

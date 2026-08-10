@@ -27,7 +27,7 @@ jobs:
       - run: bun install
       - name: Run production smoke tests
         id: run-smoke
-        run: ALLURE_DIR=allure-results-prod bunx playwright test tests/e2e/production-smoke.test.ts
+        run: ALLURE_DIR=allure-results-prod bun test tests/integration/production-smoke.test.ts
         continue-on-error: true
       - name: Generate Allure Report
         if: always()

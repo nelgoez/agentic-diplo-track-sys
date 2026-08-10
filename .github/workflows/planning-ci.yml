@@ -24,7 +24,7 @@ jobs:
         run: bun install
 
       - name: Full repo check
-        run: bun run skills:registry && bun run repo:check
+        run: bun run skills:registry -- --skip-missing && bun run repo:check
 
   allure-report:
     name: Allure Test Report
@@ -87,6 +87,8 @@ jobs:
           bun-version: latest
       - name: Install dependencies
         run: bun install
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
       - name: Run a11y tests
         run: bun run test:a11y
         env:
