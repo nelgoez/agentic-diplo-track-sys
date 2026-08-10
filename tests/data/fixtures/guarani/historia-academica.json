@@ -1,0 +1,20 @@
+{
+  "dni": "35.123.456",
+  "historia": [
+    {
+      "carrera": "ING-SIS",
+      "materias_aprobadas": [
+        {
+          "codigo": "MAT-001",
+          "nombre": "Matematica I",
+          "nota": 8,
+          "fecha": "2020-06-15",
+          "libro": "L-123",
+          "folio": "45"
+        }
+      ],
+      "promedio": 7.5,
+      "fecha_ingreso": "2019-03-01"
+    }
+  ]
+}

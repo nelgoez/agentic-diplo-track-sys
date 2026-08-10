@@ -1,0 +1,79 @@
+{
+  "alumno": {
+    "dni": "12.345.678",
+    "legajo": "UNC-2024-0001",
+    "carrera": "DIP-CS-001"
+  },
+  "actividades": [
+    {
+      "codigo_materia": "MAT-001",
+      "nombre_materia": "Matemática Aplicada a la Ciencia de Datos",
+      "anio_cursada": 2024,
+      "cuatrimestre": 1,
+      "condicion": "regular",
+      "nota": 8,
+      "fecha_examen": "2024-07-15",
+      "estado": "aprobado",
+      "tipo": "examen_final"
+    },
+    {
+      "codigo_materia": "PRO-001",
+      "nombre_materia": "Programación en Python para Análisis de Datos",
+      "anio_cursada": 2024,
+      "cuatrimestre": 1,
+      "condicion": "regular",
+      "nota": 9,
+      "fecha_examen": "2024-07-20",
+      "estado": "aprobado",
+      "tipo": "examen_final"
+    },
+    {
+      "codigo_materia": "EST-001",
+      "nombre_materia": "Estadística y Probabilidad",
+      "anio_cursada": 2024,
+      "cuatrimestre": 2,
+      "condicion": "regular",
+      "nota": 7,
+      "fecha_examen": "2024-12-10",
+      "estado": "aprobado",
+      "tipo": "examen_final"
+    },
+    {
+      "codigo_materia": "BDD-001",
+      "nombre_materia": "Bases de Datos Relacionales y SQL",
+      "anio_cursada": 2024,
+      "cuatrimestre": 2,
+      "condicion": "regular",
+      "nota": 6,
+      "fecha_examen": "2024-12-18",
+      "estado": "aprobado",
+      "tipo": "examen_final"
+    },
+    {
+      "codigo_materia": "ML-001",
+      "nombre_materia": "Introducción al Machine Learning",
+      "anio_cursada": 2025,
+      "cuatrimestre": 1,
+      "condicion": "regular",
+      "nota": null,
+      "fecha_examen": null,
+      "estado": "cursando",
+      "tipo": "cursada"
+    },
+    {
+      "codigo_materia": "VIZ-001",
+      "nombre_materia": "Visualización de Datos",
+      "anio_cursada": 2025,
+      "cuatrimestre": 1,
+      "condicion": "regular",
+      "nota": null,
+      "fecha_examen": null,
+      "estado": "cursando",
+      "tipo": "cursada"
+    }
+  ],
+  "metadata": {
+    "fecha_consulta": "2026-08-01T12:00:00-03:00",
+    "fuente": "SIU-Guaraní"
+  }
+}

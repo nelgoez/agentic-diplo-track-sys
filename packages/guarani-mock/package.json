@@ -1,0 +1,10 @@
+{
+  "name": "@dts/guarani-mock",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun --watch src/index.ts"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "carreras": [
+    {
+      "codigo": "ING-SIS",
+      "nombre": "Ingenieria en Sistemas",
+      "facultad": "FCEFyN",
+      "duracion": 5,
+      "plan": "2020"
+    },
+    {
+      "codigo": "ABO-001",
+      "nombre": "Abogacia",
+      "facultad": "Derecho",
+      "duracion": 5,
+      "plan": "2015"
+    }
+  ]
+}

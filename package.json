@@ -53,7 +53,10 @@
     "vars:env:check": "bun scripts/check-vars.ts",
     "graph:rebuild": "graphify update .",
     "graph:rebuild:semantic": "graphify extract . --backend gemini --model gemini-2.5-flash-preview",
-    "report:track": "bun scripts/report/generateTrackAuditMd.ts"
+    "report:track": "bun scripts/report/generateTrackAuditMd.ts",
+    "guarani:seed": "bun scripts/seed-guarani-fixtures.ts",
+    "guarani-mock:start": "bun run --cwd packages/guarani-mock start",
+    "guarani-mock:dev": "bun run --cwd packages/guarani-mock dev"
   },
   "dependencies": {
     "@clack/prompts": "^1.4.0",

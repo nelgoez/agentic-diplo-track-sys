@@ -1,0 +1,100 @@
+{
+  "alumnos": [
+    {
+      "dni": "12.345.678",
+      "apellido": "García",
+      "nombre": "María Laura",
+      "email": "mgarcia@unc.edu.ar",
+      "legajo": "UNC-2024-0001",
+      "sexo": "F",
+      "fecha_nacimiento": "1995-03-12",
+      "domicilio": "Av. Colón 1450, Córdoba",
+      "telefono": "+54 9 351 555-0101",
+      "estado": "activo",
+      "carrera": {
+        "codigo": "DIP-CS-001",
+        "nombre": "Diplomatura en Ciencia de Datos",
+        "plan": "2024",
+        "fecha_ingreso": "2024-02-01"
+      }
+    },
+    {
+      "dni": "23.456.789",
+      "apellido": "Rodríguez",
+      "nombre": "Carlos Alberto",
+      "email": "crodriguez@unc.edu.ar",
+      "legajo": "UNC-2024-0002",
+      "sexo": "M",
+      "fecha_nacimiento": "1988-11-25",
+      "domicilio": "Bv. San Juan 890, Córdoba",
+      "telefono": "+54 9 351 555-0102",
+      "estado": "activo",
+      "carrera": {
+        "codigo": "DIP-CS-001",
+        "nombre": "Diplomatura en Ciencia de Datos",
+        "plan": "2024",
+        "fecha_ingreso": "2024-02-01"
+      }
+    },
+    {
+      "dni": "34.567.890",
+      "apellido": "Fernández",
+      "nombre": "Laura Valeria",
+      "email": "lfernandez@unc.edu.ar",
+      "legajo": "UNC-2024-0003",
+      "sexo": "F",
+      "fecha_nacimiento": "1992-07-08",
+      "domicilio": "Dean Funes 325, Córdoba",
+      "telefono": "+54 9 351 555-0103",
+      "estado": "activo",
+      "carrera": {
+        "codigo": "DIP-DW-001",
+        "nombre": "Diplomatura en Desarrollo Web Full Stack",
+        "plan": "2024",
+        "fecha_ingreso": "2024-03-01"
+      }
+    },
+    {
+      "dni": "45.678.901",
+      "apellido": "Martínez",
+      "nombre": "Juan Pablo",
+      "email": "jmartinez@unc.edu.ar",
+      "legajo": "UNC-2024-0004",
+      "sexo": "M",
+      "fecha_nacimiento": "1990-01-15",
+      "domicilio": "Caseros 1120, Córdoba",
+      "telefono": "+54 9 351 555-0104",
+      "estado": "activo",
+      "carrera": {
+        "codigo": "DIP-DW-001",
+        "nombre": "Diplomatura en Desarrollo Web Full Stack",
+        "plan": "2024",
+        "fecha_ingreso": "2024-03-01"
+      }
+    },
+    {
+      "dni": "56.789.012",
+      "apellido": "López",
+      "nombre": "Ana Carolina",
+      "email": "alopez@unc.edu.ar",
+      "legajo": "UNC-2024-0005",
+      "sexo": "F",
+      "fecha_nacimiento": "1997-09-30",
+      "domicilio": "Santa Rosa 450, Córdoba",
+      "telefono": "+54 9 351 555-0105",
+      "estado": "activo",
+      "carrera": {
+        "codigo": "DIP-CS-001",
+        "nombre": "Diplomatura en Ciencia de Datos",
+        "plan": "2024",
+        "fecha_ingreso": "2024-02-01"
+      }
+    }
+  ],
+  "metadata": {
+    "total": 5,
+    "fuente": "SIU-Guaraní",
+    "fecha_actualizacion": "2026-08-01T12:00:00-03:00",
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "carreras": [
+    {
+      "codigo": "DIP-CS-001",
+      "nombre": "Diplomatura en Ciencia de Datos",
+      "tipo": "diplomatura",
+      "duracion_cuatrimestres": 4,
+      "creditos": 120,
+      "estado": "activa",
+      "plan": "2024",
+      "materias": [
+        {
+          "codigo": "MAT-001",
+          "nombre": "Matemática Aplicada a la Ciencia de Datos",
+          "cuatrimestre": 1,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "PRO-001",
+          "nombre": "Programación en Python para Análisis de Datos",
+          "cuatrimestre": 1,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "EST-001",
+          "nombre": "Estadística y Probabilidad",
+          "cuatrimestre": 2,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "BDD-001",
+          "nombre": "Bases de Datos Relacionales y SQL",
+          "cuatrimestre": 2,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "ML-001",
+          "nombre": "Introducción al Machine Learning",
+          "cuatrimestre": 3,
+          "creditos": 20,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "VIZ-001",
+          "nombre": "Visualización de Datos",
+          "cuatrimestre": 3,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "PRO-002",
+          "nombre": "Programación Avanzada y Big Data",
+          "cuatrimestre": 4,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "TFI-001",
+          "nombre": "Trabajo Final Integrador",
+          "cuatrimestre": 4,
+          "creditos": 10,
+          "tipo": "obligatoria"
+        }
+      ]
+    },
+    {
+      "codigo": "DIP-DW-001",
+      "nombre": "Diplomatura en Desarrollo Web Full Stack",
+      "tipo": "diplomatura",
+      "duracion_cuatrimestres": 4,
+      "creditos": 120,
+      "estado": "activa",
+      "plan": "2024",
+      "materias": [
+        {
+          "codigo": "HTML-001",
+          "nombre": "HTML, CSS y Fundamentos Web",
+          "cuatrimestre": 1,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "JS-001",
+          "nombre": "JavaScript y Programación Frontend",
+          "cuatrimestre": 1,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "BDD-001",
+          "nombre": "Bases de Datos Relacionales y SQL",
+          "cuatrimestre": 2,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "NODE-001",
+          "nombre": "Backend con Node.js",
+          "cuatrimestre": 2,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "REACT-001",
+          "nombre": "React.js y Single Page Applications",
+          "cuatrimestre": 3,
+          "creditos": 20,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "DEV-001",
+          "nombre": "DevOps y Despliegue Continuo",
+          "cuatrimestre": 3,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "MOB-001",
+          "nombre": "Desarrollo Mobile con React Native",
+          "cuatrimestre": 4,
+          "creditos": 15,
+          "tipo": "obligatoria"
+        },
+        {
+          "codigo": "TFI-001",
+          "nombre": "Trabajo Final Integrador",
+          "cuatrimestre": 4,
+          "creditos": 10,
+          "tipo": "obligatoria"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "total": 2,
+    "fuente": "SIU-Guaraní",
+    "fecha_actualizacion": "2026-08-01T12:00:00-03:00"
+  }
+}

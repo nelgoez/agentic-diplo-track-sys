@@ -1,0 +1,14 @@
+{
+  "alumnos": [
+    {
+      "dni": "35.123.456",
+      "cuil": "20-35123456-8",
+      "apellido": "Gonzalez",
+      "nombre": "Juan Carlos",
+      "email": "jgonzalez@mi.unc.edu.ar",
+      "legajo": "20191001/3",
+      "carreras": ["ING-SIS"],
+      "estado": "regular"
+    }
+  ]
+}
