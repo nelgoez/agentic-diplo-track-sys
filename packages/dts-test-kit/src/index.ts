@@ -8,6 +8,14 @@ export type ApiResponse<TBody = unknown, TPayload = unknown> = [Response, TBody,
 export { createApiFixture } from './ApiFixture';
 export { atc, getAllAtcs, getAtcMap, step } from './decorators';
 export type { AtcMetadata, AtcOptions, VcrScore } from './decorators';
+export { MoodleMockFactory, MoodleWsClient } from './MoodleWsClient';
+export type {
+  MoodleCompletionStatus,
+  MoodleCourseUser,
+  MoodleException,
+  MoodleSiteInfo,
+  MoodleWsConfig,
+} from './MoodleWsClient';
 export { TestContext } from './TestContext';
 export { createFixture } from './TestFixture';
 export { UiBase } from './UiBase';
