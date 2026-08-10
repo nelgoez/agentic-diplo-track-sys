@@ -1,0 +1,61 @@
+{
+  "generated": "2026-08-10T20:32:46.133Z",
+  "stories": {
+    "DTS-1": {
+      "atcs": [
+        "DTS-AUTH-2",
+        "DTS-CORE-5"
+      ],
+      "count": 2
+    },
+    "DTS-2": {
+      "atcs": [
+        "DTS-CORE-3"
+      ],
+      "count": 1
+    },
+    "DTS-3": {
+      "atcs": [
+        "DTS-RULE-1",
+        "DTS-RULE-2",
+        "DTS-RULE-3"
+      ],
+      "count": 3
+    },
+    "DTS-4": {
+      "atcs": [
+        "DTS-EXAM-3",
+        "DTS-EXAM-4",
+        "DTS-EXAM-5"
+      ],
+      "count": 3
+    },
+    "DTS-5": {
+      "atcs": [
+        "DTS-SYNC-1",
+        "DTS-SYNC-2",
+        "DTS-SYNC-3"
+      ],
+      "count": 3
+    },
+    "DTS-6": {
+      "atcs": [
+        "DTS-ADMIN-1",
+        "DTS-ADMIN-2"
+      ],
+      "count": 2
+    },
+    "DTS-7": {
+      "atcs": [
+        "DTS-CORE-1",
+        "DTS-CORE-2",
+        "DTS-CORE-4"
+      ],
+      "count": 3
+    }
+  },
+  "totals": {
+    "stories": 7,
+    "atcs": 17
+  }
+}

@@ -39,6 +39,7 @@
     "kata:manifest": "bun scripts/kata-manifest.ts",
     "kata:manifest:check": "bun scripts/kata-manifest.ts --check",
     "traceability:generate": "bun scripts/generate-traceability.ts",
+    "tms:sync": "bun scripts/tms-sync.ts",
     "allure:generate": "bunx allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
     "repo:check": "bun run format:check && bun run lint:check && bun run types:check && bun run test && bun run vars:check && bun run vars:env:check && bun run skills:check && bun run skills:registry:check",
