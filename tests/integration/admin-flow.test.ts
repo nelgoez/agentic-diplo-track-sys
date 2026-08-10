@@ -7,10 +7,10 @@ const API_URL = process.env.API_URL ?? '';
 class AdminFlowSteps {
   @atc('ADMIN-DASHBOARD-001', { story: 'DTS-ADMIN-1', vcr: { value: 4, cost: 2, risk: 2 } })
   async getDashboardStats(api: AdminApi) {
-    const res = await api.getDashboardStats();
-    expect(res.status).toBe(200);
-    expect(typeof res.body.totalStudents).toBe('number');
-    expect(typeof res.body.activeTracks).toBe('number');
+    const [response, body] = await api.getDashboardStats();
+    expect(response.status).toBe(200);
+    expect(typeof body.totalStudents).toBe('number');
+    expect(typeof body.activeTracks).toBe('number');
   }
 }
 
@@ -26,17 +26,17 @@ describe('Admin Management', () => {
   it('logs in as admin', async () => {
     if (!API_URL) { return; }
     const auth = new AuthApi(API_URL);
-    const res = await auth.loginSuccessfully('admin@dts.unc.edu.ar', 'admin123');
-    expect(res.status).toBe(200);
-    expect(res.body.accessToken).toBeTruthy();
-    authToken = res.body.accessToken;
+    const [response, body] = await auth.loginSuccessfully('admin@dts.unc.edu.ar', 'admin123');
+    expect(response.status).toBe(200);
+    expect(body.accessToken).toBeTruthy();
+    authToken = body.accessToken;
   });
 
   it('rejects invalid credentials', async () => {
     if (!API_URL) { return; }
     const auth = new AuthApi(API_URL);
-    const res = await auth.loginWithInvalidCredentials();
-    expect(res.status).toBe(401);
+    const [response] = await auth.loginWithInvalidCredentials();
+    expect(response.status).toBe(401);
   });
 
   it('returns dashboard stats', async () => {
@@ -49,23 +49,23 @@ describe('Admin Management', () => {
   it('lists tracks', async () => {
     if (!API_URL) { return; }
     const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.listTracks();
-    expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+    const [response, body] = await api.listTracks();
+    expect(response.status).toBe(200);
+    expect(Array.isArray(body)).toBe(true);
   });
 
   it('gets integration status', async () => {
     if (!API_URL) { return; }
     const api = new AdminApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.getIntegrationStatus();
-    expect(res.status).toBe(200);
+    const [response] = await api.getIntegrationStatus();
+    expect(response.status).toBe(200);
   });
 
   it('gets integration logs', async () => {
     if (!API_URL) { return; }
     const api = new AdminApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.getIntegrationLogs();
-    expect(res.status).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+    const [response, body] = await api.getIntegrationLogs();
+    expect(response.status).toBe(200);
+    expect(Array.isArray(body)).toBe(true);
   });
 });

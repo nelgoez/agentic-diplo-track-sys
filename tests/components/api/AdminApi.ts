@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface DashboardStats {
@@ -22,19 +21,19 @@ export interface SyncResponse {
 
 export class AdminApi extends ApiBase {
   @atc('DTS-ADMIN-1', { story: 'DTS-6', feature: 'Admin Dashboard' })
-  async getDashboardStats(): Promise<ApiResponse<DashboardStats>> {
+  async getDashboardStats(): Promise<[Response, DashboardStats]> {
     return this.get<DashboardStats>('/admin/dashboard-stats');
   }
 
   @atc('DTS-ADMIN-2', { story: 'DTS-6', feature: 'Admin Dashboard' })
   async listStudentsWithFilters(
     params?: string,
-  ): Promise<ApiResponse<unknown[]>> {
+  ): Promise<[Response, unknown[]]> {
     return this.get<unknown[]>(`/admin/students${params ? `?${params}` : ''}`);
   }
 
   @atc('DTS-SYNC-1', { story: 'DTS-5', feature: 'Moodle Integration' })
-  async triggerMoodleSync(): Promise<ApiResponse<SyncResponse>> {
+  async triggerMoodleSync(): Promise<[Response, SyncResponse, void]> {
     return this.post<SyncResponse, void>(
       '/integrations/sync/moodle',
       undefined as unknown as void,
@@ -42,12 +41,12 @@ export class AdminApi extends ApiBase {
   }
 
   @atc('DTS-SYNC-3', { story: 'DTS-5', feature: 'Moodle Integration' })
-  async getIntegrationStatus(): Promise<ApiResponse<unknown>> {
+  async getIntegrationStatus(): Promise<[Response, unknown]> {
     return this.get<unknown>('/integrations/status');
   }
 
   @atc('DTS-SYNC-3', { story: 'DTS-5', feature: 'Moodle Integration' })
-  async getIntegrationLogs(): Promise<ApiResponse<unknown[]>> {
+  async getIntegrationLogs(): Promise<[Response, unknown[]]> {
     return this.get<unknown[]>('/integrations/logs');
   }
 }

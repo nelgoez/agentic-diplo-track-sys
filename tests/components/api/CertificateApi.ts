@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface Certificate {
@@ -16,21 +15,21 @@ export class CertificateApi extends ApiBase {
   @atc('DTS-CORE-5', { story: 'DTS-1', feature: 'Certificates' })
   async listStudentCertificates(
     studentId: string,
-  ): Promise<ApiResponse<Certificate[]>> {
+  ): Promise<[Response, Certificate[]]> {
     return this.get<Certificate[]>(`/students/${studentId}/certificates`);
   }
 
   @atc('DTS-CORE-5', { story: 'DTS-1', feature: 'Certificates' })
   async getCertificateById(
     certificateId: string,
-  ): Promise<ApiResponse<Certificate>> {
+  ): Promise<[Response, Certificate]> {
     return this.get<Certificate>(`/certificates/${certificateId}`);
   }
 
   @atc('DTS-SYNC-2', { story: 'DTS-5', feature: 'Moodle Integration' })
   async resyncCertificate(
     certificateId: string,
-  ): Promise<ApiResponse<Certificate>> {
+  ): Promise<[Response, Certificate, void]> {
     return this.post<Certificate, void>(
       `/certificates/${certificateId}/resync`,
       undefined as unknown as void,

@@ -7,9 +7,9 @@ const API_URL = process.env.API_URL ?? '';
 class AdminCrudSteps {
   @atc('ADMIN-TRACK-UPDATE-001', { story: 'DTS-84', vcr: { value: 4, cost: 2, risk: 2 } })
   async updateTrackName(trackApi: TrackApi, id: string, newName: string) {
-    const res = await trackApi.updateTrackName(id, newName);
-    expect(res.status).toBe(200);
-    expect(res.body.name).toBe(newName);
+    const [response, body] = await trackApi.updateTrackName(id, newName);
+    expect(response.status).toBe(200);
+    expect(body.name).toBe(newName);
   }
 }
 
@@ -23,9 +23,9 @@ describe('Admin CRUD — DTS-84', () => {
   it('logs in as admin', async () => {
     if (!API_URL) { return; }
     const auth = new AuthApi(API_URL);
-    const res = await auth.loginSuccessfully('admin@dts.unc.edu.ar', 'admin123');
-    expect(res.status).toBe(200);
-    authToken = res.body.accessToken;
+    const [response, body] = await auth.loginSuccessfully('admin@dts.unc.edu.ar', 'admin123');
+    expect(response.status).toBe(200);
+    authToken = body.accessToken;
   });
 
   describe('Tracks CRUD', () => {
@@ -35,30 +35,30 @@ describe('Admin CRUD — DTS-84', () => {
     it('creates a track', async () => {
       if (!API_URL) { return; }
       const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.createTrackSuccessfully({
+      const [response, body] = await api.createTrackSuccessfully({
         name: `E2E Track ${unique}`,
         code: `E2E-TR-${unique}`,
         credits_required: 30,
       });
-      expect(res.status).toBe(201);
-      expect(res.body.id).toBeTruthy();
-      trackId = res.body.id;
+      expect(response.status).toBe(201);
+      expect(body.id).toBeTruthy();
+      trackId = body.id;
     });
 
     it('gets track by id', async () => {
       if (!API_URL || !trackId) { return; }
       const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.getTrackById(trackId);
-      expect(res.status).toBe(200);
-      expect(res.body.id).toBe(trackId);
+      const [response, body] = await api.getTrackById(trackId);
+      expect(response.status).toBe(200);
+      expect(body.id).toBe(trackId);
     });
 
     it('lists tracks', async () => {
       if (!API_URL) { return; }
       const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.listTracks();
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
+      const [response, body] = await api.listTracks();
+      expect(response.status).toBe(200);
+      expect(Array.isArray(body)).toBe(true);
     });
 
     it('updates track name', async () => {
@@ -71,18 +71,18 @@ describe('Admin CRUD — DTS-84', () => {
     it('rejects duplicate track code', async () => {
       if (!API_URL) { return; }
       const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const first = await api.createTrackSuccessfully({
+      const [firstRes] = await api.createTrackSuccessfully({
         name: 'Original Track',
         code: 'DUP-CODE-001',
         credits_required: 10,
       });
-      expect(first.status).toBe(201);
-      const dup = await api.createTrackSuccessfully({
+      expect(firstRes.status).toBe(201);
+      const [dupRes] = await api.createTrackSuccessfully({
         name: 'Duplicate Track',
         code: 'DUP-CODE-001',
         credits_required: 10,
       });
-      expect(dup.status).toBe(409);
+      expect(dupRes.status).toBe(409);
     });
   });
 
@@ -94,42 +94,42 @@ describe('Admin CRUD — DTS-84', () => {
     beforeAll(async () => {
       if (!API_URL || !authToken) { return; }
       const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const trackRes = await api.createTrackSuccessfully({
+      const [, trackBody] = await api.createTrackSuccessfully({
         name: `E2E Course Parent ${unique}`,
         code: `E2E-CP-${unique}`,
         credits_required: 20,
       });
-      trackId = trackRes.body.id;
+      trackId = trackBody.id;
     });
 
     it('creates a course in the track', async () => {
       if (!API_URL || !trackId) { return; }
       const api = new CourseApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.createCourseSuccessfully({
+      const [response, body] = await api.createCourseSuccessfully({
         track_id: trackId,
         name: `E2E Course ${unique}`,
         code: `E2E-CR-${unique}`,
         credits: 5,
       });
-      expect(res.status).toBe(201);
-      expect(res.body.id).toBeTruthy();
-      courseId = res.body.id;
+      expect(response.status).toBe(201);
+      expect(body.id).toBeTruthy();
+      courseId = body.id;
     });
 
     it('lists courses by track', async () => {
       if (!API_URL || !trackId) { return; }
       const api = new CourseApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.listCoursesByTrack(trackId);
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
+      const [response, body] = await api.listCoursesByTrack(trackId);
+      expect(response.status).toBe(200);
+      expect(Array.isArray(body)).toBe(true);
     });
 
     it('gets course by id', async () => {
       if (!API_URL || !courseId) { return; }
       const api = new CourseApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.getCourseById(courseId);
-      expect(res.status).toBe(200);
-      expect(res.body.id).toBe(courseId);
+      const [response, body] = await api.getCourseById(courseId);
+      expect(response.status).toBe(200);
+      expect(body.id).toBe(courseId);
     });
   });
 
@@ -140,47 +140,47 @@ describe('Admin CRUD — DTS-84', () => {
     it('creates a student', async () => {
       if (!API_URL) { return; }
       const api = new StudentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.createStudentSuccessfully({
+      const [response, body] = await api.createStudentSuccessfully({
         email: `e2e-student-${unique}@dts.unc.edu.ar`,
         name: 'E2E Student',
       });
-      expect(res.status).toBe(201);
-      expect(res.body.id).toBeTruthy();
-      studentId = res.body.id;
+      expect(response.status).toBe(201);
+      expect(body.id).toBeTruthy();
+      studentId = body.id;
     });
 
     it('lists students', async () => {
       if (!API_URL) { return; }
       const api = new StudentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.listStudents();
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
+      const [response, body] = await api.listStudents();
+      expect(response.status).toBe(200);
+      expect(Array.isArray(body)).toBe(true);
     });
 
     it('gets student by id', async () => {
       if (!API_URL || !studentId) { return; }
       const api = new StudentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.getStudentById(studentId);
-      expect(res.status).toBe(200);
-      expect(res.body.id).toBe(studentId);
+      const [response, body] = await api.getStudentById(studentId);
+      expect(response.status).toBe(200);
+      expect(body.id).toBe(studentId);
     });
 
     it('searches students by email', async () => {
       if (!API_URL) { return; }
       const api = new StudentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.searchStudents('dts.unc.edu.ar');
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
+      const [response, body] = await api.searchStudents('dts.unc.edu.ar');
+      expect(response.status).toBe(200);
+      expect(Array.isArray(body)).toBe(true);
     });
 
     it('rejects duplicate student email', async () => {
       if (!API_URL || !studentId) { return; }
       const api = new StudentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.createStudentSuccessfully({
+      const [response] = await api.createStudentSuccessfully({
         email: `e2e-student-${unique}@dts.unc.edu.ar`,
         name: 'Duplicate Student',
       });
-      expect(res.status).toBe(409);
+      expect(response.status).toBe(409);
     });
   });
 });

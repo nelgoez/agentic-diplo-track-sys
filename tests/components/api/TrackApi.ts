@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface TrackPayload {
@@ -22,14 +21,14 @@ export class TrackApi extends ApiBase {
   @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async createTrackSuccessfully(
     payload: TrackPayload,
-  ): Promise<ApiResponse<Track>> {
+  ): Promise<[Response, Track, TrackPayload]> {
     return this.post<Track, TrackPayload>('/admin/tracks', payload);
   }
 
   @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
   async createTrackWithDuplicateCode(
     payload: TrackPayload,
-  ): Promise<ApiResponse<{ message: string }>> {
+  ): Promise<[Response, { message: string }, TrackPayload]> {
     return this.post<{ message: string }, TrackPayload>(
       '/admin/tracks',
       payload,
@@ -37,12 +36,12 @@ export class TrackApi extends ApiBase {
   }
 
   @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
-  async listTracks(): Promise<ApiResponse<Track[]>> {
+  async listTracks(): Promise<[Response, Track[]]> {
     return this.get<Track[]>('/admin/tracks');
   }
 
   @atc('DTS-CORE-1', { story: 'DTS-7', feature: 'Tracks' })
-  async getTrackById(trackId: string): Promise<ApiResponse<Track>> {
+  async getTrackById(trackId: string): Promise<[Response, Track]> {
     return this.get<Track>(`/admin/tracks/${trackId}`);
   }
 
@@ -50,7 +49,7 @@ export class TrackApi extends ApiBase {
   async updateTrackName(
     trackId: string,
     name: string,
-  ): Promise<ApiResponse<Track>> {
+  ): Promise<[Response, Track, { name: string }]> {
     return this.patch<Track, { name: string }>(
       `/admin/tracks/${trackId}`,
       { name },

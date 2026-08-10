@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface EnrollmentPayload {
@@ -32,14 +31,14 @@ export class EnrollmentApi extends ApiBase {
   @atc('DTS-CORE-4', { story: 'DTS-7', feature: 'Enrollments' })
   async enrollStudentSuccessfully(
     payload: EnrollmentPayload,
-  ): Promise<ApiResponse<Enrollment>> {
+  ): Promise<[Response, Enrollment, EnrollmentPayload]> {
     return this.post<Enrollment, EnrollmentPayload>('/enrollments', payload);
   }
 
   @atc('DTS-CORE-4', { story: 'DTS-7', feature: 'Enrollments' })
   async enrollDuplicate(
     payload: EnrollmentPayload,
-  ): Promise<ApiResponse<{ message: string }>> {
+  ): Promise<[Response, { message: string }, EnrollmentPayload]> {
     return this.post<{ message: string }, EnrollmentPayload>(
       '/enrollments',
       payload,
@@ -50,7 +49,7 @@ export class EnrollmentApi extends ApiBase {
   async enrollInExam(
     enrollmentId: string,
     examDate: string,
-  ): Promise<ApiResponse<Enrollment>> {
+  ): Promise<[Response, Enrollment, ExamEnrollPayload]> {
     return this.patch<Enrollment, ExamEnrollPayload>(
       `/enrollments/${enrollmentId}`,
       { exam_date: examDate },
@@ -61,7 +60,7 @@ export class EnrollmentApi extends ApiBase {
   async recordGrade(
     enrollmentId: string,
     qualification: number,
-  ): Promise<ApiResponse<Enrollment>> {
+  ): Promise<[Response, Enrollment, GradePayload]> {
     return this.put<Enrollment, GradePayload>(
       `/enrollments/${enrollmentId}/grade`,
       { qualification },
@@ -69,7 +68,7 @@ export class EnrollmentApi extends ApiBase {
   }
 
   @atc('DTS-EXAM-5', { story: 'DTS-4', feature: 'Exam History' })
-  async listExamHistory(studentId: string): Promise<ApiResponse<Enrollment[]>> {
+  async listExamHistory(studentId: string): Promise<[Response, Enrollment[]]> {
     return this.get<Enrollment[]>(`/enrollments?student_id=${studentId}`);
   }
 }

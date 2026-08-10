@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface StudentPayload {
@@ -21,22 +20,22 @@ export class StudentApi extends ApiBase {
   @atc('DTS-CORE-3', { story: 'DTS-2', feature: 'Students' })
   async createStudentSuccessfully(
     payload: StudentPayload,
-  ): Promise<ApiResponse<Student>> {
+  ): Promise<[Response, Student, StudentPayload]> {
     return this.post<Student, StudentPayload>('/admin/students', payload);
   }
 
   @atc('DTS-CORE-3', { story: 'DTS-2', feature: 'Students' })
-  async listStudents(): Promise<ApiResponse<Student[]>> {
+  async listStudents(): Promise<[Response, Student[]]> {
     return this.get<Student[]>('/admin/students');
   }
 
   @atc('DTS-CORE-3', { story: 'DTS-2', feature: 'Students' })
-  async getStudentById(studentId: string): Promise<ApiResponse<Student>> {
+  async getStudentById(studentId: string): Promise<[Response, Student]> {
     return this.get<Student>(`/admin/students/${studentId}`);
   }
 
   @atc('DTS-CORE-3', { story: 'DTS-2', feature: 'Students' })
-  async searchStudents(query: string): Promise<ApiResponse<Student[]>> {
+  async searchStudents(query: string): Promise<[Response, Student[]]> {
     return this.get<Student[]>(`/admin/students?search=${query}`);
   }
 }

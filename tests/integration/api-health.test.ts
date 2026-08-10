@@ -14,8 +14,8 @@ describe('API — health', () => {
 
   it('returns 200 on health endpoint', async () => {
     if (!API_URL) { return; }
-    const { status } = await api.get('/health');
-    expect(status).toBe(200);
+    const [response] = await api.get('/health');
+    expect(response.status).toBe(200);
   });
 });
 
@@ -24,7 +24,7 @@ describe('API — auth', () => {
 
   it('rejects unauthenticated requests', async () => {
     if (!API_URL) { return; }
-    const { status } = await api.get('/api/protected');
-    expect(status).toBe(401);
+    const [response] = await api.get('/api/protected');
+    expect(response.status).toBe(401);
   });
 });

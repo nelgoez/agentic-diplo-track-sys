@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface PrerequisiteRulePayload {
@@ -38,7 +37,7 @@ export class RuleApi extends ApiBase {
   @atc('DTS-RULE-1', { story: 'DTS-3', feature: 'Rule Engine' })
   async createPrerequisiteRule(
     payload: PrerequisiteRulePayload,
-  ): Promise<ApiResponse<PrerequisiteRule>> {
+  ): Promise<[Response, PrerequisiteRule, PrerequisiteRulePayload]> {
     return this.post<PrerequisiteRule, PrerequisiteRulePayload>(
       '/admin/rules',
       payload,
@@ -46,7 +45,7 @@ export class RuleApi extends ApiBase {
   }
 
   @atc('DTS-RULE-1', { story: 'DTS-3', feature: 'Rule Engine' })
-  async listRulesByTrack(trackId: string): Promise<ApiResponse<PrerequisiteRule[]>> {
+  async listRulesByTrack(trackId: string): Promise<[Response, PrerequisiteRule[]]> {
     return this.get<PrerequisiteRule[]>(`/rules?trackId=${trackId}`);
   }
 
@@ -54,7 +53,7 @@ export class RuleApi extends ApiBase {
   async evaluateEligibility(
     studentId: string,
     trackId: string,
-  ): Promise<ApiResponse<{ eligible: boolean, breakdown: unknown }>> {
+  ): Promise<[Response, { eligible: boolean, breakdown: unknown }, { studentId: string, trackId: string }]> {
     return this.post<{ eligible: boolean, breakdown: unknown }, { studentId: string, trackId: string }>(
       '/rules/evaluate',
       { studentId, trackId },
@@ -64,7 +63,7 @@ export class RuleApi extends ApiBase {
   @atc('DTS-RULE-3', { story: 'DTS-3', feature: 'Rule Engine' })
   async createOverride(
     payload: OverridePayload,
-  ): Promise<ApiResponse<ManualOverride>> {
+  ): Promise<[Response, ManualOverride, OverridePayload]> {
     return this.post<ManualOverride, OverridePayload>(
       '/admin/overrides',
       payload,
@@ -74,7 +73,7 @@ export class RuleApi extends ApiBase {
   @atc('DTS-RULE-3', { story: 'DTS-3', feature: 'Rule Engine' })
   async revokeOverride(
     overrideId: string,
-  ): Promise<ApiResponse<ManualOverride>> {
+  ): Promise<[Response, ManualOverride]> {
     return this.del<ManualOverride>(`/admin/overrides/${overrideId}`);
   }
 }

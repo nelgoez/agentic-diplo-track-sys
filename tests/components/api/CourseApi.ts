@@ -1,4 +1,3 @@
-import type { ApiResponse } from '@dts/test-kit';
 import { ApiBase, atc } from '@dts/test-kit';
 
 export interface CoursePayload {
@@ -27,17 +26,17 @@ export class CourseApi extends ApiBase {
   @atc('DTS-CORE-2', { story: 'DTS-7', feature: 'Courses & Tracks' })
   async createCourseSuccessfully(
     payload: CoursePayload,
-  ): Promise<ApiResponse<Course>> {
+  ): Promise<[Response, Course, CoursePayload]> {
     return this.post<Course, CoursePayload>('/admin/courses', payload);
   }
 
   @atc('DTS-CORE-2', { story: 'DTS-7', feature: 'Courses & Tracks' })
-  async listCoursesByTrack(trackId: string): Promise<ApiResponse<Course[]>> {
+  async listCoursesByTrack(trackId: string): Promise<[Response, Course[]]> {
     return this.get<Course[]>(`/admin/tracks/${trackId}/courses`);
   }
 
   @atc('DTS-CORE-2', { story: 'DTS-7', feature: 'Courses & Tracks' })
-  async getCourseById(courseId: string): Promise<ApiResponse<Course>> {
+  async getCourseById(courseId: string): Promise<[Response, Course]> {
     return this.get<Course>(`/admin/courses/${courseId}`);
   }
 }

@@ -36,6 +36,8 @@
     "test:e2e": "playwright test",
     "test:smoke:production": "ALLURE_DIR=allure-results-prod bun test tests/integration/production-smoke.test.ts",
     "test:a11y": "playwright test tests/e2e/a11y-smoke.test.ts",
+    "kata:manifest": "bun scripts/kata-manifest.ts",
+    "kata:manifest:check": "bun scripts/kata-manifest.ts --check",
     "traceability:generate": "bun scripts/generate-traceability.ts",
     "allure:generate": "bunx allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",

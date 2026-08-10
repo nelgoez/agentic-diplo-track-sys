@@ -1,0 +1,247 @@
+{
+  "generated": "2026-08-10T20:28:49.298Z",
+  "components": {
+    "AuthApi": {
+      "file": "tests/components/api/AuthApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-AUTH-2",
+          "method": "loginSuccessfully",
+          "story": "DTS-1",
+          "feature": "Auth & Certificates"
+        },
+        {
+          "testId": "DTS-AUTH-2",
+          "method": "loginWithInvalidCredentials",
+          "story": "DTS-1",
+          "feature": "Auth & Certificates"
+        },
+        {
+          "testId": "DTS-AUTH-2",
+          "method": "refreshTokenSuccessfully",
+          "story": "DTS-1",
+          "feature": "Auth & Certificates"
+        }
+      ]
+    },
+    "AdminApi": {
+      "file": "tests/components/api/AdminApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-ADMIN-1",
+          "method": "getDashboardStats",
+          "story": "DTS-6",
+          "feature": "Admin Dashboard"
+        },
+        {
+          "testId": "DTS-ADMIN-2",
+          "method": "listStudentsWithFilters",
+          "story": "DTS-6",
+          "feature": "Admin Dashboard"
+        },
+        {
+          "testId": "DTS-SYNC-1",
+          "method": "triggerMoodleSync",
+          "story": "DTS-5",
+          "feature": "Moodle Integration"
+        },
+        {
+          "testId": "DTS-SYNC-3",
+          "method": "getIntegrationStatus",
+          "story": "DTS-5",
+          "feature": "Moodle Integration"
+        },
+        {
+          "testId": "DTS-SYNC-3",
+          "method": "getIntegrationLogs",
+          "story": "DTS-5",
+          "feature": "Moodle Integration"
+        }
+      ]
+    },
+    "TrackApi": {
+      "file": "tests/components/api/TrackApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-CORE-1",
+          "method": "createTrackSuccessfully",
+          "story": "DTS-7",
+          "feature": "Tracks"
+        },
+        {
+          "testId": "DTS-CORE-1",
+          "method": "createTrackWithDuplicateCode",
+          "story": "DTS-7",
+          "feature": "Tracks"
+        },
+        {
+          "testId": "DTS-CORE-1",
+          "method": "listTracks",
+          "story": "DTS-7",
+          "feature": "Tracks"
+        },
+        {
+          "testId": "DTS-CORE-1",
+          "method": "getTrackById",
+          "story": "DTS-7",
+          "feature": "Tracks"
+        },
+        {
+          "testId": "DTS-CORE-1",
+          "method": "updateTrackName",
+          "story": "DTS-7",
+          "feature": "Tracks"
+        }
+      ]
+    },
+    "CourseApi": {
+      "file": "tests/components/api/CourseApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-CORE-2",
+          "method": "createCourseSuccessfully",
+          "story": "DTS-7",
+          "feature": "Courses & Tracks"
+        },
+        {
+          "testId": "DTS-CORE-2",
+          "method": "listCoursesByTrack",
+          "story": "DTS-7",
+          "feature": "Courses & Tracks"
+        },
+        {
+          "testId": "DTS-CORE-2",
+          "method": "getCourseById",
+          "story": "DTS-7",
+          "feature": "Courses & Tracks"
+        }
+      ]
+    },
+    "StudentApi": {
+      "file": "tests/components/api/StudentApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-CORE-3",
+          "method": "createStudentSuccessfully",
+          "story": "DTS-2",
+          "feature": "Students"
+        },
+        {
+          "testId": "DTS-CORE-3",
+          "method": "listStudents",
+          "story": "DTS-2",
+          "feature": "Students"
+        },
+        {
+          "testId": "DTS-CORE-3",
+          "method": "getStudentById",
+          "story": "DTS-2",
+          "feature": "Students"
+        },
+        {
+          "testId": "DTS-CORE-3",
+          "method": "searchStudents",
+          "story": "DTS-2",
+          "feature": "Students"
+        }
+      ]
+    },
+    "EnrollmentApi": {
+      "file": "tests/components/api/EnrollmentApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-CORE-4",
+          "method": "enrollStudentSuccessfully",
+          "story": "DTS-7",
+          "feature": "Enrollments"
+        },
+        {
+          "testId": "DTS-CORE-4",
+          "method": "enrollDuplicate",
+          "story": "DTS-7",
+          "feature": "Enrollments"
+        },
+        {
+          "testId": "DTS-EXAM-3",
+          "method": "enrollInExam",
+          "story": "DTS-4",
+          "feature": "Exam Enrollment"
+        },
+        {
+          "testId": "DTS-EXAM-4",
+          "method": "recordGrade",
+          "story": "DTS-4",
+          "feature": "Exam Grading"
+        },
+        {
+          "testId": "DTS-EXAM-5",
+          "method": "listExamHistory",
+          "story": "DTS-4",
+          "feature": "Exam History"
+        }
+      ]
+    },
+    "RuleApi": {
+      "file": "tests/components/api/RuleApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-RULE-1",
+          "method": "createPrerequisiteRule",
+          "story": "DTS-3",
+          "feature": "Rule Engine"
+        },
+        {
+          "testId": "DTS-RULE-1",
+          "method": "listRulesByTrack",
+          "story": "DTS-3",
+          "feature": "Rule Engine"
+        },
+        {
+          "testId": "DTS-RULE-2",
+          "method": "evaluateEligibility",
+          "story": "DTS-3",
+          "feature": "Rule Engine"
+        },
+        {
+          "testId": "DTS-RULE-3",
+          "method": "createOverride",
+          "story": "DTS-3",
+          "feature": "Rule Engine"
+        },
+        {
+          "testId": "DTS-RULE-3",
+          "method": "revokeOverride",
+          "story": "DTS-3",
+          "feature": "Rule Engine"
+        }
+      ]
+    },
+    "CertificateApi": {
+      "file": "tests/components/api/CertificateApi.ts",
+      "atcs": [
+        {
+          "testId": "DTS-CORE-5",
+          "method": "listStudentCertificates",
+          "story": "DTS-1",
+          "feature": "Certificates"
+        },
+        {
+          "testId": "DTS-CORE-5",
+          "method": "getCertificateById",
+          "story": "DTS-1",
+          "feature": "Certificates"
+        },
+        {
+          "testId": "DTS-SYNC-2",
+          "method": "resyncCertificate",
+          "story": "DTS-5",
+          "feature": "Moodle Integration"
+        }
+      ]
+    }
+  },
+  "totals": {
+    "components": 8,
+    "atcs": 33
+  }
+}

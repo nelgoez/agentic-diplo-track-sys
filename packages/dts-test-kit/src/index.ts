@@ -4,7 +4,7 @@ export { buildTraceabilityMatrix, generateTraceabilityMarkdown } from './allure'
 export type { TraceabilityRow } from './allure';
 export { linkAtcsToAllure } from './allure-bridge';
 export { ApiBase } from './ApiBase';
-export type { ApiResponse } from './ApiBase';
+export type ApiResponse<TBody = unknown, TPayload = unknown> = [Response, TBody, TPayload?];
 export { createApiFixture } from './ApiFixture';
 export { atc, getAllAtcs, getAtcMap, step } from './decorators';
 export type { AtcMetadata, AtcOptions, VcrScore } from './decorators';

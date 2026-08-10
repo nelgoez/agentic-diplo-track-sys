@@ -7,15 +7,15 @@ const API_URL = process.env.API_URL ?? '';
 class ExamFlowSteps {
   @atc('EXAM-ENROLL-001', { story: 'DTS-83', vcr: { value: 5, cost: 3, risk: 3 } })
   async fullExamCycle(api: EnrollmentApi, enrollmentId: string, grade: number) {
-    const examRes = await api.enrollInExam(enrollmentId, new Date().toISOString().split('T')[0]);
+    const [examRes, examBody] = await api.enrollInExam(enrollmentId, new Date().toISOString().split('T')[0]);
     expect(examRes.status).toBe(200);
-    expect(examRes.body.exam_status).toBe('inscripto');
+    expect(examBody.exam_status).toBe('inscripto');
 
-    const gradeRes = await api.recordGrade(enrollmentId, grade);
+    const [gradeRes, gradeBody] = await api.recordGrade(enrollmentId, grade);
     expect(gradeRes.status).toBe(200);
     const expectedStatus = grade >= 4 ? 'aprobado' : 'desaprobado';
-    expect(gradeRes.body.exam_status).toBe(expectedStatus);
-    return gradeRes.body;
+    expect(gradeBody.exam_status).toBe(expectedStatus);
+    return gradeBody;
   }
 }
 
@@ -34,72 +34,72 @@ describe('Exam Enrollment & Grading — DTS-83', () => {
   it('logs in as admin', async () => {
     if (!API_URL) { return; }
     const auth = new AuthApi(API_URL);
-    const res = await auth.loginSuccessfully('admin@dts.unc.edu.ar', 'admin123');
-    expect(res.status).toBe(200);
-    authToken = res.body.accessToken;
+    const [response, body] = await auth.loginSuccessfully('admin@dts.unc.edu.ar', 'admin123');
+    expect(response.status).toBe(200);
+    authToken = body.accessToken;
   });
 
   it('creates a track', async () => {
     if (!API_URL) { return; }
     const api = new TrackApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.createTrackSuccessfully({
+    const [response, body] = await api.createTrackSuccessfully({
       name: `Exam Track ${unique}`,
       code: `EX-TR-${unique}`,
       credits_required: 20,
     });
-    expect(res.status).toBe(201);
-    trackId = res.body.id;
+    expect(response.status).toBe(201);
+    trackId = body.id;
   });
 
   it('creates a course', async () => {
     if (!API_URL) { return; }
     const api = new CourseApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.createCourseSuccessfully({
+    const [response, body] = await api.createCourseSuccessfully({
       track_id: trackId,
       name: 'Exam Course',
       code: `EX-CR-${unique}`,
       credits: 5,
     });
-    expect(res.status).toBe(201);
-    courseId = res.body.id;
+    expect(response.status).toBe(201);
+    courseId = body.id;
   });
 
   it('creates a student', async () => {
     if (!API_URL) { return; }
     const api = new StudentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.createStudentSuccessfully({
+    const [response, body] = await api.createStudentSuccessfully({
       email: `exam-student-${unique}@dts.unc.edu.ar`,
       name: 'Exam Student',
     });
-    expect(res.status).toBe(201);
-    studentId = res.body.id;
+    expect(response.status).toBe(201);
+    studentId = body.id;
   });
 
   it('enrolls student in track', async () => {
     if (!API_URL) { return; }
     const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-    const res = await api.enrollStudentSuccessfully({
+    const [response, body] = await api.enrollStudentSuccessfully({
       student_id: studentId,
       track_id: trackId,
       course_id: courseId,
     });
-    expect(res.status).toBe(201);
-    enrollmentId = res.body.id;
+    expect(response.status).toBe(201);
+    enrollmentId = body.id;
   });
 
   describe('Grade validation', () => {
     it('rejects grade below 1', async () => {
       if (!API_URL) { return; }
       const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.recordGrade(enrollmentId || 'none', 0);
-      expect(res.status).toBe(400);
+      const [response] = await api.recordGrade(enrollmentId || 'none', 0);
+      expect(response.status).toBe(400);
     });
 
     it('rejects grade above 10', async () => {
       if (!API_URL) { return; }
       const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.recordGrade(enrollmentId || 'none', 11);
-      expect(res.status).toBe(400);
+      const [response] = await api.recordGrade(enrollmentId || 'none', 11);
+      expect(response.status).toBe(400);
     });
 
     it('rejects non-numeric grade', async () => {
@@ -126,19 +126,19 @@ describe('Exam Enrollment & Grading — DTS-83', () => {
     it('grade < 4 sets exam_status=desaprobado', async () => {
       if (!API_URL) { return; }
       const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const enrollRes = await api.enrollStudentSuccessfully({
+      const [, enrollBody] = await api.enrollStudentSuccessfully({
         student_id: studentId,
         track_id: trackId,
         course_id: courseId,
       });
       const api2 = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const examRes = await api2.enrollInExam(enrollRes.body.id, new Date().toISOString().split('T')[0]);
+      const [examRes] = await api2.enrollInExam(enrollBody.id, new Date().toISOString().split('T')[0]);
       expect(examRes.status).toBe(200);
 
-      const gradeRes = await api2.recordGrade(enrollRes.body.id, 2);
+      const [gradeRes, gradeBody] = await api2.recordGrade(enrollBody.id, 2);
       expect(gradeRes.status).toBe(200);
-      expect(gradeRes.body.exam_status).toBe('desaprobado');
-      expect(gradeRes.body.qualification).toBe(2);
+      expect(gradeBody.exam_status).toBe('desaprobado');
+      expect(gradeBody.qualification).toBe(2);
     });
   });
 
@@ -146,9 +146,9 @@ describe('Exam Enrollment & Grading — DTS-83', () => {
     it('returns exam attempts sorted by date', async () => {
       if (!API_URL) { return; }
       const api = new EnrollmentApi(API_URL, { Authorization: `Bearer ${authToken}` });
-      const res = await api.listExamHistory(studentId);
-      expect(res.status).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
+      const [response, body] = await api.listExamHistory(studentId);
+      expect(response.status).toBe(200);
+      expect(Array.isArray(body)).toBe(true);
     });
   });
 });

@@ -12,7 +12,7 @@ if (process.env.ALLURE_DIR) {
 export default defineConfig({
   testDir: './tests/e2e',
   timeout: 30_000,
-  retries: 1,
+  retries: 0,
   reporter: reporters,
   use: {
     baseURL: process.env.BASE_URL ?? 'http://localhost:3000',
