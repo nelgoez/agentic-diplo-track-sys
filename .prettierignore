@@ -94,3 +94,4 @@ api/openapi*
 api/.openapi-config.json
 .claude/settings.local.json
 .playwright-mcp/
+graphify-out/
