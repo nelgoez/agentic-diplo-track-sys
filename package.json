@@ -52,7 +52,8 @@
     "jira:sync-link-types": "bun scripts/sync-jira-link-types.ts",
     "vars:env:check": "bun scripts/check-vars.ts",
     "graph:rebuild": "graphify update .",
-    "graph:rebuild:semantic": "graphify extract . --backend gemini --model gemini-2.5-flash-preview"
+    "graph:rebuild:semantic": "graphify extract . --backend gemini --model gemini-2.5-flash-preview",
+    "report:track": "bun scripts/report/generateTrackAuditMd.ts"
   },
   "dependencies": {
     "@clack/prompts": "^1.4.0",

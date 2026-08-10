@@ -1,3 +1,12 @@
+/**
+ * Locator strategy (priority order, project-wide):
+ * 1. getByRole() — preferred; mirrors accessibility tree
+ * 2. getByLabel() / getByPlaceholder() — form fields
+ * 3. getByText() — visible text content
+ * 4. getByTestId() — last resort; use kebab-case data-testid attr
+ *
+ * See tests/e2e/a11y-smoke.test.ts for full data-testid convention.
+ */
 import type { ReporterDescription } from '@playwright/test';
 import { defineConfig } from '@playwright/test';
 

@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 
 const API_URL = process.env.API_URL ?? '';
 
-describe('API — health', () => {
+describe('[API] health', () => {
   const { api } = createApiFixture({ apiUrl: API_URL });
 
   beforeAll(() => {
@@ -19,7 +19,7 @@ describe('API — health', () => {
   });
 });
 
-describe('API — auth', () => {
+describe('[API] auth', () => {
   const { api } = createApiFixture({ apiUrl: API_URL });
 
   it('rejects unauthenticated requests', async () => {
