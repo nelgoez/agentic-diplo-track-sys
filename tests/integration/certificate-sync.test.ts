@@ -23,9 +23,9 @@ class SyncFlowSteps {
 describe('Certificate Sync — DTS-82', () => {
   let authToken = '';
   let trackId = '';
-  let courseId = '';
+  let _courseId = '';
   let studentId = '';
-  const certificateId = '';
+  const _certificateId = '';
   const unique = Date.now();
 
   beforeAll(() => {
@@ -63,7 +63,7 @@ describe('Certificate Sync — DTS-82', () => {
       moodle_course_id: unique,
     });
     expect(res.status).toBe(201);
-    courseId = res.body.id;
+    _courseId = res.body.id;
   });
 
   it('creates a student', async () => {

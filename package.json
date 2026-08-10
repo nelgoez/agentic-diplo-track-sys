@@ -27,7 +27,7 @@
     "lint:check": "eslint .",
     "lint:fix": "eslint --fix .",
     "types:check": "tsc --noEmit",
-    "test": "bun test",
+    "test": "bun test tests/unit tests/integration tests/kata",
     "test:watch": "bun test --watch",
     "test:coverage": "bun test --coverage",
     "test:unit": "bun test tests/unit",
